@@ -6,7 +6,7 @@ import pandas as pd
 
 from pyrisklab.benchmark import run_pricing_benchmark
 from pyrisklab.config import load_config
-from pyrisklab.execution import create_orders_from_signals, execute_orders
+from pyrisklab.execution import TRADE_COLUMNS, create_orders_from_signals, execute_orders
 from pyrisklab.greeks import calculate_greeks_for_market_path
 from pyrisklab.market import simulate_gbm_path
 from pyrisklab.models import RunResult
@@ -34,13 +34,18 @@ def run_simulation(config_path: str | Path, overwrite: bool = False, progress=No
     _emit(progress, "[4/7] Running strategy, risk checks, and fake execution...")
     signals = generate_signals(pricing_history, greeks_history, config.strategy)
     orders = create_orders_from_signals(signals, pricing_history)
-    audited_orders, approved_orders, risk_events = _apply_risk(orders, config)
-    trades = execute_orders(
-        approved_orders,
-        commission_per_contract=config.execution.commission_per_contract,
-        contract_multiplier=config.execution.contract_multiplier,
-        fill_model=config.execution.fill_model,
-    )
+    if config.execution.enabled:
+        audited_orders, approved_orders, risk_events = _apply_risk(orders, config)
+        trades = execute_orders(
+            approved_orders,
+            commission_per_contract=config.execution.commission_per_contract,
+            contract_multiplier=config.execution.contract_multiplier,
+            fill_model=config.execution.fill_model,
+        )
+    else:
+        audited_orders = _skip_execution(orders)
+        risk_events = risk_events_frame([])
+        trades = pd.DataFrame(columns=TRADE_COLUMNS)
 
     _emit(progress, "[5/7] Tracking portfolio value and drawdown...")
     portfolio_history = build_portfolio_history(
@@ -114,3 +119,10 @@ def _apply_risk(orders: pd.DataFrame, config) -> tuple[pd.DataFrame, pd.DataFram
         pd.DataFrame(approved, columns=orders.columns),
         risk_events_frame(manager.events),
     )
+
+
+def _skip_execution(orders: pd.DataFrame) -> pd.DataFrame:
+    audited = orders.copy()
+    audited["status"] = "SKIPPED"
+    audited["risk_reason"] = "Fake execution disabled by config."
+    return audited.reindex(columns=[*orders.columns, "status", "risk_reason"])

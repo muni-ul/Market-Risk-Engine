@@ -97,7 +97,12 @@ def write_summary_report(run_dir: Path, config: RunConfig, outputs: dict[str, pd
     final_option_price = float(pricing["option_price"].iloc[-1]) if not pricing.empty else 0.0
     signals = outputs.get("signals.csv", pd.DataFrame())
     orders = outputs.get("orders.csv", pd.DataFrame())
-    trade_note = "No simulated trades were executed in this run." if trades.empty else f"{len(trades)} simulated trades were executed."
+    if not config.execution.enabled:
+        trade_note = "Fake execution was disabled in the config, so proposed orders were not filled."
+    elif trades.empty:
+        trade_note = "No simulated trades were executed in this run."
+    else:
+        trade_note = f"{len(trades)} simulated trades were executed."
     risk_note = "No risk events were triggered in this run." if risk_events.empty else f"{len(risk_events)} risk events were recorded."
     benchmark_text = "Benchmark was disabled or skipped."
     if not benchmark.empty:
