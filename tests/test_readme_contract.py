@@ -10,3 +10,4 @@ def test_readme_contains_required_demo_and_scope_language():
     assert "not a trading bot" in readme
     assert "does not connect to real brokerage accounts" in readme
     assert "results/demo_run/" in readme
+    assert "docs/SAMPLE_OUTPUT.md" in readme

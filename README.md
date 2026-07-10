@@ -160,6 +160,8 @@ The benchmark writes runtime, speedup, and numerical-equivalence checks to `benc
 
 ## Screenshots Or Sample Output References
 
+For a committed example of the expected terminal and report shape, see `docs/SAMPLE_OUTPUT.md`.
+
 After running the demo, open:
 
 - `results/demo_run/market_path.png`
