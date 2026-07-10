@@ -108,6 +108,8 @@ def build_portfolio_history(trades: pd.DataFrame, pricing_history: pd.DataFrame,
 
 
 def _as_finite_float(value, field_name: str) -> float:
+    if isinstance(value, bool):
+        raise PortfolioError(f"{field_name} must be numeric. Received {value!r}.")
     try:
         parsed = float(value)
     except (TypeError, ValueError) as exc:

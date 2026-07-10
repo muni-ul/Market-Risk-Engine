@@ -51,6 +51,11 @@ def test_nonfinite_starting_cash_fails():
         Portfolio(float("inf"))
 
 
+def test_boolean_starting_cash_fails():
+    with pytest.raises(PortfolioError, match="starting_cash"):
+        Portfolio(True)
+
+
 def test_fractional_trade_quantity_fails():
     with pytest.raises(PortfolioError, match="trade quantity"):
         Portfolio(10000).apply_trade(trade("BUY", quantity=1.5))
