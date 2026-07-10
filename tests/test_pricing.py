@@ -6,7 +6,7 @@ import pytest
 
 from pyrisklab.exceptions import PricingError
 from pyrisklab.models import OptionContract
-from pyrisklab.pricing import black_scholes_price, price_market_path
+from pyrisklab.pricing import black_scholes_price, intrinsic_value, price_market_path
 
 
 def test_known_call_price():
@@ -25,6 +25,16 @@ def test_put_call_parity():
 
 def test_expiry_intrinsic_value():
     assert black_scholes_price(110, 100, 0.0, 0.05, 0.2, "call") == 10.0
+
+
+def test_intrinsic_value_rejects_invalid_strike():
+    with pytest.raises(PricingError, match="strike"):
+        intrinsic_value(100, 0, "call")
+
+
+def test_intrinsic_value_rejects_boolean_spot():
+    with pytest.raises(PricingError, match="underlying_price"):
+        intrinsic_value(True, 100, "call")
 
 
 def test_invalid_option_type_fails():

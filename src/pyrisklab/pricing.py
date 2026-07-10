@@ -21,7 +21,13 @@ def to_contract(option) -> OptionContract:
 
 
 def intrinsic_value(spot, strike: float, option_type: str):
+    _reject_bool_scalar(spot, "underlying_price")
+    _reject_bool_scalar(strike, "strike")
+    if not np.isfinite(strike) or strike <= 0:
+        raise PricingError(f"strike must be greater than 0. Received {strike}.")
     prices = np.asarray(spot, dtype=float)
+    if not np.isfinite(prices).all() or (prices <= 0).any():
+        raise PricingError("underlying_price must be finite and greater than 0.")
     if option_type == "call":
         result = np.maximum(prices - strike, 0.0)
     elif option_type == "put":
