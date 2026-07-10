@@ -105,6 +105,12 @@ Expected terminal shape:
 Done. Results saved to results/demo_run/
 ```
 
+Quiet mode keeps progress output off while still printing the final result:
+
+```bash
+python -m pyrisklab run --config configs/demo.yaml --overwrite --quiet
+```
+
 Optional risk-control demo:
 
 ```bash

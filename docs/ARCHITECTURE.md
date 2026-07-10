@@ -16,6 +16,8 @@ python -m pyrisklab run --config configs/demo.yaml --overwrite
 
 A dashboard would be visually nice, but it would distract from the core Python engineering signal. For Version 1, Markdown reports and PNG charts are enough.
 
+The CLI remains thin: it parses flags, toggles progress output with `--quiet`, and delegates orchestration to `pipeline.py`.
+
 ## Why CSV, Markdown, And PNG
 
 Each run generates a small, inspectable artifact set. CSV files are easy to open in pandas, VS Code, Excel, or GitHub. Markdown reports are readable without a browser app. PNG charts are useful for README screenshots and reviewer demos. A database would add setup cost without improving the MVP.

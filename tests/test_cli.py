@@ -23,6 +23,7 @@ def test_run_help_includes_config_flag(capsys):
         parser.parse_args(["run", "--help"])
     output = capsys.readouterr().out
     assert "--config" in output
+    assert "--quiet" in output
 
 
 def test_main_returns_nonzero_for_project_error(monkeypatch, capsys):
@@ -44,3 +45,16 @@ def test_main_returns_zero_for_success(monkeypatch):
     monkeypatch.setattr(cli, "run_simulation", fake_run)
 
     assert cli.main(["run", "--config", "configs/demo.yaml", "--overwrite"]) == 0
+
+
+def test_quiet_suppresses_progress_messages(monkeypatch, capsys):
+    def fake_run(config_path, overwrite=False, progress=None):
+        assert progress is None
+        return RunResult("demo_run", Path("results/demo_run"), Path(config_path), "completed")
+
+    monkeypatch.setattr(cli, "run_simulation", fake_run)
+
+    assert cli.main(["run", "--config", "configs/demo.yaml", "--quiet"]) == 0
+    output = capsys.readouterr().out
+    assert "[1/7]" not in output
+    assert "Done. Results saved" in output

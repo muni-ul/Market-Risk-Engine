@@ -13,6 +13,7 @@ def build_parser() -> argparse.ArgumentParser:
     run_parser = subparsers.add_parser("run", help="Run a complete local simulation.")
     run_parser.add_argument("--config", required=True, help="Path to a YAML run config.")
     run_parser.add_argument("--overwrite", action="store_true", help="Replace an existing run output folder.")
+    run_parser.add_argument("--quiet", action="store_true", help="Only print final success or error messages.")
     run_parser.add_argument("--debug", action="store_true", help="Show traceback for expected project errors.")
     return parser
 
@@ -25,7 +26,8 @@ def main(argv: list[str] | None = None) -> int:
         return 2
 
     try:
-        result = run_simulation(args.config, overwrite=args.overwrite, progress=print)
+        progress = None if args.quiet else print
+        result = run_simulation(args.config, overwrite=args.overwrite, progress=progress)
     except PyRiskLabError as exc:
         if args.debug:
             traceback.print_exc()
