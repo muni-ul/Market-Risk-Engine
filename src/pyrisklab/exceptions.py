@@ -35,7 +35,7 @@ class RiskError(PyRiskLabError):
 
 
 class ReportingError(PyRiskLabError):
-    """Raised when report generation or artifact writing fails."""
+    """Raised when report content cannot be generated from pipeline outputs."""
 
 
 class BenchmarkError(PyRiskLabError):
@@ -43,4 +43,4 @@ class BenchmarkError(PyRiskLabError):
 
 
 class RunError(PyRiskLabError):
-    """Raised for run setup and output folder problems."""
+    """Raised for run setup, orchestration, and output artifact problems."""
