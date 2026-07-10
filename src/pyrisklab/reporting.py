@@ -93,10 +93,16 @@ def write_summary_report(run_dir: Path, config: RunConfig, outputs: dict[str, pd
     benchmark = outputs.get("benchmark.csv", pd.DataFrame())
     final_value = float(portfolio["total_value"].iloc[-1]) if not portfolio.empty else config.risk.starting_cash
     max_drawdown = float(portfolio["drawdown_pct"].max()) if not portfolio.empty else 0.0
+    trade_note = "No simulated trades were executed in this run." if trades.empty else f"{len(trades)} simulated trades were executed."
+    risk_note = "No risk events were triggered in this run." if risk_events.empty else f"{len(risk_events)} risk events were recorded."
     benchmark_text = "Benchmark was disabled or skipped."
     if not benchmark.empty:
         vector = benchmark.loc[benchmark["method"] == "numpy_vectorized"].iloc[0]
-        benchmark_text = f"Vectorized NumPy pricing ran {vector['speedup_vs_loop']:.2f}x faster than the Python loop on this machine."
+        benchmark_text = (
+            f"Vectorized NumPy pricing ran {vector['speedup_vs_loop']:.2f}x faster "
+            "than the Python loop on this machine. Benchmark results vary by hardware, "
+            "Python version, and input size."
+        )
     artifact_names = sorted(path.name for path in run_dir.iterdir() if path.is_file())
     if "summary_report.md" not in artifact_names:
         artifact_names.append("summary_report.md")
@@ -132,6 +138,14 @@ This is a local simulation only. It does not use live market data, place real tr
 - Final portfolio value: ${final_value:,.2f}
 - Max drawdown: {max_drawdown:.2%}
 - Risk events: {len(risk_events)}
+
+## Fake Execution
+
+{trade_note}
+
+## Risk Events
+
+{risk_note}
 
 ## Benchmark
 
