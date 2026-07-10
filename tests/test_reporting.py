@@ -4,8 +4,10 @@ import json
 from pathlib import Path
 
 import pandas as pd
+import pytest
 
 from pyrisklab.config import load_config
+from pyrisklab.exceptions import ReportingError
 from pyrisklab.reporting import prepare_output_dir, save_csv_outputs, write_run_metadata, write_summary_report
 
 
@@ -85,3 +87,51 @@ def test_summary_report_lists_metadata_artifact(tmp_path):
 
     assert "`run_metadata.json`" in report
     assert "`summary_report.md`" in report
+
+
+def test_summary_report_requires_nonempty_core_frames(tmp_path):
+    run_dir = prepare_output_dir(tmp_path, "demo")
+    config = load_config("configs/demo.yaml")
+    outputs = {
+        "market_path.csv": pd.DataFrame(columns=["underlying_price"]),
+        "pricing_history.csv": pd.DataFrame({"option_price": [3.0]}),
+        "trades.csv": pd.DataFrame(columns=["step", "symbol"]),
+        "portfolio_history.csv": pd.DataFrame({"total_value": [10000.0], "drawdown_pct": [0.0]}),
+        "risk_events.csv": pd.DataFrame(columns=["step", "reason"]),
+        "benchmark.csv": pd.DataFrame(),
+    }
+
+    with pytest.raises(ReportingError, match="market_path"):
+        write_summary_report(run_dir, config, outputs)
+
+
+def test_summary_report_requires_vectorized_benchmark_row(tmp_path):
+    run_dir = prepare_output_dir(tmp_path, "demo")
+    config = load_config("configs/demo.yaml")
+    outputs = {
+        "market_path.csv": pd.DataFrame({"underlying_price": [100.0, 101.0]}),
+        "pricing_history.csv": pd.DataFrame({"option_price": [3.0, 4.0]}),
+        "trades.csv": pd.DataFrame(columns=["step", "symbol"]),
+        "portfolio_history.csv": pd.DataFrame({"total_value": [10000.0], "drawdown_pct": [0.0]}),
+        "risk_events.csv": pd.DataFrame(columns=["step", "reason"]),
+        "benchmark.csv": pd.DataFrame({"method": ["python_loop"], "speedup_vs_loop": [1.0]}),
+    }
+
+    with pytest.raises(ReportingError, match="numpy_vectorized"):
+        write_summary_report(run_dir, config, outputs)
+
+
+def test_summary_report_validates_benchmark_columns(tmp_path):
+    run_dir = prepare_output_dir(tmp_path, "demo")
+    config = load_config("configs/demo.yaml")
+    outputs = {
+        "market_path.csv": pd.DataFrame({"underlying_price": [100.0, 101.0]}),
+        "pricing_history.csv": pd.DataFrame({"option_price": [3.0, 4.0]}),
+        "trades.csv": pd.DataFrame(columns=["step", "symbol"]),
+        "portfolio_history.csv": pd.DataFrame({"total_value": [10000.0], "drawdown_pct": [0.0]}),
+        "risk_events.csv": pd.DataFrame(columns=["step", "reason"]),
+        "benchmark.csv": pd.DataFrame({"runtime_seconds": [0.1]}),
+    }
+
+    with pytest.raises(ReportingError, match="benchmark"):
+        write_summary_report(run_dir, config, outputs)

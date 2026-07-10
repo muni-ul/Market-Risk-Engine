@@ -120,10 +120,13 @@ def write_summary_report(run_dir: Path, config: RunConfig, outputs: dict[str, pd
     portfolio = outputs["portfolio_history.csv"]
     risk_events = outputs["risk_events.csv"]
     benchmark = outputs.get("benchmark.csv", pd.DataFrame())
-    final_value = float(portfolio["total_value"].iloc[-1]) if not portfolio.empty else config.risk.starting_cash
-    max_drawdown = float(portfolio["drawdown_pct"].max()) if not portfolio.empty else 0.0
-    initial_option_price = float(pricing["option_price"].iloc[0]) if not pricing.empty else 0.0
-    final_option_price = float(pricing["option_price"].iloc[-1]) if not pricing.empty else 0.0
+    _require_summary_frame(market, {"underlying_price"}, "market_path")
+    _require_summary_frame(pricing, {"option_price"}, "pricing_history")
+    _require_summary_frame(portfolio, {"total_value", "drawdown_pct"}, "portfolio_history")
+    final_value = float(portfolio["total_value"].iloc[-1])
+    max_drawdown = float(portfolio["drawdown_pct"].max())
+    initial_option_price = float(pricing["option_price"].iloc[0])
+    final_option_price = float(pricing["option_price"].iloc[-1])
     signals = outputs.get("signals.csv", pd.DataFrame())
     orders = outputs.get("orders.csv", pd.DataFrame())
     if not config.execution.enabled:
@@ -135,7 +138,11 @@ def write_summary_report(run_dir: Path, config: RunConfig, outputs: dict[str, pd
     risk_note = "No risk events were triggered in this run." if risk_events.empty else f"{len(risk_events)} risk events were recorded."
     benchmark_text = "Benchmark was disabled or skipped."
     if not benchmark.empty:
-        vector = benchmark.loc[benchmark["method"] == "numpy_vectorized"].iloc[0]
+        _require(benchmark, {"method", "speedup_vs_loop"}, "benchmark")
+        vector_rows = benchmark.loc[benchmark["method"] == "numpy_vectorized"]
+        if vector_rows.empty:
+            raise ReportingError("benchmark DataFrame must include a numpy_vectorized row when benchmark output is not empty.")
+        vector = vector_rows.iloc[0]
         benchmark_text = (
             f"Vectorized NumPy pricing ran {vector['speedup_vs_loop']:.2f}x faster "
             "than the Python loop on this machine. Benchmark results vary by hardware, "
@@ -235,6 +242,12 @@ def _require(df: pd.DataFrame, columns: set[str], name: str) -> None:
     missing = columns - set(df.columns)
     if missing:
         raise ReportingError(f"{name} DataFrame must include: {', '.join(sorted(missing))}.")
+
+
+def _require_summary_frame(df: pd.DataFrame, columns: set[str], name: str) -> None:
+    _require(df, columns, name)
+    if df.empty:
+        raise ReportingError(f"{name} DataFrame must include at least one row for summary_report.md.")
 
 
 def _artifact_names(run_dir: Path) -> list[str]:
