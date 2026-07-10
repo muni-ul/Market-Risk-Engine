@@ -7,6 +7,6 @@ _SRC_PACKAGE = Path(__file__).resolve().parents[1] / "src" / "pyrisklab"
 if _SRC_PACKAGE.exists():
     __path__.append(str(_SRC_PACKAGE))
 
-from pyrisklab._version import __version__  # noqa: E402
+from ._version import __version__  # noqa: E402
 
 __all__ = ["__version__"]
