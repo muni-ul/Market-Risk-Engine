@@ -1,5 +1,8 @@
 from __future__ import annotations
 
+import math
+from numbers import Real
+
 import pandas as pd
 
 from pyrisklab.exceptions import PortfolioError
@@ -8,12 +11,12 @@ from pyrisklab.models import PortfolioSnapshot, Position
 
 class Portfolio:
     def __init__(self, starting_cash: float, contract_multiplier: int = 100, allow_short: bool = False) -> None:
+        starting_cash = _as_finite_float(starting_cash, "starting_cash")
+        contract_multiplier = _as_positive_integer(contract_multiplier, "contract_multiplier")
         if starting_cash <= 0:
             raise PortfolioError(f"starting_cash must be greater than 0. Received {starting_cash}.")
-        if contract_multiplier <= 0:
-            raise PortfolioError(f"contract_multiplier must be greater than 0. Received {contract_multiplier}.")
-        self.starting_cash = float(starting_cash)
-        self.cash = float(starting_cash)
+        self.starting_cash = starting_cash
+        self.cash = starting_cash
         self.contract_multiplier = contract_multiplier
         self.allow_short = allow_short
         self.positions: dict[str, Position] = {}
@@ -25,13 +28,11 @@ class Portfolio:
         return self.positions.get(symbol, Position(symbol)).quantity
 
     def apply_trade(self, trade_row) -> None:
-        quantity = int(trade_row.quantity)
-        fill_price = float(trade_row.fill_price)
-        commission = float(getattr(trade_row, "commission", 0.0))
+        quantity = _as_positive_integer(trade_row.quantity, "trade quantity")
+        fill_price = _as_finite_float(trade_row.fill_price, "fill_price")
+        commission = _as_finite_float(getattr(trade_row, "commission", 0.0), "commission")
         symbol = str(trade_row.symbol)
         side = str(trade_row.side).upper()
-        if quantity <= 0:
-            raise PortfolioError(f"trade quantity must be greater than 0. Received {quantity}.")
         if fill_price < 0:
             raise PortfolioError(f"cannot apply trade with negative fill_price. Received {fill_price}.")
         if commission < 0:
@@ -60,6 +61,7 @@ class Portfolio:
             raise PortfolioError(f"trade side must be BUY or SELL. Received {side!r}.")
 
     def mark_to_market(self, step: int, symbol: str, market_price: float) -> PortfolioSnapshot:
+        market_price = _as_finite_float(market_price, "market_price")
         if market_price < 0:
             raise PortfolioError(f"market_price must be >= 0. Received {market_price}.")
         position = self.positions.get(symbol, Position(symbol))
@@ -103,3 +105,31 @@ def build_portfolio_history(trades: pd.DataFrame, pricing_history: pd.DataFrame,
             portfolio.apply_trade(trade)
         portfolio.mark_to_market(int(price.step), str(price.symbol), float(price.option_price))
     return pd.DataFrame([snapshot.__dict__ for snapshot in portfolio.snapshots])
+
+
+def _as_finite_float(value, field_name: str) -> float:
+    try:
+        parsed = float(value)
+    except (TypeError, ValueError) as exc:
+        raise PortfolioError(f"{field_name} must be numeric. Received {value!r}.") from exc
+    if not math.isfinite(parsed):
+        raise PortfolioError(f"{field_name} must be finite. Received {value!r}.")
+    return parsed
+
+
+def _as_positive_integer(value, field_name: str) -> int:
+    if isinstance(value, bool):
+        raise PortfolioError(f"{field_name} must be an integer. Received {value!r}.")
+    if isinstance(value, Real):
+        numeric = float(value)
+        if not math.isfinite(numeric):
+            raise PortfolioError(f"{field_name} must be a finite integer. Received {value!r}.")
+        if not numeric.is_integer():
+            raise PortfolioError(f"{field_name} must be an integer. Received {value!r}.")
+    try:
+        parsed = int(value)
+    except (OverflowError, TypeError, ValueError) as exc:
+        raise PortfolioError(f"{field_name} must be an integer. Received {value!r}.") from exc
+    if parsed <= 0:
+        raise PortfolioError(f"{field_name} must be greater than 0. Received {parsed}.")
+    return parsed

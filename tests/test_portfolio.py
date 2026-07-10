@@ -41,9 +41,29 @@ def test_invalid_contract_multiplier_fails():
         Portfolio(10000, contract_multiplier=0)
 
 
+def test_fractional_contract_multiplier_fails():
+    with pytest.raises(PortfolioError, match="contract_multiplier"):
+        Portfolio(10000, contract_multiplier=100.5)
+
+
+def test_nonfinite_starting_cash_fails():
+    with pytest.raises(PortfolioError, match="starting_cash"):
+        Portfolio(float("inf"))
+
+
+def test_fractional_trade_quantity_fails():
+    with pytest.raises(PortfolioError, match="trade quantity"):
+        Portfolio(10000).apply_trade(trade("BUY", quantity=1.5))
+
+
 def test_negative_commission_fails():
     with pytest.raises(PortfolioError, match="negative commission"):
         Portfolio(10000).apply_trade(trade("BUY", 1, 5.0, commission=-1.0))
+
+
+def test_nonfinite_fill_price_fails():
+    with pytest.raises(PortfolioError, match="fill_price"):
+        Portfolio(10000).apply_trade(trade("BUY", 1, float("nan")))
 
 
 def test_portfolio_total_value_updates_correctly():
@@ -51,6 +71,11 @@ def test_portfolio_total_value_updates_correctly():
     portfolio.apply_trade(trade("BUY", 1, 5.0))
     snapshot = portfolio.mark_to_market(1, "CALL_105", 6.0)
     assert snapshot.total_value == 10100
+
+
+def test_nonfinite_market_price_fails():
+    with pytest.raises(PortfolioError, match="market_price"):
+        Portfolio(10000).mark_to_market(1, "CALL_105", float("inf"))
 
 
 def test_drawdown_updates_correctly():
