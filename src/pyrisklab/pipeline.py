@@ -88,6 +88,7 @@ def _apply_risk(orders: pd.DataFrame, config) -> tuple[pd.DataFrame, pd.DataFram
             current_position,
             snapshot.total_value,
             snapshot.drawdown_pct,
+            risk_portfolio.cash,
         )
         order_record = row._asdict()
         if result.allowed:

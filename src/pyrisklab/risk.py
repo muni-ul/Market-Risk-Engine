@@ -15,7 +15,14 @@ class RiskManager:
         self.trading_stopped = False
         self.events: list[RiskEvent] = []
 
-    def validate_order(self, order_row, current_position_quantity: int, portfolio_value: float, drawdown_pct: float = 0.0) -> RiskCheckResult:
+    def validate_order(
+        self,
+        order_row,
+        current_position_quantity: int,
+        portfolio_value: float,
+        drawdown_pct: float = 0.0,
+        available_cash: float | None = None,
+    ) -> RiskCheckResult:
         quantity = int(order_row.quantity)
         price = float(order_row.requested_price)
         side = str(order_row.side).upper()
@@ -39,6 +46,8 @@ class RiskManager:
             return self._block(order_row, proposed_notional, portfolio_value, "max_position_quantity", self.config.max_position_quantity, abs(resulting_quantity), f"Blocked {side} {quantity} {order_row.symbol} at step {order_row.step}: resulting quantity {resulting_quantity} exceeds max_position_quantity {self.config.max_position_quantity}.")
         if proposed_notional > self.config.max_trade_notional:
             return self._block(order_row, proposed_notional, portfolio_value, "max_trade_notional", self.config.max_trade_notional, proposed_notional, f"Blocked {side} {quantity} {order_row.symbol} at step {order_row.step}: trade notional {proposed_notional:.2f} exceeds max_trade_notional {self.config.max_trade_notional:.2f}.")
+        if side == "BUY" and available_cash is not None and proposed_notional > available_cash:
+            return self._block(order_row, proposed_notional, portfolio_value, "available_cash", available_cash, proposed_notional, f"Blocked BUY {quantity} {order_row.symbol} at step {order_row.step}: required cash {proposed_notional:.2f} exceeds available cash {available_cash:.2f}.")
         if self.config.stop_trading_on_breach and drawdown_pct >= self.config.max_drawdown_pct:
             self.trading_stopped = True
             return self._block(order_row, proposed_notional, portfolio_value, "max_drawdown_pct", self.config.max_drawdown_pct, drawdown_pct, f"Trading stopped because drawdown_pct {drawdown_pct:.4f} exceeded max_drawdown_pct {self.config.max_drawdown_pct:.4f}.")

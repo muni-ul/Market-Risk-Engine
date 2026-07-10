@@ -30,3 +30,9 @@ def test_allowed_trade_passes(risk_config):
 def test_risk_event_includes_readable_reason(risk_config):
     result = RiskManager(risk_config).validate_order(order(price=30), 0, 10000)
     assert "trade notional" in result.events[0].reason
+
+
+def test_available_cash_blocks_buy_order(risk_config):
+    result = RiskManager(risk_config).validate_order(order(price=20), 0, 10000, available_cash=1000)
+    assert not result.allowed
+    assert "available cash" in result.events[0].reason
