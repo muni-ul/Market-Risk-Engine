@@ -30,6 +30,16 @@ def test_inputs_are_deterministic():
     assert (a["spot"] == b["spot"]).all()
 
 
+def test_fractional_num_prices_fails_with_project_error():
+    with pytest.raises(BenchmarkError, match="num_prices"):
+        generate_benchmark_inputs(10.5, 42)
+
+
+def test_boolean_num_prices_fails_with_project_error():
+    with pytest.raises(BenchmarkError, match="num_prices"):
+        generate_benchmark_inputs(True, 42)
+
+
 def test_mismatched_benchmark_inputs_raise_project_error():
     with pytest.raises(BenchmarkError, match="same length"):
         price_loop({"spot": np.array([100.0, 101.0]), "time_to_expiry": np.array([0.5])})

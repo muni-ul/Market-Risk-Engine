@@ -1,7 +1,9 @@
 from __future__ import annotations
 
+import math
 import time
 from collections.abc import Callable
+from numbers import Real
 
 import numpy as np
 import pandas as pd
@@ -12,8 +14,7 @@ from pyrisklab.pricing import black_scholes_price
 
 
 def generate_benchmark_inputs(num_prices: int, seed: int) -> dict[str, np.ndarray]:
-    if num_prices <= 0:
-        raise BenchmarkError(f"num_prices must be > 0. Received {num_prices}.")
+    num_prices = _as_positive_integer(num_prices, "num_prices")
     rng = np.random.default_rng(seed)
     return {
         "spot": rng.uniform(50.0, 150.0, num_prices),
@@ -89,3 +90,21 @@ def _validate_inputs(inputs: dict[str, np.ndarray]) -> None:
         raise BenchmarkError("benchmark spot inputs must be finite and greater than 0.")
     if not np.isfinite(time_to_expiry).all() or (time_to_expiry < 0).any():
         raise BenchmarkError("benchmark time_to_expiry inputs must be finite and >= 0.")
+
+
+def _as_positive_integer(value, field_name: str) -> int:
+    if isinstance(value, bool):
+        raise BenchmarkError(f"{field_name} must be an integer. Received {value!r}.")
+    if isinstance(value, Real):
+        numeric = float(value)
+        if not math.isfinite(numeric):
+            raise BenchmarkError(f"{field_name} must be a finite integer. Received {value!r}.")
+        if not numeric.is_integer():
+            raise BenchmarkError(f"{field_name} must be an integer. Received {value!r}.")
+    try:
+        parsed = int(value)
+    except (OverflowError, TypeError, ValueError) as exc:
+        raise BenchmarkError(f"{field_name} must be an integer. Received {value!r}.") from exc
+    if parsed <= 0:
+        raise BenchmarkError(f"{field_name} must be > 0. Received {parsed}.")
+    return parsed
