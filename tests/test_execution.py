@@ -44,6 +44,13 @@ def test_fractional_order_quantity_fails():
         execute_orders(orders)
 
 
+def test_order_side_is_normalized_before_execution():
+    orders = create_orders_from_signals(signal("BUY", 1), pricing())
+    orders.loc[0, "side"] = "buy"
+    trades = execute_orders(orders)
+    assert trades["side"].iloc[0] == "BUY"
+
+
 def test_nonfinite_order_quantity_fails():
     orders = create_orders_from_signals(signal("BUY", 1), pricing())
     orders.loc[0, "quantity"] = float("inf")

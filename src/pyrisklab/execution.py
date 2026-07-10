@@ -62,9 +62,10 @@ def execute_orders(orders: pd.DataFrame, commission_per_contract: float = 0.0, c
     for row in orders.itertuples(index=False):
         quantity = _as_contract_quantity(row.quantity, "order.quantity")
         price = float(row.requested_price)
+        side = str(row.side).upper()
         if quantity <= 0:
             raise ExecutionError(f"order.quantity must be greater than 0. Received {quantity}.")
-        if row.side not in {"BUY", "SELL"}:
+        if side not in {"BUY", "SELL"}:
             raise ExecutionError(f"order.side must be BUY or SELL. Received {row.side!r}.")
         if not np.isfinite(price) or price < 0:
             raise ExecutionError(f"requested_price must be finite and >= 0. Received {price}.")
@@ -75,7 +76,7 @@ def execute_orders(orders: pd.DataFrame, commission_per_contract: float = 0.0, c
                 "order_id": row.order_id,
                 "step": int(row.step),
                 "symbol": row.symbol,
-                "side": row.side,
+                "side": side,
                 "quantity": quantity,
                 "fill_price": price,
                 "commission": commission_per_contract * quantity,
