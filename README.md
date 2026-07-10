@@ -197,6 +197,7 @@ After running the demo, open:
 
 - `results/demo_run/market_path.png`
 - `results/demo_run/option_price.png`
+- `results/demo_run/greeks.png`
 - `results/demo_run/portfolio_value.png`
 - `results/demo_run/drawdown.png`
 - `results/demo_run/summary_report.md`
