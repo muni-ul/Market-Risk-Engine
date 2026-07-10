@@ -7,8 +7,12 @@ from pyrisklab.exceptions import PortfolioError
 from pyrisklab.portfolio import Portfolio, build_portfolio_history
 
 
-def trade(side="BUY", quantity=1, price=5.0):
-    return type("TradeRow", (), {"symbol": "CALL_105", "side": side, "quantity": quantity, "fill_price": price, "commission": 0.0})()
+def trade(side="BUY", quantity=1, price=5.0, commission=0.0):
+    return type(
+        "TradeRow",
+        (),
+        {"symbol": "CALL_105", "side": side, "quantity": quantity, "fill_price": price, "commission": commission},
+    )()
 
 
 def test_buy_decreases_cash_and_increases_position():
@@ -24,11 +28,22 @@ def test_sell_increases_cash_and_decreases_position():
     portfolio.apply_trade(trade("SELL", 1, 7.0))
     assert portfolio.cash == 10200
     assert portfolio.current_quantity("CALL_105") == 0
+    assert portfolio.realized_pnl == 200
 
 
 def test_cannot_sell_more_than_held():
     with pytest.raises(PortfolioError):
         Portfolio(10000).apply_trade(trade("SELL", 1, 7.0))
+
+
+def test_invalid_contract_multiplier_fails():
+    with pytest.raises(PortfolioError, match="contract_multiplier"):
+        Portfolio(10000, contract_multiplier=0)
+
+
+def test_negative_commission_fails():
+    with pytest.raises(PortfolioError, match="negative commission"):
+        Portfolio(10000).apply_trade(trade("BUY", 1, 5.0, commission=-1.0))
 
 
 def test_portfolio_total_value_updates_correctly():

@@ -10,6 +10,8 @@ class Portfolio:
     def __init__(self, starting_cash: float, contract_multiplier: int = 100, allow_short: bool = False) -> None:
         if starting_cash <= 0:
             raise PortfolioError(f"starting_cash must be greater than 0. Received {starting_cash}.")
+        if contract_multiplier <= 0:
+            raise PortfolioError(f"contract_multiplier must be greater than 0. Received {contract_multiplier}.")
         self.starting_cash = float(starting_cash)
         self.cash = float(starting_cash)
         self.contract_multiplier = contract_multiplier
@@ -32,6 +34,8 @@ class Portfolio:
             raise PortfolioError(f"trade quantity must be greater than 0. Received {quantity}.")
         if fill_price < 0:
             raise PortfolioError(f"cannot apply trade with negative fill_price. Received {fill_price}.")
+        if commission < 0:
+            raise PortfolioError(f"cannot apply trade with negative commission. Received {commission}.")
 
         position = self.positions.setdefault(symbol, Position(symbol))
         notional = fill_price * quantity * self.contract_multiplier

@@ -65,6 +65,8 @@ configs/demo.yaml
 
 Pricing, Greeks, market simulation, and benchmarking are mostly pure functions. `Portfolio` owns cash, positions, realized P&L, peak value, and snapshots. `RiskManager` owns risk events and the stop-trading flag. The CLI and reporting layers do not own simulation state.
 
+Stateful domain objects also protect their own invariants. For example, `Portfolio` rejects invalid cash, multiplier, quantity, price, commission, and short-sale transitions even though earlier config and risk layers validate normal inputs.
+
 ## Why Vectorization Matters
 
 The pricing benchmark compares a Python loop against vectorized NumPy for the same generated Black-Scholes inputs. The goal is honest measurement: prove that implementation choices matter, verify numerical equivalence, and report machine-dependent speedup without exaggeration.
