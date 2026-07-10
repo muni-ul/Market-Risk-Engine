@@ -85,6 +85,17 @@ class OptionContract:
 
 
 @dataclass(frozen=True)
+class Signal:
+    step: int
+    symbol: str
+    action: str
+    quantity: int
+    reference_price: float
+    delta: float
+    reason: str
+
+
+@dataclass(frozen=True)
 class Order:
     order_id: str
     step: int
@@ -155,6 +166,16 @@ class RiskEvent:
 class RiskCheckResult:
     allowed: bool
     events: list[RiskEvent]
+
+
+@dataclass(frozen=True)
+class BenchmarkResult:
+    method: str
+    num_prices: int
+    runtime_seconds: float
+    speedup_vs_loop: float
+    max_abs_error_vs_loop: float
+    passed_equivalence_check: bool
 
 
 @dataclass(frozen=True)
