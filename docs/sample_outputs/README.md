@@ -14,6 +14,7 @@ Generated benchmark timings vary by machine, so these examples describe output s
 
 - `summary_report_excerpt.md`: representative Markdown report structure.
 - `csv_contracts.md`: expected CSV files and the columns reviewers should see.
+- `run_metadata_example.md`: reproducibility metadata shape, including config digest and artifact list.
 
 ## Why These Are Docs Instead Of Generated Results
 
