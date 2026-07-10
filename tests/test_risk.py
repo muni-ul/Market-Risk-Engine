@@ -36,3 +36,15 @@ def test_available_cash_blocks_buy_order(risk_config):
     result = RiskManager(risk_config).validate_order(order(price=20), 0, 10000, available_cash=1000)
     assert not result.allowed
     assert "available cash" in result.events[0].reason
+
+
+def test_available_cash_check_includes_estimated_commission(risk_config):
+    result = RiskManager(risk_config).validate_order(
+        order(price=9),
+        0,
+        10000,
+        available_cash=905,
+        estimated_commission=10,
+    )
+    assert not result.allowed
+    assert result.events[0].observed_value == 910

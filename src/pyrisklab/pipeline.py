@@ -89,6 +89,7 @@ def _apply_risk(orders: pd.DataFrame, config) -> tuple[pd.DataFrame, pd.DataFram
             snapshot.total_value,
             snapshot.drawdown_pct,
             risk_portfolio.cash,
+            config.execution.commission_per_contract * int(row.quantity),
         )
         order_record = row._asdict()
         if result.allowed:
