@@ -25,14 +25,7 @@ def main(argv: list[str] | None = None) -> int:
         return 2
 
     try:
-        print("[1/7] Loading config...")
-        print("[2/7] Simulating market path...")
-        print("[3/7] Pricing option and calculating Greeks...")
-        print("[4/7] Running strategy, risk checks, and fake execution...")
-        print("[5/7] Tracking portfolio value and drawdown...")
-        print("[6/7] Running benchmark...")
-        print("[7/7] Saving reports...")
-        result = run_simulation(args.config, overwrite=args.overwrite)
+        result = run_simulation(args.config, overwrite=args.overwrite, progress=print)
     except PyRiskLabError as exc:
         if args.debug:
             traceback.print_exc()

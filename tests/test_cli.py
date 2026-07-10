@@ -26,7 +26,7 @@ def test_run_help_includes_config_flag(capsys):
 
 
 def test_main_returns_nonzero_for_project_error(monkeypatch, capsys):
-    def fail_run(config_path, overwrite=False):
+    def fail_run(config_path, overwrite=False, progress=None):
         raise ConfigError("config file not found: missing.yaml")
 
     monkeypatch.setattr(cli, "run_simulation", fail_run)
@@ -36,7 +36,9 @@ def test_main_returns_nonzero_for_project_error(monkeypatch, capsys):
 
 
 def test_main_returns_zero_for_success(monkeypatch):
-    def fake_run(config_path, overwrite=False):
+    def fake_run(config_path, overwrite=False, progress=None):
+        if progress:
+            progress("[1/7] Loading config...")
         return RunResult("demo_run", Path("results/demo_run"), Path(config_path), "completed")
 
     monkeypatch.setattr(cli, "run_simulation", fake_run)

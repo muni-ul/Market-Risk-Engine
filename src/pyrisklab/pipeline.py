@@ -17,15 +17,21 @@ from pyrisklab.risk import RiskManager, risk_events_frame
 from pyrisklab.strategy import generate_signals
 
 
-def run_simulation(config_path: str | Path, overwrite: bool = False) -> RunResult:
+def run_simulation(config_path: str | Path, overwrite: bool = False, progress=None) -> RunResult:
+    _emit(progress, "[1/7] Loading config...")
     path = Path(config_path)
     config = load_config(path)
     run_dir = prepare_output_dir(Path(config.output_dir), config.run_name, overwrite)
 
+    _emit(progress, "[2/7] Simulating market path...")
     market_path = simulate_gbm_path(config.market, config.seed)
     option = to_contract(config.option)
+
+    _emit(progress, "[3/7] Pricing option and calculating Greeks...")
     pricing_history = price_market_path(market_path, option, config.market.trading_days)
     greeks_history = calculate_greeks_for_market_path(market_path, option, config.market.trading_days)
+
+    _emit(progress, "[4/7] Running strategy, risk checks, and fake execution...")
     signals = generate_signals(pricing_history, greeks_history, config.strategy)
     orders = create_orders_from_signals(signals, pricing_history)
     audited_orders, approved_orders, risk_events = _apply_risk(orders, config)
@@ -35,12 +41,16 @@ def run_simulation(config_path: str | Path, overwrite: bool = False) -> RunResul
         contract_multiplier=config.execution.contract_multiplier,
         fill_model=config.execution.fill_model,
     )
+
+    _emit(progress, "[5/7] Tracking portfolio value and drawdown...")
     portfolio_history = build_portfolio_history(
         trades,
         pricing_history,
         config.risk.starting_cash,
         config.execution.contract_multiplier,
     )
+
+    _emit(progress, "[6/7] Running benchmark...")
     benchmark = run_pricing_benchmark(config.benchmark)
 
     outputs = {
@@ -54,8 +64,15 @@ def run_simulation(config_path: str | Path, overwrite: bool = False) -> RunResul
         "risk_events.csv": risk_events,
         "benchmark.csv": benchmark,
     }
+
+    _emit(progress, "[7/7] Saving reports...")
     generate_reports(run_dir, config, path, outputs)
     return RunResult(config.run_name, run_dir, path, "completed")
+
+
+def _emit(progress, message: str) -> None:
+    if progress is not None:
+        progress(message)
 
 
 def _apply_risk(orders: pd.DataFrame, config) -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
