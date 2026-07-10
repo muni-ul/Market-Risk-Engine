@@ -14,6 +14,8 @@ def test_pyproject_declares_console_script_and_dependencies():
     assert project["scripts"]["pyrisklab"] == "pyrisklab.cli:main"
     assert {"numpy", "pandas", "scipy", "matplotlib", "PyYAML"}.issubset(project["dependencies"])
     assert {"pytest", "ruff"}.issubset(project["optional-dependencies"]["dev"])
+    assert project["urls"]["Repository"] == "https://github.com/muni-ul/Market-Risk-Engine"
+    assert project["urls"]["Documentation"].endswith("/tree/main/docs")
 
 
 def test_runtime_version_matches_package_metadata():

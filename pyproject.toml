@@ -28,6 +28,11 @@ dependencies = [
     "PyYAML",
 ]
 
+[project.urls]
+Repository = "https://github.com/muni-ul/Market-Risk-Engine"
+Documentation = "https://github.com/muni-ul/Market-Risk-Engine/tree/main/docs"
+Issues = "https://github.com/muni-ul/Market-Risk-Engine/issues"
+
 [project.optional-dependencies]
 dev = [
     "pytest",
