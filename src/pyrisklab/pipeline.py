@@ -1,0 +1,71 @@
+from __future__ import annotations
+
+from pathlib import Path
+
+import pandas as pd
+
+from pyrisklab.benchmark import run_pricing_benchmark
+from pyrisklab.config import load_config
+from pyrisklab.execution import create_orders_from_signals, execute_orders
+from pyrisklab.greeks import calculate_greeks_for_market_path
+from pyrisklab.market import simulate_gbm_path
+from pyrisklab.models import RunResult
+from pyrisklab.portfolio import build_portfolio_history
+from pyrisklab.pricing import price_market_path, to_contract
+from pyrisklab.reporting import generate_reports, prepare_output_dir
+from pyrisklab.risk import RiskManager, risk_events_frame
+from pyrisklab.strategy import generate_signals
+
+
+def run_simulation(config_path: str | Path, overwrite: bool = False) -> RunResult:
+    path = Path(config_path)
+    config = load_config(path)
+    run_dir = prepare_output_dir(Path(config.output_dir), config.run_name, overwrite)
+
+    market_path = simulate_gbm_path(config.market, config.seed)
+    option = to_contract(config.option)
+    pricing_history = price_market_path(market_path, option, config.market.trading_days)
+    greeks_history = calculate_greeks_for_market_path(market_path, option, config.market.trading_days)
+    signals = generate_signals(pricing_history, greeks_history, config.strategy)
+    orders = create_orders_from_signals(signals, pricing_history)
+    approved_orders, risk_events = _apply_risk(orders, config)
+    trades = execute_orders(
+        approved_orders,
+        commission_per_contract=config.execution.commission_per_contract,
+        contract_multiplier=config.execution.contract_multiplier,
+        fill_model=config.execution.fill_model,
+    )
+    portfolio_history = build_portfolio_history(
+        trades,
+        pricing_history,
+        config.risk.starting_cash,
+        config.execution.contract_multiplier,
+    )
+    benchmark = run_pricing_benchmark(config.benchmark)
+
+    outputs = {
+        "market_path.csv": market_path,
+        "pricing_history.csv": pricing_history,
+        "greeks_history.csv": greeks_history,
+        "signals.csv": signals,
+        "orders.csv": approved_orders,
+        "trades.csv": trades,
+        "portfolio_history.csv": portfolio_history,
+        "risk_events.csv": risk_events,
+        "benchmark.csv": benchmark,
+    }
+    generate_reports(run_dir, config, path, outputs)
+    return RunResult(config.run_name, run_dir, path, "completed")
+
+
+def _apply_risk(orders: pd.DataFrame, config) -> tuple[pd.DataFrame, pd.DataFrame]:
+    manager = RiskManager(config.risk, config.execution.contract_multiplier)
+    current_position = 0
+    portfolio_value = config.risk.starting_cash
+    approved = []
+    for row in orders.itertuples(index=False):
+        result = manager.validate_order(row, current_position, portfolio_value)
+        if result.allowed:
+            approved.append(row._asdict())
+            current_position += int(row.quantity) if row.side == "BUY" else -int(row.quantity)
+    return pd.DataFrame(approved, columns=orders.columns), risk_events_frame(manager.events)
