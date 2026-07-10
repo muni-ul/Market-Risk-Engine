@@ -72,6 +72,13 @@ def test_float_for_integer_field_fails(tmp_path):
         load_config(write_config(tmp_path, data))
 
 
+def test_nonfinite_integer_field_fails_cleanly(tmp_path):
+    data = demo_config()
+    data["market"]["steps"] = float("inf")
+    with pytest.raises(ConfigError, match="market.steps"):
+        load_config(write_config(tmp_path, data))
+
+
 def test_empty_output_dir_fails(tmp_path):
     data = demo_config()
     data["output_dir"] = "   "

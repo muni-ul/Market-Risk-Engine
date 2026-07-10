@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import math
 import re
+from numbers import Real
 from pathlib import Path
 from typing import Any
 
@@ -166,11 +167,15 @@ def _as_float(value: Any, field: str) -> float:
 def _as_int(value: Any, field: str) -> int:
     if isinstance(value, bool):
         raise ConfigError(f"{field} must be an integer. Received {value!r}.")
-    if isinstance(value, float) and not value.is_integer():
-        raise ConfigError(f"{field} must be an integer. Received {value!r}.")
+    if isinstance(value, Real):
+        numeric = float(value)
+        if not math.isfinite(numeric):
+            raise ConfigError(f"{field} must be a finite integer. Received {value!r}.")
+        if not numeric.is_integer():
+            raise ConfigError(f"{field} must be an integer. Received {value!r}.")
     try:
         parsed = int(value)
-    except (TypeError, ValueError) as exc:
+    except (OverflowError, TypeError, ValueError) as exc:
         raise ConfigError(f"{field} must be an integer. Received {value!r}.") from exc
     return parsed
 
