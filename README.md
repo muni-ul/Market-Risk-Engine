@@ -103,6 +103,14 @@ Expected terminal shape:
 Done. Results saved to results/demo_run/
 ```
 
+Optional risk-control demo:
+
+```bash
+python -m pyrisklab run --config configs/risk_stress.yaml --overwrite
+```
+
+This uses the same synthetic market and strategy settings as the main demo, but sets `risk.max_position_quantity: 0` and lowers `risk.max_trade_notional` so proposed orders are blocked and written to `risk_events.csv`.
+
 ## Testing
 
 ```bash
@@ -192,7 +200,6 @@ PyRiskLab uses one configured option contract and a simplified deterministic fil
 ## Future Improvements
 
 - Add a curated `docs/assets/` screenshot set
-- Add a second demo config that intentionally triggers risk events
 - Add multiple option contracts after the single-contract MVP is stable
 - Add optional Numba benchmarking after baseline NumPy behavior is documented
 

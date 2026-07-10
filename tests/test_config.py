@@ -23,6 +23,13 @@ def test_valid_config_loads(tmp_path):
     assert config.run_name == "demo_run"
 
 
+def test_risk_stress_config_loads():
+    config = load_config("configs/risk_stress.yaml")
+    assert config.run_name == "risk_stress_run"
+    assert config.risk.max_position_quantity == 0
+    assert config.risk.max_trade_notional < config.risk.starting_cash
+
+
 def test_missing_required_section_fails(tmp_path):
     data = demo_config()
     data.pop("market")

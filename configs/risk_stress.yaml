@@ -1,0 +1,47 @@
+run_name: risk_stress_run
+seed: 42
+output_dir: results
+
+market:
+  initial_price: 100.0
+  drift: 0.05
+  volatility: 0.20
+  trading_days: 252
+  steps: 252
+  paths: 1
+
+option:
+  underlying_symbol: SIM_STOCK
+  symbol: CALL_105
+  option_type: call
+  strike: 105.0
+  risk_free_rate: 0.04
+  volatility: 0.20
+  days_to_expiry: 90
+
+strategy:
+  name: simple_delta_rule
+  buy_delta_below: 0.45
+  sell_delta_above: 0.70
+  trade_quantity: 1
+  min_steps_between_trades: 5
+
+execution:
+  enabled: true
+  fill_model: deterministic_mid
+  commission_per_contract: 0.00
+  contract_multiplier: 100
+
+risk:
+  starting_cash: 10000.0
+  max_position_quantity: 0
+  max_trade_notional: 100.0
+  max_drawdown_pct: 0.15
+  max_loss_pct: 0.10
+  stop_trading_on_breach: true
+
+benchmark:
+  enabled: true
+  num_prices: 100000
+  seed: 42
+  tolerance: 1.0e-8
