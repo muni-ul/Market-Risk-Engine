@@ -4,6 +4,12 @@ __pycache__/
 .pytest_cache/
 .ruff_cache/
 *.egg-info/
+build/
+dist/
+.coverage
+htmlcov/
 results/*
 !results/.gitkeep
 .env
+Thumbs.db
+.DS_Store
