@@ -11,6 +11,11 @@ from pyrisklab.models import OptionContract
 def calculate_greeks(spot, strike: float, time_to_expiry, risk_free_rate: float, volatility: float, option_type: str) -> dict[str, object]:
     if option_type not in {"call", "put"}:
         raise GreeksError(f"option_type must be 'call' or 'put'. Received {option_type!r}.")
+    _reject_bool_scalar(spot, "underlying_price")
+    _reject_bool_scalar(time_to_expiry, "time_to_expiry")
+    _reject_bool_scalar(strike, "strike")
+    _reject_bool_scalar(risk_free_rate, "risk_free_rate")
+    _reject_bool_scalar(volatility, "volatility")
     if not np.isfinite(strike) or strike <= 0:
         raise GreeksError(f"strike must be greater than 0. Received {strike}.")
     if not np.isfinite(risk_free_rate):
@@ -99,3 +104,8 @@ def _scalar_if_scalar(result: np.ndarray):
     if array.ndim == 0:
         return float(array)
     return result
+
+
+def _reject_bool_scalar(value, field_name: str) -> None:
+    if isinstance(value, bool):
+        raise GreeksError(f"{field_name} must be numeric. Received {value!r}.")
