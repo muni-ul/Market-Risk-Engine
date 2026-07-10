@@ -8,8 +8,13 @@ import pandas as pd
 import pytest
 
 from pyrisklab.config import load_config
-from pyrisklab.exceptions import ReportingError
-from pyrisklab.reporting import prepare_output_dir, save_csv_outputs, write_run_metadata, write_summary_report
+from pyrisklab.exceptions import ReportingError, RunError
+from pyrisklab.reporting import (
+    prepare_output_dir,
+    save_csv_outputs,
+    write_run_metadata,
+    write_summary_report,
+)
 
 
 def test_output_directory_is_created(tmp_path):
@@ -26,6 +31,18 @@ def test_empty_risk_events_still_produce_risk_events_csv(tmp_path):
     run_dir = prepare_output_dir(tmp_path, "demo")
     save_csv_outputs(run_dir, {"risk_events.csv": pd.DataFrame(columns=["step", "reason"])})
     assert (run_dir / "risk_events.csv").exists()
+
+
+def test_csv_write_failure_raises_readable_run_error(tmp_path, monkeypatch):
+    run_dir = prepare_output_dir(tmp_path, "demo")
+
+    def fail_to_csv(_self, _path, **_kwargs):
+        raise OSError("disk is unavailable")
+
+    monkeypatch.setattr(pd.DataFrame, "to_csv", fail_to_csv)
+
+    with pytest.raises(RunError, match="could not write market_path.csv"):
+        save_csv_outputs(run_dir, {"market_path.csv": pd.DataFrame({"step": [0]})})
 
 
 def test_summary_report_is_created_by_full_reporting_surface(tmp_path):

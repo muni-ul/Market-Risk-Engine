@@ -28,7 +28,12 @@ def prepare_output_dir(output_dir: Path, run_name: str, overwrite: bool = False)
 
 def save_config_copy(config_path: Path, run_dir: Path) -> Path:
     target = run_dir / "config_used.yaml"
-    shutil.copy2(config_path, target)
+    try:
+        shutil.copy2(config_path, target)
+    except OSError as exc:
+        raise RunError(
+            f"could not copy config_used.yaml to {run_dir}. Check folder permissions."
+        ) from exc
     return target
 
 
@@ -36,7 +41,12 @@ def save_csv_outputs(run_dir: Path, outputs: dict[str, pd.DataFrame]) -> list[Pa
     paths = []
     for filename, df in outputs.items():
         path = run_dir / filename
-        df.to_csv(path, index=False)
+        try:
+            df.to_csv(path, index=False)
+        except OSError as exc:
+            raise RunError(
+                f"could not write {filename} to {run_dir}. Check folder permissions."
+            ) from exc
         paths.append(path)
     return paths
 
@@ -65,7 +75,12 @@ def write_run_metadata(
         },
         "generated_artifacts": _artifact_names(run_dir),
     }
-    path.write_text(json.dumps(metadata, indent=2) + "\n", encoding="utf-8")
+    try:
+        path.write_text(json.dumps(metadata, indent=2) + "\n", encoding="utf-8")
+    except OSError as exc:
+        raise RunError(
+            f"could not write run_metadata.json to {run_dir}. Check folder permissions."
+        ) from exc
     return path
 
 
@@ -214,7 +229,12 @@ This is a local simulation only. It does not use live market data, place real tr
 PyRiskLab uses synthetic paths and a simplified fake execution model. It does not model liquidity, spreads, order books, slippage, taxes, margin, assignment, or real market behavior.
 """
     path = run_dir / "summary_report.md"
-    path.write_text(text, encoding="utf-8")
+    try:
+        path.write_text(text, encoding="utf-8")
+    except OSError as exc:
+        raise RunError(
+            f"could not write summary_report.md to {run_dir}. Check folder permissions."
+        ) from exc
     return path
 
 
@@ -235,8 +255,14 @@ def _line(path: Path, x, y, title: str, xlabel: str, ylabel: str) -> Path:
     ax.set_ylabel(ylabel)
     ax.grid(True, alpha=0.25)
     fig.tight_layout()
-    fig.savefig(path, dpi=140)
-    plt.close(fig)
+    try:
+        fig.savefig(path, dpi=140)
+    except OSError as exc:
+        raise RunError(
+            f"could not write {path.name} to {path.parent}. Check folder permissions."
+        ) from exc
+    finally:
+        plt.close(fig)
     return path
 
 
