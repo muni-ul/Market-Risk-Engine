@@ -51,6 +51,7 @@ The test suite is designed around behavior that would matter in a real engineeri
 - Market simulation is deterministic for the same seed and rejects non-finite assumptions defensively.
 - Pricing tests cover known call/put values, parity, expiry, finite parameters, and vectorized inputs.
 - Greeks tests cover finite outputs, finite parameters, and call/put delta behavior.
+- Strategy tests cover threshold decisions, non-finite Delta handling, and invalid pricing context.
 - Execution tests cover deterministic fills, notional calculation, and invalid order quantities.
 - Portfolio tests cover cash, positions, realized P&L, and drawdown.
 - Risk tests cover allowed trades, blocked trades, available cash, defensive order validation, and readable event reasons.

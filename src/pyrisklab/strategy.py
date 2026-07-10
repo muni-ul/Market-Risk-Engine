@@ -76,3 +76,12 @@ def _validate_inputs(pricing_history: pd.DataFrame, greeks_history: pd.DataFrame
         raise StrategyError(f"pricing_history is missing required columns: {', '.join(sorted(missing_pricing))}.")
     if missing_greeks:
         raise StrategyError(f"greeks_history is missing required columns: {', '.join(sorted(missing_greeks))}.")
+    _require_finite(pricing_history, ["option_price", "underlying_price", "time_to_expiry"], "pricing_history")
+    _require_finite(greeks_history, ["gamma", "vega"], "greeks_history")
+
+
+def _require_finite(df: pd.DataFrame, columns: list[str], name: str) -> None:
+    for column in columns:
+        values = pd.to_numeric(df[column], errors="coerce")
+        if not np.isfinite(values).all():
+            raise StrategyError(f"{name}.{column} must contain only finite numeric values.")

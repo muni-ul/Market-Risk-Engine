@@ -1,7 +1,10 @@
 from __future__ import annotations
 
+import numpy as np
 import pandas as pd
+import pytest
 
+from pyrisklab.exceptions import StrategyError
 from pyrisklab.strategy import generate_signals
 
 
@@ -24,3 +27,17 @@ def test_high_delta_can_generate_sell_signal(strategy_config):
 def test_otherwise_hold(strategy_config):
     pricing, greeks = frames(0.5)
     assert generate_signals(pricing, greeks, strategy_config)["action"].iloc[0] == "HOLD"
+
+
+def test_nonfinite_delta_holds_with_reason(strategy_config):
+    pricing, greeks = frames(np.nan)
+    signals = generate_signals(pricing, greeks, strategy_config)
+    assert signals["action"].iloc[0] == "HOLD"
+    assert "not finite" in signals["reason"].iloc[0]
+
+
+def test_nonfinite_option_price_fails(strategy_config):
+    pricing, greeks = frames(0.5)
+    pricing.loc[0, "option_price"] = np.nan
+    with pytest.raises(StrategyError, match="option_price"):
+        generate_signals(pricing, greeks, strategy_config)
