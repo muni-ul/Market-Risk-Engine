@@ -4,6 +4,7 @@ from pathlib import Path
 
 import pytest
 
+from pyrisklab import __version__
 from pyrisklab import cli
 from pyrisklab.exceptions import ConfigError
 from pyrisklab.models import RunResult
@@ -24,6 +25,14 @@ def test_run_help_includes_config_flag(capsys):
     output = capsys.readouterr().out
     assert "--config" in output
     assert "--quiet" in output
+
+
+def test_top_level_version_flag(capsys):
+    parser = cli.build_parser()
+    with pytest.raises(SystemExit):
+        parser.parse_args(["--version"])
+    output = capsys.readouterr().out
+    assert f"pyrisklab {__version__}" in output
 
 
 def test_main_returns_nonzero_for_project_error(monkeypatch, capsys):

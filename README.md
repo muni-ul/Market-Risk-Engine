@@ -111,6 +111,12 @@ Quiet mode keeps progress output off while still printing the final result:
 python -m pyrisklab run --config configs/demo.yaml --overwrite --quiet
 ```
 
+Show the installed package version:
+
+```bash
+python -m pyrisklab --version
+```
+
 Optional risk-control demo:
 
 ```bash
