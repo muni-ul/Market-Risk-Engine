@@ -6,7 +6,8 @@ from pyrisklab.pipeline import run_simulation
 
 
 def test_pipeline_smoke_creates_core_artifacts(tmp_path):
-    config = yaml.safe_load(open("configs/demo.yaml", encoding="utf-8"))
+    with open("configs/demo.yaml", encoding="utf-8") as config_file:
+        config = yaml.safe_load(config_file)
     config["run_name"] = "smoke_run"
     config["output_dir"] = str(tmp_path)
     config["market"]["steps"] = 5

@@ -8,7 +8,8 @@ from pyrisklab.exceptions import ConfigError
 
 
 def demo_config() -> dict:
-    return yaml.safe_load(open("configs/demo.yaml", encoding="utf-8"))
+    with open("configs/demo.yaml", encoding="utf-8") as config_file:
+        return yaml.safe_load(config_file)
 
 
 def write_config(tmp_path, data: dict):
