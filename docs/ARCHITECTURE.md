@@ -69,6 +69,8 @@ Pricing, Greeks, market simulation, and benchmarking are mostly pure functions. 
 
 Stateful domain objects also protect their own invariants. For example, `Portfolio` rejects invalid cash, multiplier, quantity, price, commission, and short-sale transitions even though earlier config and risk layers validate normal inputs.
 
+Execution follows the same pattern: the fake execution function rejects unsupported fill models, non-finite commissions, invalid multipliers, invalid quantities, and bad fill prices before producing trade rows.
+
 ## Why Vectorization Matters
 
 The pricing benchmark compares a Python loop against vectorized NumPy for the same generated Black-Scholes inputs. The goal is honest measurement: prove that implementation choices matter, verify numerical equivalence, and report machine-dependent speedup without exaggeration.

@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import numpy as np
 import pandas as pd
 import pytest
 
@@ -41,3 +42,15 @@ def test_fractional_order_quantity_fails():
     orders.loc[0, "quantity"] = 1.5
     with pytest.raises(ExecutionError, match="integer"):
         execute_orders(orders)
+
+
+def test_nonfinite_commission_fails():
+    orders = create_orders_from_signals(signal("BUY", 1), pricing())
+    with pytest.raises(ExecutionError, match="commission_per_contract"):
+        execute_orders(orders, commission_per_contract=np.nan)
+
+
+def test_fractional_contract_multiplier_fails():
+    orders = create_orders_from_signals(signal("BUY", 1), pricing())
+    with pytest.raises(ExecutionError, match="contract_multiplier"):
+        execute_orders(orders, contract_multiplier=100.5)
