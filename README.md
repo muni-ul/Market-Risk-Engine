@@ -21,6 +21,10 @@ PyRiskLab is a local Python simulation engine for options pricing and portfolio 
 - pytest coverage for important formulas, state transitions, and outputs
 - A benchmark comparing Python-loop pricing with vectorized NumPy pricing
 
+## Software Engineering Positioning
+
+PyRiskLab uses options pricing as the domain, but the project is really about building a reliable local Python engineering tool. For software internships at AMD-like companies, the strongest signals are CLI automation, deterministic configs, numerical simulation, vectorized computation, tests, debugging-friendly errors, benchmark reporting, and technical documentation.
+
 ## Simulation Only
 
 PyRiskLab does not place real trades, connect to brokerages, use live market data, scrape options chains, provide investment advice, make profitability claims, or require API keys, accounts, Docker, databases, or cloud services.
@@ -192,3 +196,7 @@ PyRiskLab uses one configured option contract and a simplified deterministic fil
 ## Resume Bullet
 
 Built PyRiskLab, a modular local Python simulation engine using NumPy, pandas, SciPy, matplotlib, and pytest to simulate market paths, price options, calculate Greeks, execute fake trades, enforce risk controls, benchmark vectorized computation, and export reproducible portfolio reports.
+
+Performance/tooling version:
+
+Developed a performance-aware Python simulation and analytics tool with deterministic YAML configs, CLI automation, vectorized numerical computation, pytest coverage, benchmark reporting, and reproducible local artifacts.

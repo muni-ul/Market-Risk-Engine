@@ -93,6 +93,10 @@ def write_summary_report(run_dir: Path, config: RunConfig, outputs: dict[str, pd
     benchmark = outputs.get("benchmark.csv", pd.DataFrame())
     final_value = float(portfolio["total_value"].iloc[-1]) if not portfolio.empty else config.risk.starting_cash
     max_drawdown = float(portfolio["drawdown_pct"].max()) if not portfolio.empty else 0.0
+    initial_option_price = float(pricing["option_price"].iloc[0]) if not pricing.empty else 0.0
+    final_option_price = float(pricing["option_price"].iloc[-1]) if not pricing.empty else 0.0
+    signals = outputs.get("signals.csv", pd.DataFrame())
+    orders = outputs.get("orders.csv", pd.DataFrame())
     trade_note = "No simulated trades were executed in this run." if trades.empty else f"{len(trades)} simulated trades were executed."
     risk_note = "No risk events were triggered in this run." if risk_events.empty else f"{len(risk_events)} risk events were recorded."
     benchmark_text = "Benchmark was disabled or skipped."
@@ -123,6 +127,9 @@ This is a local simulation only. It does not use live market data, place real tr
 - Final underlying price: ${market['underlying_price'].iloc[-1]:.2f}
 - Generated steps: {len(market)}
 - Model: geometric Brownian motion with synthetic data
+- Drift assumption: {config.market.drift:.2%}
+- Volatility assumption: {config.market.volatility:.2%}
+- Trading days per year: {config.market.trading_days}
 
 ## Option Contract
 
@@ -130,6 +137,13 @@ This is a local simulation only. It does not use live market data, place real tr
 - Type: `{config.option.option_type}`
 - Strike: ${config.option.strike:.2f}
 - Initial days to expiry: {config.option.days_to_expiry}
+- Initial model price: ${initial_option_price:.2f}
+- Final model price: ${final_option_price:.2f}
+
+## Strategy Signals
+
+- Total signal rows: {len(signals)}
+- Proposed simulated orders: {len(orders)}
 
 ## Portfolio Results
 
