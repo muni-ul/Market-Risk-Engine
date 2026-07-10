@@ -10,6 +10,7 @@ import pytest
 from pyrisklab.config import load_config
 from pyrisklab.exceptions import ReportingError, RunError
 from pyrisklab.reporting import (
+    plot_greeks,
     prepare_output_dir,
     save_csv_outputs,
     write_run_metadata,
@@ -43,6 +44,28 @@ def test_csv_write_failure_raises_readable_run_error(tmp_path, monkeypatch):
 
     with pytest.raises(RunError, match="could not write market_path.csv"):
         save_csv_outputs(run_dir, {"market_path.csv": pd.DataFrame({"step": [0]})})
+
+
+def test_greeks_chart_write_failure_raises_readable_run_error(tmp_path, monkeypatch):
+    run_dir = prepare_output_dir(tmp_path, "demo")
+    greeks_history = pd.DataFrame(
+        {
+            "step": [0],
+            "delta": [0.5],
+            "gamma": [0.01],
+            "vega": [0.2],
+            "theta": [-0.01],
+            "rho": [0.1],
+        }
+    )
+
+    def fail_savefig(_self, _path, **_kwargs):
+        raise OSError("disk is unavailable")
+
+    monkeypatch.setattr("matplotlib.figure.Figure.savefig", fail_savefig)
+
+    with pytest.raises(RunError, match="could not write greeks.png"):
+        plot_greeks(greeks_history, run_dir)
 
 
 def test_summary_report_is_created_by_full_reporting_surface(tmp_path):

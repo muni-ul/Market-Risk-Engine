@@ -115,9 +115,7 @@ def plot_greeks(greeks_history: pd.DataFrame, run_dir: Path) -> Path:
     ax.legend()
     fig.tight_layout()
     path = run_dir / "greeks.png"
-    fig.savefig(path, dpi=140)
-    plt.close(fig)
-    return path
+    return _save_figure(fig, path)
 
 
 def plot_portfolio_value(portfolio_history: pd.DataFrame, run_dir: Path) -> Path:
@@ -255,6 +253,10 @@ def _line(path: Path, x, y, title: str, xlabel: str, ylabel: str) -> Path:
     ax.set_ylabel(ylabel)
     ax.grid(True, alpha=0.25)
     fig.tight_layout()
+    return _save_figure(fig, path)
+
+
+def _save_figure(fig, path: Path) -> Path:
     try:
         fig.savefig(path, dpi=140)
     except OSError as exc:
