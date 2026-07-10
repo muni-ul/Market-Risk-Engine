@@ -47,3 +47,21 @@ def test_nonpositive_initial_price_is_invalid_contract_for_config_layer():
     config = MarketConfig(0.0, 0.05, 0.2, 252, 10, 1)
     with pytest.raises(MarketSimulationError):
         simulate_gbm_path(config, 42)
+
+
+def test_boolean_market_float_is_rejected_defensively():
+    config = MarketConfig(True, 0.05, 0.2, 252, 10, 1)
+    with pytest.raises(MarketSimulationError, match="market.initial_price"):
+        simulate_gbm_path(config, 42)
+
+
+def test_boolean_market_steps_are_rejected_defensively():
+    config = MarketConfig(100.0, 0.05, 0.2, 252, True, 1)
+    with pytest.raises(MarketSimulationError, match="market.steps"):
+        simulate_gbm_path(config, 42)
+
+
+def test_fractional_market_paths_are_rejected_defensively():
+    config = MarketConfig(100.0, 0.05, 0.2, 252, 10, 1.5)
+    with pytest.raises(MarketSimulationError, match="market.paths"):
+        simulate_gbm_path(config, 42)
