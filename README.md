@@ -105,6 +105,12 @@ Done. Results saved to results/demo_run/
 pytest
 ```
 
+Code quality check:
+
+```bash
+ruff check .
+```
+
 Targeted examples:
 
 ```bash

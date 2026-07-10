@@ -10,7 +10,7 @@ from pyrisklab.execution import create_orders_from_signals, execute_orders
 from pyrisklab.greeks import calculate_greeks_for_market_path
 from pyrisklab.market import simulate_gbm_path
 from pyrisklab.models import RunResult
-from pyrisklab.portfolio import build_portfolio_history
+from pyrisklab.portfolio import Portfolio, build_portfolio_history
 from pyrisklab.pricing import price_market_path, to_contract
 from pyrisklab.reporting import generate_reports, prepare_output_dir
 from pyrisklab.risk import RiskManager, risk_events_frame
@@ -60,18 +60,31 @@ def run_simulation(config_path: str | Path, overwrite: bool = False) -> RunResul
 
 def _apply_risk(orders: pd.DataFrame, config) -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
     manager = RiskManager(config.risk, config.execution.contract_multiplier)
-    current_position = 0
-    portfolio_value = config.risk.starting_cash
+    risk_portfolio = Portfolio(config.risk.starting_cash, config.execution.contract_multiplier)
     audited = []
     approved = []
     for row in orders.itertuples(index=False):
-        result = manager.validate_order(row, current_position, portfolio_value)
+        snapshot = risk_portfolio.mark_to_market(int(row.step), str(row.symbol), float(row.requested_price))
+        current_position = risk_portfolio.current_quantity(str(row.symbol))
+        result = manager.validate_order(
+            row,
+            current_position,
+            snapshot.total_value,
+            snapshot.drawdown_pct,
+        )
         order_record = row._asdict()
         if result.allowed:
             order_record["status"] = "APPROVED"
             order_record["risk_reason"] = ""
-            approved.append(row._asdict())
-            current_position += int(row.quantity) if row.side == "BUY" else -int(row.quantity)
+            approved_order = row._asdict()
+            approved.append(approved_order)
+            trade = execute_orders(
+                pd.DataFrame([approved_order], columns=orders.columns),
+                commission_per_contract=config.execution.commission_per_contract,
+                contract_multiplier=config.execution.contract_multiplier,
+                fill_model=config.execution.fill_model,
+            ).iloc[0]
+            risk_portfolio.apply_trade(trade)
         else:
             order_record["status"] = "BLOCKED"
             order_record["risk_reason"] = result.events[0].reason if result.events else "Blocked by risk manager."
