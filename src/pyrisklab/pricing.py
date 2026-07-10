@@ -77,6 +77,8 @@ def price_market_path(market_path: pd.DataFrame, option: OptionContract, trading
     _require_columns(market_path, {"step", "time_years", "underlying_price"}, "market path")
     if market_path.empty:
         raise PricingError("market path is empty. Run market simulation before pricing options.")
+    if trading_days <= 0:
+        raise PricingError(f"trading_days must be > 0. Received {trading_days}.")
     time_to_expiry = np.maximum((option.initial_days_to_expiry - market_path["step"].to_numpy()) / trading_days, 0.0)
     option_price = black_scholes_price(
         market_path["underlying_price"].to_numpy(),

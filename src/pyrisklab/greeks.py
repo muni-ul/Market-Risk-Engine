@@ -66,6 +66,8 @@ def calculate_greeks_for_market_path(market_path: pd.DataFrame, option: OptionCo
         raise GreeksError(f"market path must include columns: {', '.join(sorted(missing))}.")
     if market_path.empty:
         raise GreeksError("market path is empty. Run market simulation before calculating Greeks.")
+    if trading_days <= 0:
+        raise GreeksError(f"trading_days must be > 0. Received {trading_days}.")
     time_to_expiry = np.maximum((option.initial_days_to_expiry - market_path["step"].to_numpy()) / trading_days, 0.0)
     greeks = calculate_greeks(
         market_path["underlying_price"].to_numpy(),
