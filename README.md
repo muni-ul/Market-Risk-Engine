@@ -177,7 +177,7 @@ The benchmark writes runtime, speedup, and numerical-equivalence checks to `benc
 
 ## Screenshots Or Sample Output References
 
-For a committed example of the expected terminal and report shape, see `docs/SAMPLE_OUTPUT.md`.
+For a committed example of the expected terminal and report shape, see `docs/SAMPLE_OUTPUT.md`. For more concrete output contracts, see `docs/sample_outputs/`.
 
 For the project story and resume/interview framing, see `docs/PORTFOLIO_CASE_STUDY.md` and `docs/INTERVIEW_NOTES.md`.
 

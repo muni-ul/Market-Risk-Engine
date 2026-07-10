@@ -1,0 +1,20 @@
+# PyRiskLab Sample Outputs
+
+This folder gives reviewers a quick preview of the files produced by a local demo run without committing generated `results/demo_run/` artifacts.
+
+The actual demo command is still the source of truth:
+
+```bash
+python -m pyrisklab run --config configs/demo.yaml --overwrite
+```
+
+Generated benchmark timings vary by machine, so these examples describe output shape instead of claiming fixed performance numbers.
+
+## Included References
+
+- `summary_report_excerpt.md`: representative Markdown report structure.
+- `csv_contracts.md`: expected CSV files and the columns reviewers should see.
+
+## Why These Are Docs Instead Of Generated Results
+
+PyRiskLab is designed to produce deterministic local artifacts, but benchmark timing and chart image metadata can vary by machine. Keeping compact sample-output docs gives GitHub reviewers a stable preview while leaving the real `results/` folder generated locally.

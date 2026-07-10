@@ -86,6 +86,8 @@ results/demo_run/
   summary_report.md
 ```
 
+For a committed preview of the report and CSV shapes, see `docs/sample_outputs/`.
+
 The strongest interview story is that PyRiskLab uses finance as the domain, but the project is really about building a reliable Python simulation pipeline with clean modules, deterministic configs, testable state transitions, risk guardrails, benchmark evidence, and inspectable local reports.
 
 ## What I Would Improve Next
