@@ -53,7 +53,7 @@ The test suite is designed around behavior that would matter in a real engineeri
 - Greeks tests cover finite outputs, finite parameters, and call/put delta behavior.
 - Execution tests cover deterministic fills, notional calculation, and invalid order quantities.
 - Portfolio tests cover cash, positions, realized P&L, and drawdown.
-- Risk tests cover allowed trades, blocked trades, available cash, and readable event reasons.
+- Risk tests cover allowed trades, blocked trades, available cash, defensive order validation, and readable event reasons.
 - Reporting tests cover empty output states and metadata artifacts.
 
 ## Performance Signal

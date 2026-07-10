@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import numpy as np
 import pandas as pd
 
 from pyrisklab.exceptions import RiskError
@@ -24,10 +25,10 @@ class RiskManager:
         available_cash: float | None = None,
         estimated_commission: float = 0.0,
     ) -> RiskCheckResult:
-        quantity = int(order_row.quantity)
+        quantity = _as_contract_quantity(order_row.quantity)
         price = float(order_row.requested_price)
         side = str(order_row.side).upper()
-        if quantity <= 0 or price < 0:
+        if quantity <= 0 or not np.isfinite(price) or price < 0:
             raise RiskError("risk validation received an invalid order quantity or price.")
 
         proposed_notional = price * quantity * self.contract_multiplier
@@ -60,13 +61,14 @@ class RiskManager:
         return RiskCheckResult(True, [])
 
     def _block(self, order_row, proposed_notional: float, portfolio_value: float, limit_name: str, limit_value: float, observed_value: float, reason: str) -> RiskCheckResult:
+        quantity = _as_contract_quantity(order_row.quantity)
         event = RiskEvent(
             step=int(order_row.step),
             event_type="ORDER_BLOCKED",
             severity="WARNING",
             symbol=str(order_row.symbol),
             proposed_side=str(order_row.side).upper(),
-            proposed_quantity=int(order_row.quantity),
+            proposed_quantity=quantity,
             proposed_notional=proposed_notional,
             portfolio_value=portfolio_value,
             limit_name=limit_name,
@@ -80,3 +82,14 @@ class RiskManager:
 
 def risk_events_frame(events: list[RiskEvent]) -> pd.DataFrame:
     return pd.DataFrame([event.__dict__ for event in events], columns=RISK_EVENT_COLUMNS)
+
+
+def _as_contract_quantity(value) -> int:
+    if isinstance(value, bool):
+        raise RiskError(f"order quantity must be an integer. Received {value!r}.")
+    if isinstance(value, float) and not value.is_integer():
+        raise RiskError(f"order quantity must be an integer. Received {value!r}.")
+    try:
+        return int(value)
+    except (TypeError, ValueError) as exc:
+        raise RiskError(f"order quantity must be an integer. Received {value!r}.") from exc

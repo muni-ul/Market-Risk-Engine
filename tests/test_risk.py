@@ -1,5 +1,9 @@
 from __future__ import annotations
 
+import numpy as np
+import pytest
+
+from pyrisklab.exceptions import RiskError
 from pyrisklab.risk import RiskManager
 
 
@@ -48,3 +52,13 @@ def test_available_cash_check_includes_estimated_commission(risk_config):
     )
     assert not result.allowed
     assert result.events[0].observed_value == 910
+
+
+def test_fractional_order_quantity_fails_defensively(risk_config):
+    with pytest.raises(RiskError, match="integer"):
+        RiskManager(risk_config).validate_order(order(quantity=1.5), 0, 10000)
+
+
+def test_nonfinite_order_price_fails_defensively(risk_config):
+    with pytest.raises(RiskError, match="invalid order"):
+        RiskManager(risk_config).validate_order(order(price=np.nan), 0, 10000)
