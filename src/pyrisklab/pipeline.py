@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import math
 from numbers import Real
 from pathlib import Path
 
@@ -133,11 +134,15 @@ def _skip_execution(orders: pd.DataFrame) -> pd.DataFrame:
 def _as_order_quantity(value) -> int:
     if isinstance(value, bool):
         raise RunError(f"order quantity must be an integer before risk orchestration. Received {value!r}.")
-    if isinstance(value, Real) and not float(value).is_integer():
-        raise RunError(f"order quantity must be an integer before risk orchestration. Received {value!r}.")
+    if isinstance(value, Real):
+        numeric = float(value)
+        if not math.isfinite(numeric):
+            raise RunError(f"order quantity must be a finite integer before risk orchestration. Received {value!r}.")
+        if not numeric.is_integer():
+            raise RunError(f"order quantity must be an integer before risk orchestration. Received {value!r}.")
     try:
         quantity = int(value)
-    except (TypeError, ValueError) as exc:
+    except (OverflowError, TypeError, ValueError) as exc:
         raise RunError(f"order quantity must be an integer before risk orchestration. Received {value!r}.") from exc
     if quantity <= 0:
         raise RunError(f"order quantity must be > 0 before risk orchestration. Received {quantity}.")

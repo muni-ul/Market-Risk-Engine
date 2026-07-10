@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import math
 from numbers import Real
 
 import numpy as np
@@ -93,11 +94,15 @@ def _as_contract_quantity(value) -> int:
 def _as_positive_integer(value, field_name: str) -> int:
     if isinstance(value, bool):
         raise RiskError(f"{field_name} must be an integer. Received {value!r}.")
-    if isinstance(value, Real) and not float(value).is_integer():
-        raise RiskError(f"{field_name} must be an integer. Received {value!r}.")
+    if isinstance(value, Real):
+        numeric = float(value)
+        if not math.isfinite(numeric):
+            raise RiskError(f"{field_name} must be a finite integer. Received {value!r}.")
+        if not numeric.is_integer():
+            raise RiskError(f"{field_name} must be an integer. Received {value!r}.")
     try:
         parsed = int(value)
-    except (TypeError, ValueError) as exc:
+    except (OverflowError, TypeError, ValueError) as exc:
         raise RiskError(f"{field_name} must be an integer. Received {value!r}.") from exc
     if parsed <= 0:
         raise RiskError(f"{field_name} must be > 0. Received {parsed}.")

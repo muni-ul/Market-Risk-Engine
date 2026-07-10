@@ -78,6 +78,11 @@ def test_pipeline_rejects_fractional_order_quantity_before_risk():
         _as_order_quantity(1.5)
 
 
+def test_pipeline_rejects_nonfinite_order_quantity_before_risk():
+    with pytest.raises(RunError, match="order quantity"):
+        _as_order_quantity(float("inf"))
+
+
 def test_pipeline_rejects_numpy_fractional_order_quantity_before_risk():
     with pytest.raises(RunError, match="order quantity"):
         _as_order_quantity(pd.Series([1.5]).iloc[0])

@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import math
 from numbers import Real
 
 import numpy as np
@@ -114,10 +115,14 @@ def _build_price_lookup(pricing_history: pd.DataFrame) -> dict[tuple[int, str], 
 def _as_contract_quantity(value, field: str) -> int:
     if isinstance(value, bool):
         raise ExecutionError(f"{field} must be an integer. Received {value!r}.")
-    if isinstance(value, Real) and not float(value).is_integer():
-        raise ExecutionError(f"{field} must be an integer. Received {value!r}.")
+    if isinstance(value, Real):
+        numeric = float(value)
+        if not math.isfinite(numeric):
+            raise ExecutionError(f"{field} must be a finite integer. Received {value!r}.")
+        if not numeric.is_integer():
+            raise ExecutionError(f"{field} must be an integer. Received {value!r}.")
     try:
         quantity = int(value)
-    except (TypeError, ValueError) as exc:
+    except (OverflowError, TypeError, ValueError) as exc:
         raise ExecutionError(f"{field} must be an integer. Received {value!r}.") from exc
     return quantity
