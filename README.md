@@ -69,6 +69,8 @@ python -m pip install --upgrade pip
 pip install -r requirements.txt
 ```
 
+The repo also includes a tiny root launcher so `python -m pyrisklab ...` works from the repository root without an editable install. If you prefer a standard editable package workflow, run `pip install -e .` after installing requirements.
+
 macOS/Linux:
 
 ```bash

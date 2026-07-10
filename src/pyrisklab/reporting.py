@@ -97,7 +97,10 @@ def write_summary_report(run_dir: Path, config: RunConfig, outputs: dict[str, pd
     if not benchmark.empty:
         vector = benchmark.loc[benchmark["method"] == "numpy_vectorized"].iloc[0]
         benchmark_text = f"Vectorized NumPy pricing ran {vector['speedup_vs_loop']:.2f}x faster than the Python loop on this machine."
-    artifact_list = "\n".join(f"- `{path.name}`" for path in sorted(run_dir.iterdir()) if path.is_file())
+    artifact_names = sorted(path.name for path in run_dir.iterdir() if path.is_file())
+    if "summary_report.md" not in artifact_names:
+        artifact_names.append("summary_report.md")
+    artifact_list = "\n".join(f"- `{name}`" for name in artifact_names)
     text = f"""# PyRiskLab Run Summary
 
 Run name: `{config.run_name}`
