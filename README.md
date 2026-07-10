@@ -139,6 +139,7 @@ results/demo_run/
   portfolio_history.csv
   risk_events.csv
   benchmark.csv
+  run_metadata.json
   market_path.png
   option_price.png
   greeks.png
@@ -147,7 +148,7 @@ results/demo_run/
   summary_report.md
 ```
 
-`orders.csv` includes proposed simulated orders with risk approval status. Empty `trades.csv` or `risk_events.csv` files are valid outcomes and still include headers.
+`orders.csv` includes proposed simulated orders with risk approval status. `run_metadata.json` records deterministic run context, row counts, and generated artifact names. Empty `trades.csv` or `risk_events.csv` files are valid outcomes and still include headers.
 
 ## Benchmark
 

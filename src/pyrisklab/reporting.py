@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 import shutil
 from pathlib import Path
 
@@ -9,6 +10,7 @@ import pandas as pd
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt  # noqa: E402
 
+from pyrisklab import __version__
 from pyrisklab.exceptions import ReportingError, RunError
 from pyrisklab.models import RunConfig
 
@@ -36,6 +38,36 @@ def save_csv_outputs(run_dir: Path, outputs: dict[str, pd.DataFrame]) -> list[Pa
         df.to_csv(path, index=False)
         paths.append(path)
     return paths
+
+
+def write_run_metadata(
+    run_dir: Path,
+    config: RunConfig,
+    config_path: Path,
+    outputs: dict[str, pd.DataFrame],
+) -> Path:
+    path = run_dir / "run_metadata.json"
+    artifact_names = sorted(file_path.name for file_path in run_dir.iterdir() if file_path.is_file())
+    if path.name not in artifact_names:
+        artifact_names.append(path.name)
+    metadata = {
+        "schema_version": 1,
+        "project": "PyRiskLab",
+        "project_version": __version__,
+        "run_name": config.run_name,
+        "seed": config.seed,
+        "config_path": config_path.as_posix(),
+        "output_dir": run_dir.as_posix(),
+        "execution_enabled": config.execution.enabled,
+        "benchmark_enabled": config.benchmark.enabled,
+        "simulation_only": True,
+        "csv_row_counts": {
+            filename: int(len(frame)) for filename, frame in sorted(outputs.items())
+        },
+        "generated_artifacts": sorted(artifact_names),
+    }
+    path.write_text(json.dumps(metadata, indent=2) + "\n", encoding="utf-8")
+    return path
 
 
 def generate_charts(run_dir: Path, outputs: dict[str, pd.DataFrame]) -> list[Path]:
@@ -187,6 +219,7 @@ def generate_reports(run_dir: Path, config: RunConfig, config_path: Path, output
     paths = [save_config_copy(config_path, run_dir)]
     paths.extend(save_csv_outputs(run_dir, outputs))
     paths.extend(generate_charts(run_dir, outputs))
+    paths.append(write_run_metadata(run_dir, config, config_path, outputs))
     paths.append(write_summary_report(run_dir, config, outputs))
     return paths
 

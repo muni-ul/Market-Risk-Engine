@@ -29,6 +29,7 @@ results/demo_run/
   portfolio_history.csv
   risk_events.csv
   benchmark.csv
+  run_metadata.json
   market_path.png
   option_price.png
   greeks.png
@@ -63,4 +64,4 @@ Vectorized NumPy pricing ran faster than the Python loop on this machine. Benchm
 
 ## Why This Matters
 
-The generated output is meant to make the project easy to evaluate quickly: one command creates CSV tables, PNG charts, the copied config, benchmark results, risk/trade logs, and a Markdown report. The report is intentionally local and file-based so it can be inspected without a dashboard, database, account, or cloud deployment.
+The generated output is meant to make the project easy to evaluate quickly: one command creates CSV tables, PNG charts, the copied config, deterministic run metadata, benchmark results, risk/trade logs, and a Markdown report. The report is intentionally local and file-based so it can be inspected without a dashboard, database, account, or cloud deployment.

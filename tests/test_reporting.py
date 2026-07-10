@@ -1,9 +1,12 @@
 from __future__ import annotations
 
+import json
+from pathlib import Path
+
 import pandas as pd
 
 from pyrisklab.config import load_config
-from pyrisklab.reporting import prepare_output_dir, save_csv_outputs, write_summary_report
+from pyrisklab.reporting import prepare_output_dir, save_csv_outputs, write_run_metadata, write_summary_report
 
 
 def test_output_directory_is_created(tmp_path):
@@ -44,3 +47,22 @@ def test_summary_report_mentions_empty_trades_and_risk_events(tmp_path):
 
     assert "No simulated trades were executed" in report
     assert "No risk events were triggered" in report
+
+
+def test_run_metadata_records_reproducible_artifact_context(tmp_path):
+    run_dir = prepare_output_dir(tmp_path, "demo")
+    config = load_config("configs/demo.yaml")
+    outputs = {
+        "market_path.csv": pd.DataFrame({"step": [0, 1], "underlying_price": [100.0, 101.0]}),
+        "trades.csv": pd.DataFrame(columns=["step", "symbol"]),
+    }
+
+    metadata_path = write_run_metadata(run_dir, config, Path("configs/demo.yaml"), outputs)
+    metadata = json.loads(metadata_path.read_text(encoding="utf-8"))
+
+    assert metadata["project"] == "PyRiskLab"
+    assert metadata["run_name"] == "demo_run"
+    assert metadata["seed"] == 42
+    assert metadata["simulation_only"] is True
+    assert metadata["csv_row_counts"] == {"market_path.csv": 2, "trades.csv": 0}
+    assert "run_metadata.json" in metadata["generated_artifacts"]
