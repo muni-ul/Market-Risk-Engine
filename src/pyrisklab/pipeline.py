@@ -28,7 +28,7 @@ def run_simulation(config_path: str | Path, overwrite: bool = False) -> RunResul
     greeks_history = calculate_greeks_for_market_path(market_path, option, config.market.trading_days)
     signals = generate_signals(pricing_history, greeks_history, config.strategy)
     orders = create_orders_from_signals(signals, pricing_history)
-    approved_orders, risk_events = _apply_risk(orders, config)
+    audited_orders, approved_orders, risk_events = _apply_risk(orders, config)
     trades = execute_orders(
         approved_orders,
         commission_per_contract=config.execution.commission_per_contract,
@@ -48,7 +48,7 @@ def run_simulation(config_path: str | Path, overwrite: bool = False) -> RunResul
         "pricing_history.csv": pricing_history,
         "greeks_history.csv": greeks_history,
         "signals.csv": signals,
-        "orders.csv": approved_orders,
+        "orders.csv": audited_orders,
         "trades.csv": trades,
         "portfolio_history.csv": portfolio_history,
         "risk_events.csv": risk_events,
@@ -58,14 +58,27 @@ def run_simulation(config_path: str | Path, overwrite: bool = False) -> RunResul
     return RunResult(config.run_name, run_dir, path, "completed")
 
 
-def _apply_risk(orders: pd.DataFrame, config) -> tuple[pd.DataFrame, pd.DataFrame]:
+def _apply_risk(orders: pd.DataFrame, config) -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
     manager = RiskManager(config.risk, config.execution.contract_multiplier)
     current_position = 0
     portfolio_value = config.risk.starting_cash
+    audited = []
     approved = []
     for row in orders.itertuples(index=False):
         result = manager.validate_order(row, current_position, portfolio_value)
+        order_record = row._asdict()
         if result.allowed:
+            order_record["status"] = "APPROVED"
+            order_record["risk_reason"] = ""
             approved.append(row._asdict())
             current_position += int(row.quantity) if row.side == "BUY" else -int(row.quantity)
-    return pd.DataFrame(approved, columns=orders.columns), risk_events_frame(manager.events)
+        else:
+            order_record["status"] = "BLOCKED"
+            order_record["risk_reason"] = result.events[0].reason if result.events else "Blocked by risk manager."
+        audited.append(order_record)
+    audited_columns = [*orders.columns, "status", "risk_reason"]
+    return (
+        pd.DataFrame(audited, columns=audited_columns),
+        pd.DataFrame(approved, columns=orders.columns),
+        risk_events_frame(manager.events),
+    )

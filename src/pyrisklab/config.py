@@ -99,7 +99,7 @@ def validate_config(raw: dict[str, Any]) -> RunConfig:
         raise ConfigError(f"strategy.min_steps_between_trades must be >= 0. Received {strategy.min_steps_between_trades}.")
 
     execution = ExecutionConfig(
-        enabled=bool(execution_raw.get("enabled", True)),
+        enabled=_as_bool(execution_raw.get("enabled", True), "execution.enabled"),
         fill_model=str(execution_raw.get("fill_model", "deterministic_mid")),
         commission_per_contract=_as_float(execution_raw.get("commission_per_contract", 0.0), "execution.commission_per_contract"),
         contract_multiplier=_as_int(execution_raw.get("contract_multiplier", 100), "execution.contract_multiplier"),
@@ -117,10 +117,14 @@ def validate_config(raw: dict[str, Any]) -> RunConfig:
         max_trade_notional=_nonnegative(risk_raw, "risk.max_trade_notional"),
         max_drawdown_pct=_nonnegative(risk_raw, "risk.max_drawdown_pct"),
         max_loss_pct=_nonnegative(risk_raw, "risk.max_loss_pct"),
-        stop_trading_on_breach=bool(risk_raw.get("stop_trading_on_breach", True)),
+        stop_trading_on_breach=_as_bool(risk_raw.get("stop_trading_on_breach", True), "risk.stop_trading_on_breach"),
     )
+    if risk.max_drawdown_pct > 1:
+        raise ConfigError(f"risk.max_drawdown_pct must be <= 1. Received {risk.max_drawdown_pct}.")
+    if risk.max_loss_pct > 1:
+        raise ConfigError(f"risk.max_loss_pct must be <= 1. Received {risk.max_loss_pct}.")
 
-    enabled = bool(_require(benchmark_raw, "enabled", "benchmark.enabled"))
+    enabled = _as_bool(_require(benchmark_raw, "enabled", "benchmark.enabled"), "benchmark.enabled")
     benchmark = BenchmarkConfig(
         enabled=enabled,
         num_prices=_positive_int(benchmark_raw, "benchmark.num_prices") if enabled else _as_int(benchmark_raw.get("num_prices", 1), "benchmark.num_prices"),
@@ -162,6 +166,18 @@ def _as_int(value: Any, field: str) -> int:
     except (TypeError, ValueError) as exc:
         raise ConfigError(f"{field} must be an integer. Received {value!r}.") from exc
     return parsed
+
+
+def _as_bool(value: Any, field: str) -> bool:
+    if isinstance(value, bool):
+        return value
+    if isinstance(value, str):
+        normalized = value.strip().lower()
+        if normalized in {"true", "yes", "1"}:
+            return True
+        if normalized in {"false", "no", "0"}:
+            return False
+    raise ConfigError(f"{field} must be true or false. Received {value!r}.")
 
 
 def _positive(raw: dict[str, Any], field: str) -> float:

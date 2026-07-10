@@ -137,7 +137,7 @@ results/demo_run/
   summary_report.md
 ```
 
-Empty `trades.csv` or `risk_events.csv` files are valid outcomes and still include headers.
+`orders.csv` includes proposed simulated orders with risk approval status. Empty `trades.csv` or `risk_events.csv` files are valid outcomes and still include headers.
 
 ## Benchmark
 
