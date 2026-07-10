@@ -59,6 +59,16 @@ def test_fractional_order_quantity_fails_defensively(risk_config):
         RiskManager(risk_config).validate_order(order(quantity=1.5), 0, 10000)
 
 
+def test_invalid_contract_multiplier_fails_defensively(risk_config):
+    with pytest.raises(RiskError, match="contract_multiplier"):
+        RiskManager(risk_config, contract_multiplier=0)
+
+
+def test_fractional_contract_multiplier_fails_defensively(risk_config):
+    with pytest.raises(RiskError, match="contract_multiplier"):
+        RiskManager(risk_config, contract_multiplier=100.5)
+
+
 def test_nonfinite_order_price_fails_defensively(risk_config):
     with pytest.raises(RiskError, match="invalid order"):
         RiskManager(risk_config).validate_order(order(price=np.nan), 0, 10000)

@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from numbers import Real
+
 import numpy as np
 import pandas as pd
 
@@ -12,7 +14,7 @@ RISK_EVENT_COLUMNS = ["step", "event_type", "severity", "symbol", "proposed_side
 class RiskManager:
     def __init__(self, config: RiskConfig, contract_multiplier: int = 100) -> None:
         self.config = config
-        self.contract_multiplier = contract_multiplier
+        self.contract_multiplier = _as_positive_integer(contract_multiplier, "contract_multiplier")
         self.trading_stopped = False
         self.events: list[RiskEvent] = []
 
@@ -85,11 +87,18 @@ def risk_events_frame(events: list[RiskEvent]) -> pd.DataFrame:
 
 
 def _as_contract_quantity(value) -> int:
+    return _as_positive_integer(value, "order quantity")
+
+
+def _as_positive_integer(value, field_name: str) -> int:
     if isinstance(value, bool):
-        raise RiskError(f"order quantity must be an integer. Received {value!r}.")
-    if isinstance(value, float) and not value.is_integer():
-        raise RiskError(f"order quantity must be an integer. Received {value!r}.")
+        raise RiskError(f"{field_name} must be an integer. Received {value!r}.")
+    if isinstance(value, Real) and not float(value).is_integer():
+        raise RiskError(f"{field_name} must be an integer. Received {value!r}.")
     try:
-        return int(value)
+        parsed = int(value)
     except (TypeError, ValueError) as exc:
-        raise RiskError(f"order quantity must be an integer. Received {value!r}.") from exc
+        raise RiskError(f"{field_name} must be an integer. Received {value!r}.") from exc
+    if parsed <= 0:
+        raise RiskError(f"{field_name} must be > 0. Received {parsed}.")
+    return parsed
