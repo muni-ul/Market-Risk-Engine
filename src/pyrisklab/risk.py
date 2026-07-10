@@ -29,9 +29,9 @@ class RiskManager:
         estimated_commission: float = 0.0,
     ) -> RiskCheckResult:
         quantity = _as_contract_quantity(order_row.quantity)
-        price = float(order_row.requested_price)
+        price = _as_nonnegative_price(order_row.requested_price, "order requested_price")
         side = str(order_row.side).upper()
-        if quantity <= 0 or not np.isfinite(price) or price < 0:
+        if quantity <= 0:
             raise RiskError("risk validation received an invalid order quantity or price.")
 
         proposed_notional = price * quantity * self.contract_multiplier
@@ -107,3 +107,15 @@ def _as_positive_integer(value, field_name: str) -> int:
     if parsed <= 0:
         raise RiskError(f"{field_name} must be > 0. Received {parsed}.")
     return parsed
+
+
+def _as_nonnegative_price(value, field_name: str) -> float:
+    if isinstance(value, bool):
+        raise RiskError(f"{field_name} must be numeric. Received {value!r}.")
+    try:
+        price = float(value)
+    except (TypeError, ValueError) as exc:
+        raise RiskError(f"{field_name} must be numeric. Received {value!r}.") from exc
+    if not np.isfinite(price) or price < 0:
+        raise RiskError(f"{field_name} must be finite and >= 0. Received {value!r}.")
+    return price
