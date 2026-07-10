@@ -47,9 +47,6 @@ def write_run_metadata(
     outputs: dict[str, pd.DataFrame],
 ) -> Path:
     path = run_dir / "run_metadata.json"
-    artifact_names = sorted(file_path.name for file_path in run_dir.iterdir() if file_path.is_file())
-    if path.name not in artifact_names:
-        artifact_names.append(path.name)
     metadata = {
         "schema_version": 1,
         "project": "PyRiskLab",
@@ -64,7 +61,7 @@ def write_run_metadata(
         "csv_row_counts": {
             filename: int(len(frame)) for filename, frame in sorted(outputs.items())
         },
-        "generated_artifacts": sorted(artifact_names),
+        "generated_artifacts": _artifact_names(run_dir),
     }
     path.write_text(json.dumps(metadata, indent=2) + "\n", encoding="utf-8")
     return path
@@ -144,10 +141,7 @@ def write_summary_report(run_dir: Path, config: RunConfig, outputs: dict[str, pd
             "than the Python loop on this machine. Benchmark results vary by hardware, "
             "Python version, and input size."
         )
-    artifact_names = sorted(path.name for path in run_dir.iterdir() if path.is_file())
-    if "summary_report.md" not in artifact_names:
-        artifact_names.append("summary_report.md")
-    artifact_list = "\n".join(f"- `{name}`" for name in artifact_names)
+    artifact_list = "\n".join(f"- `{name}`" for name in _artifact_names(run_dir))
     text = f"""# PyRiskLab Run Summary
 
 Run name: `{config.run_name}`
@@ -241,3 +235,9 @@ def _require(df: pd.DataFrame, columns: set[str], name: str) -> None:
     missing = columns - set(df.columns)
     if missing:
         raise ReportingError(f"{name} DataFrame must include: {', '.join(sorted(missing))}.")
+
+
+def _artifact_names(run_dir: Path) -> list[str]:
+    names = {path.name for path in run_dir.iterdir() if path.is_file()}
+    names.update({"run_metadata.json", "summary_report.md"})
+    return sorted(names)

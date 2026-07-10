@@ -66,3 +66,22 @@ def test_run_metadata_records_reproducible_artifact_context(tmp_path):
     assert metadata["simulation_only"] is True
     assert metadata["csv_row_counts"] == {"market_path.csv": 2, "trades.csv": 0}
     assert "run_metadata.json" in metadata["generated_artifacts"]
+    assert "summary_report.md" in metadata["generated_artifacts"]
+
+
+def test_summary_report_lists_metadata_artifact(tmp_path):
+    run_dir = prepare_output_dir(tmp_path, "demo")
+    config = load_config("configs/demo.yaml")
+    outputs = {
+        "market_path.csv": pd.DataFrame({"underlying_price": [100.0, 101.0]}),
+        "pricing_history.csv": pd.DataFrame({"option_price": [3.0, 4.0]}),
+        "trades.csv": pd.DataFrame(columns=["step", "symbol"]),
+        "portfolio_history.csv": pd.DataFrame({"total_value": [10000.0], "drawdown_pct": [0.0]}),
+        "risk_events.csv": pd.DataFrame(columns=["step", "reason"]),
+        "benchmark.csv": pd.DataFrame(),
+    }
+
+    report = write_summary_report(run_dir, config, outputs).read_text(encoding="utf-8")
+
+    assert "`run_metadata.json`" in report
+    assert "`summary_report.md`" in report
