@@ -13,3 +13,17 @@ def test_readme_contains_required_demo_and_scope_language():
     assert "docs/SAMPLE_OUTPUT.md" in readme
     assert "docs/sample_outputs/" in readme
     assert "docs/PORTFOLIO_CASE_STUDY.md" in readme
+
+
+def test_sample_output_docs_are_linked_and_present():
+    with open("docs/sample_outputs/README.md", encoding="utf-8") as sample_index_file:
+        sample_index = sample_index_file.read()
+
+    for filename in (
+        "summary_report_excerpt.md",
+        "csv_contracts.md",
+        "run_metadata_example.md",
+    ):
+        assert filename in sample_index
+        with open(f"docs/sample_outputs/{filename}", encoding="utf-8") as sample_file:
+            assert sample_file.read().strip()
