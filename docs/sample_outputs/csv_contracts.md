@@ -6,15 +6,17 @@ The demo run writes CSV files under `results/<run_name>/`. These files are desig
 
 | File | Purpose | Key columns |
 | --- | --- | --- |
-| `market_path.csv` | Synthetic underlying path | `step`, `time_years`, `underlying_price`, `path_id` |
-| `pricing_history.csv` | Black-Scholes price over the path | `step`, `symbol`, `option_type`, `strike`, `underlying_price`, `time_to_expiry`, `option_price` |
-| `greeks_history.csv` | Option sensitivities over the path | `step`, `symbol`, `delta`, `gamma`, `vega`, `theta`, `rho` |
-| `signals.csv` | Deterministic fake strategy decisions | `step`, `symbol`, `action`, `quantity`, `reason`, `reference_price` |
-| `orders.csv` | Proposed orders plus risk status | `order_id`, `step`, `symbol`, `side`, `quantity`, `requested_price`, `status`, `risk_reason` |
-| `trades.csv` | Simulated fills for approved orders | `trade_id`, `order_id`, `step`, `symbol`, `side`, `quantity`, `fill_price`, `commission`, `notional` |
-| `portfolio_history.csv` | Cash, position, value, and drawdown over time | `step`, `symbol`, `cash`, `position_quantity`, `position_market_value`, `total_value`, `drawdown_pct` |
-| `risk_events.csv` | Blocked-order events | `step`, `event_type`, `severity`, `symbol`, `limit_name`, `observed_value`, `reason` |
+| `market_path.csv` | Synthetic underlying path | `step`, `time_years`, `underlying_price` |
+| `pricing_history.csv` | Black-Scholes price over the path | `step`, `time_years`, `underlying_price`, `time_to_expiry`, `symbol`, `option_symbol`, `option_type`, `strike`, `risk_free_rate`, `volatility`, `option_price` |
+| `greeks_history.csv` | Option sensitivities over the path | `step`, `time_years`, `underlying_price`, `time_to_expiry`, `symbol`, `option_symbol`, `option_type`, `strike`, `risk_free_rate`, `volatility`, `delta`, `gamma`, `vega`, `theta`, `rho` |
+| `signals.csv` | Deterministic fake strategy decisions | `step`, `symbol`, `action`, `quantity`, `reference_price`, `underlying_price`, `option_price`, `delta`, `gamma`, `vega`, `time_to_expiry`, `strategy_name`, `reason` |
+| `orders.csv` | Proposed orders plus risk status | `order_id`, `step`, `symbol`, `side`, `quantity`, `order_type`, `requested_price`, `source_signal_reason`, `status`, `risk_reason` |
+| `trades.csv` | Simulated fills for approved orders | `trade_id`, `order_id`, `step`, `symbol`, `side`, `quantity`, `fill_price`, `commission`, `contract_multiplier`, `notional`, `fill_model` |
+| `portfolio_history.csv` | Cash, position, value, and drawdown over time | `step`, `cash`, `symbol`, `position_quantity`, `average_cost`, `market_price`, `positions_value`, `realized_pnl`, `unrealized_pnl`, `total_value`, `peak_value`, `drawdown`, `drawdown_pct` |
+| `risk_events.csv` | Blocked-order events | `step`, `event_type`, `severity`, `symbol`, `proposed_side`, `proposed_quantity`, `proposed_notional`, `portfolio_value`, `limit_name`, `limit_value`, `observed_value`, `reason` |
 | `benchmark.csv` | Loop-vs-vectorized pricing comparison | `method`, `num_prices`, `runtime_seconds`, `speedup_vs_loop`, `max_abs_error_vs_loop`, `passed_equivalence_check` |
+
+`market_path.csv` also includes `path_id` when `market.paths` is greater than `1`. The main demo config uses one path, so the default output focuses on the single-path contract.
 
 ## Valid Empty Outputs
 
