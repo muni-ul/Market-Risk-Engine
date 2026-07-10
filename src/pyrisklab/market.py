@@ -8,9 +8,11 @@ from pyrisklab.models import MarketConfig
 
 
 def simulate_gbm_path(config: MarketConfig, seed: int) -> pd.DataFrame:
-    if config.initial_price <= 0:
+    if not np.isfinite(config.initial_price) or config.initial_price <= 0:
         raise MarketSimulationError(f"market.initial_price must be > 0. Received {config.initial_price}.")
-    if config.volatility < 0:
+    if not np.isfinite(config.drift):
+        raise MarketSimulationError(f"market.drift must be finite. Received {config.drift}.")
+    if not np.isfinite(config.volatility) or config.volatility < 0:
         raise MarketSimulationError(f"market.volatility must be >= 0. Received {config.volatility}.")
     if config.trading_days <= 0:
         raise MarketSimulationError(f"market.trading_days must be > 0. Received {config.trading_days}.")

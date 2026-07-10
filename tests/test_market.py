@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import math
+
 import pandas as pd
 import pytest
 
@@ -26,6 +28,18 @@ def test_zero_volatility_behaves_predictably():
 def test_negative_volatility_should_be_rejected_by_config_layer():
     config = MarketConfig(100.0, 0.05, -0.1, 252, 10, 1)
     with pytest.raises(MarketSimulationError):
+        simulate_gbm_path(config, 42)
+
+
+def test_nonfinite_drift_is_rejected_defensively():
+    config = MarketConfig(100.0, math.nan, 0.2, 252, 10, 1)
+    with pytest.raises(MarketSimulationError, match="market.drift"):
+        simulate_gbm_path(config, 42)
+
+
+def test_nonfinite_volatility_is_rejected_defensively():
+    config = MarketConfig(100.0, 0.05, math.inf, 252, 10, 1)
+    with pytest.raises(MarketSimulationError, match="market.volatility"):
         simulate_gbm_path(config, 42)
 
 

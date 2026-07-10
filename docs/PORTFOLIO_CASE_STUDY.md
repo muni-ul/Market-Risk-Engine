@@ -48,7 +48,7 @@ configs/demo.yaml
 The test suite is designed around behavior that would matter in a real engineering tool:
 
 - Config validation catches bad inputs with field-specific messages.
-- Market simulation is deterministic for the same seed.
+- Market simulation is deterministic for the same seed and rejects non-finite assumptions defensively.
 - Pricing tests cover known call/put values, parity, expiry, finite parameters, and vectorized inputs.
 - Greeks tests cover finite outputs, finite parameters, and call/put delta behavior.
 - Execution tests cover deterministic fills, notional calculation, and invalid order quantities.
