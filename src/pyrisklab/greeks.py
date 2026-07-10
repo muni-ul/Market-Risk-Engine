@@ -54,7 +54,7 @@ def calculate_greeks(spot, strike: float, time_to_expiry, risk_free_rate: float,
             delta[active] = norm.cdf(d1) - 1
             theta[active] = (-(s[active] * pdf * volatility) / (2 * sqrt_t) + risk_free_rate * strike * np.exp(-risk_free_rate * t[active]) * norm.cdf(-d2)) / 365.0
             rho[active] = -strike * t[active] * np.exp(-risk_free_rate * t[active]) * norm.cdf(-d2) / 100.0
-    return {key: _scalar_if_scalar(value, spot) for key, value in {"delta": delta, "gamma": gamma, "vega": vega, "theta": theta, "rho": rho}.items()}
+    return {key: _scalar_if_scalar(value) for key, value in {"delta": delta, "gamma": gamma, "vega": vega, "theta": theta, "rho": rho}.items()}
 
 
 def calculate_greeks_for_market_path(market_path: pd.DataFrame, option: OptionContract, trading_days: int) -> pd.DataFrame:
@@ -90,7 +90,8 @@ def calculate_greeks_for_market_path(market_path: pd.DataFrame, option: OptionCo
     )
 
 
-def _scalar_if_scalar(result: np.ndarray, original):
-    if np.ndim(original) == 0:
-        return float(np.asarray(result))
+def _scalar_if_scalar(result: np.ndarray):
+    array = np.asarray(result)
+    if array.ndim == 0:
+        return float(array)
     return result

@@ -28,7 +28,7 @@ def intrinsic_value(spot, strike: float, option_type: str):
         result = np.maximum(strike - prices, 0.0)
     else:
         raise PricingError(f"option_type must be 'call' or 'put'. Received {option_type!r}.")
-    return _scalar_if_scalar(result, spot)
+    return _scalar_if_scalar(result)
 
 
 def black_scholes_price(spot, strike: float, time_to_expiry, risk_free_rate: float, volatility: float, option_type: str):
@@ -68,7 +68,7 @@ def black_scholes_price(spot, strike: float, time_to_expiry, risk_free_rate: flo
                 prices[active] = s[active] * norm.cdf(d1) - strike * np.exp(-risk_free_rate * t[active]) * norm.cdf(d2)
             else:
                 prices[active] = strike * np.exp(-risk_free_rate * t[active]) * norm.cdf(-d2) - s[active] * norm.cdf(-d1)
-    return _scalar_if_scalar(prices, spot)
+    return _scalar_if_scalar(prices)
 
 
 def price_market_path(market_path: pd.DataFrame, option: OptionContract, trading_days: int) -> pd.DataFrame:
@@ -107,7 +107,8 @@ def _require_columns(df: pd.DataFrame, columns: set[str], name: str) -> None:
         raise PricingError(f"{name} must include columns: {', '.join(sorted(missing))}.")
 
 
-def _scalar_if_scalar(result: np.ndarray, original):
-    if np.ndim(original) == 0:
-        return float(np.asarray(result))
+def _scalar_if_scalar(result: np.ndarray):
+    array = np.asarray(result)
+    if array.ndim == 0:
+        return float(array)
     return result

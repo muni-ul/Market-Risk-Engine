@@ -33,3 +33,8 @@ def test_invalid_option_type_fails():
 def test_vectorized_input_returns_expected_shape():
     prices = black_scholes_price(np.array([95, 100, 105]), 100, np.array([1, 1, 1]), 0.05, 0.2, "call")
     assert prices.shape == (3,)
+
+
+def test_scalar_spot_with_vector_time_returns_vector():
+    prices = black_scholes_price(100, 100, np.array([0.25, 0.5, 1.0]), 0.05, 0.2, "call")
+    assert prices.shape == (3,)
