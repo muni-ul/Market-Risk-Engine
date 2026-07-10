@@ -47,7 +47,9 @@ def validate_config(raw: dict[str, Any]) -> RunConfig:
         raise ConfigError(f"run_name must use only letters, numbers, underscores, or hyphens. Received {run_name!r}.")
 
     seed = _as_int(_require(raw, "seed"), "seed")
-    output_dir = str(raw.get("output_dir", "results"))
+    output_dir = str(raw.get("output_dir", "results")).strip()
+    if not output_dir:
+        raise ConfigError("output_dir must not be empty.")
 
     market_raw = _section(raw, "market")
     option_raw = _section(raw, "option")

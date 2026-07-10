@@ -72,6 +72,13 @@ def test_float_for_integer_field_fails(tmp_path):
         load_config(write_config(tmp_path, data))
 
 
+def test_empty_output_dir_fails(tmp_path):
+    data = demo_config()
+    data["output_dir"] = "   "
+    with pytest.raises(ConfigError, match="output_dir"):
+        load_config(write_config(tmp_path, data))
+
+
 def test_string_boolean_alias_fails(tmp_path):
     data = demo_config()
     data["benchmark"]["enabled"] = "yes"
