@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import hashlib
 import json
 import shutil
 from pathlib import Path
@@ -54,6 +55,7 @@ def write_run_metadata(
         "run_name": config.run_name,
         "seed": config.seed,
         "config_path": config_path.as_posix(),
+        "config_sha256": _sha256_file(config_path),
         "output_dir": run_dir.as_posix(),
         "execution_enabled": config.execution.enabled,
         "benchmark_enabled": config.benchmark.enabled,
@@ -248,6 +250,14 @@ def _require_summary_frame(df: pd.DataFrame, columns: set[str], name: str) -> No
     _require(df, columns, name)
     if df.empty:
         raise ReportingError(f"{name} DataFrame must include at least one row for summary_report.md.")
+
+
+def _sha256_file(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as file:
+        for chunk in iter(lambda: file.read(1024 * 1024), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
 
 
 def _artifact_names(run_dir: Path) -> list[str]:

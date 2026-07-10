@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import hashlib
 import json
 from pathlib import Path
 
@@ -66,6 +67,8 @@ def test_run_metadata_records_reproducible_artifact_context(tmp_path):
     assert metadata["run_name"] == "demo_run"
     assert metadata["seed"] == 42
     assert metadata["simulation_only"] is True
+    expected_digest = hashlib.sha256(Path("configs/demo.yaml").read_bytes()).hexdigest()
+    assert metadata["config_sha256"] == expected_digest
     assert metadata["csv_row_counts"] == {"market_path.csv": 2, "trades.csv": 0}
     assert "run_metadata.json" in metadata["generated_artifacts"]
     assert "summary_report.md" in metadata["generated_artifacts"]

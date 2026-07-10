@@ -64,4 +64,4 @@ Vectorized NumPy pricing ran faster than the Python loop on this machine. Benchm
 
 ## Why This Matters
 
-The generated output is meant to make the project easy to evaluate quickly: one command creates CSV tables, PNG charts, the copied config, deterministic run metadata, benchmark results, risk/trade logs, and a Markdown report. The metadata and summary report both enumerate the generated artifact set. The report is intentionally local and file-based so it can be inspected without a dashboard, database, account, or cloud deployment.
+The generated output is meant to make the project easy to evaluate quickly: one command creates CSV tables, PNG charts, the copied config, deterministic run metadata, benchmark results, risk/trade logs, and a Markdown report. The metadata records the config path, config SHA-256 digest, row counts, and generated artifact set; the summary report also enumerates the generated artifacts. The report is intentionally local and file-based so it can be inspected without a dashboard, database, account, or cloud deployment.
