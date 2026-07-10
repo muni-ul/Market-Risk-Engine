@@ -56,3 +56,17 @@ def test_invalid_risk_limit_fails(tmp_path):
     data["risk"]["max_trade_notional"] = -1
     with pytest.raises(ConfigError, match="risk.max_trade_notional"):
         load_config(write_config(tmp_path, data))
+
+
+def test_float_for_integer_field_fails(tmp_path):
+    data = demo_config()
+    data["market"]["steps"] = 10.5
+    with pytest.raises(ConfigError, match="market.steps"):
+        load_config(write_config(tmp_path, data))
+
+
+def test_string_boolean_alias_fails(tmp_path):
+    data = demo_config()
+    data["benchmark"]["enabled"] = "yes"
+    with pytest.raises(ConfigError, match="benchmark.enabled"):
+        load_config(write_config(tmp_path, data))

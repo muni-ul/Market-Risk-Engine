@@ -24,6 +24,8 @@ Each run generates a small, inspectable artifact set. CSV files are easy to open
 
 Runs start from `configs/demo.yaml`. The config controls the run name, seed, market assumptions, option contract, strategy thresholds, risk limits, execution settings, and benchmark size. The same config and seed are intended to produce the same simulated path and outputs.
 
+Config validation happens before simulation work begins. Numeric, integer, boolean, enum, and range checks raise field-specific `ConfigError` messages so user mistakes fail early and do not leak into pricing, portfolio, risk, or reporting code.
+
 ## Data Flow
 
 ```text

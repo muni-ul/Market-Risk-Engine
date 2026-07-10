@@ -161,6 +161,8 @@ def _as_float(value: Any, field: str) -> float:
 def _as_int(value: Any, field: str) -> int:
     if isinstance(value, bool):
         raise ConfigError(f"{field} must be an integer. Received {value!r}.")
+    if isinstance(value, float) and not value.is_integer():
+        raise ConfigError(f"{field} must be an integer. Received {value!r}.")
     try:
         parsed = int(value)
     except (TypeError, ValueError) as exc:
@@ -173,9 +175,9 @@ def _as_bool(value: Any, field: str) -> bool:
         return value
     if isinstance(value, str):
         normalized = value.strip().lower()
-        if normalized in {"true", "yes", "1"}:
+        if normalized == "true":
             return True
-        if normalized in {"false", "no", "0"}:
+        if normalized == "false":
             return False
     raise ConfigError(f"{field} must be true or false. Received {value!r}.")
 
