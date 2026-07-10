@@ -29,3 +29,15 @@ def test_zero_quantity_order_fails():
 def test_negative_quantity_order_fails():
     with pytest.raises(ExecutionError):
         create_orders_from_signals(signal("BUY", -1), pricing())
+
+
+def test_fractional_signal_quantity_fails():
+    with pytest.raises(ExecutionError, match="integer"):
+        create_orders_from_signals(signal("BUY", 1.5), pricing())
+
+
+def test_fractional_order_quantity_fails():
+    orders = create_orders_from_signals(signal("BUY", 1), pricing())
+    orders.loc[0, "quantity"] = 1.5
+    with pytest.raises(ExecutionError, match="integer"):
+        execute_orders(orders)

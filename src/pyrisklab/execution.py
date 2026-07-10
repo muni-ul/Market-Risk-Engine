@@ -19,7 +19,7 @@ def create_orders_from_signals(signals: pd.DataFrame, pricing_history: pd.DataFr
             continue
         if action not in {"BUY", "SELL"}:
             raise ExecutionError(f"signal at step {row.step} has action {row.action!r}. Expected one of: BUY, SELL, HOLD.")
-        quantity = int(row.quantity)
+        quantity = _as_contract_quantity(row.quantity, "actionable signal quantity")
         if quantity <= 0:
             raise ExecutionError(f"actionable signal quantity must be greater than 0. Received {quantity}.")
         key = (int(row.step), str(row.symbol))
@@ -56,7 +56,7 @@ def execute_orders(orders: pd.DataFrame, commission_per_contract: float = 0.0, c
 
     trades = []
     for row in orders.itertuples(index=False):
-        quantity = int(row.quantity)
+        quantity = _as_contract_quantity(row.quantity, "order.quantity")
         price = float(row.requested_price)
         if quantity <= 0:
             raise ExecutionError(f"order.quantity must be greater than 0. Received {quantity}.")
@@ -106,3 +106,15 @@ def _build_price_lookup(pricing_history: pd.DataFrame) -> dict[tuple[int, str], 
             raise ExecutionError(f"option_price must be finite and >= 0. Received {price}.")
         lookup[(int(row.step), str(row.symbol))] = price
     return lookup
+
+
+def _as_contract_quantity(value, field: str) -> int:
+    if isinstance(value, bool):
+        raise ExecutionError(f"{field} must be an integer. Received {value!r}.")
+    if isinstance(value, float) and not value.is_integer():
+        raise ExecutionError(f"{field} must be an integer. Received {value!r}.")
+    try:
+        quantity = int(value)
+    except (TypeError, ValueError) as exc:
+        raise ExecutionError(f"{field} must be an integer. Received {value!r}.") from exc
+    return quantity
