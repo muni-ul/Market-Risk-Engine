@@ -10,6 +10,7 @@ import pytest
 from pyrisklab.config import load_config
 from pyrisklab.exceptions import ReportingError, RunError
 from pyrisklab.reporting import (
+    generate_charts,
     plot_greeks,
     prepare_output_dir,
     save_csv_outputs,
@@ -66,6 +67,13 @@ def test_greeks_chart_write_failure_raises_readable_run_error(tmp_path, monkeypa
 
     with pytest.raises(RunError, match="could not write greeks.png"):
         plot_greeks(greeks_history, run_dir)
+
+
+def test_missing_required_chart_output_raises_reporting_error(tmp_path):
+    run_dir = prepare_output_dir(tmp_path, "demo")
+
+    with pytest.raises(ReportingError, match="market_path.csv"):
+        generate_charts(run_dir, {})
 
 
 def test_summary_report_is_created_by_full_reporting_surface(tmp_path):

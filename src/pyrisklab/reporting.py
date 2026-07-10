@@ -86,11 +86,11 @@ def write_run_metadata(
 
 def generate_charts(run_dir: Path, outputs: dict[str, pd.DataFrame]) -> list[Path]:
     return [
-        plot_market_path(outputs["market_path.csv"], run_dir),
-        plot_option_price(outputs["pricing_history.csv"], run_dir),
-        plot_greeks(outputs["greeks_history.csv"], run_dir),
-        plot_portfolio_value(outputs["portfolio_history.csv"], run_dir),
-        plot_drawdown(outputs["portfolio_history.csv"], run_dir),
+        plot_market_path(_required_output(outputs, "market_path.csv"), run_dir),
+        plot_option_price(_required_output(outputs, "pricing_history.csv"), run_dir),
+        plot_greeks(_required_output(outputs, "greeks_history.csv"), run_dir),
+        plot_portfolio_value(_required_output(outputs, "portfolio_history.csv"), run_dir),
+        plot_drawdown(_required_output(outputs, "portfolio_history.csv"), run_dir),
     ]
 
 
@@ -129,11 +129,11 @@ def plot_drawdown(portfolio_history: pd.DataFrame, run_dir: Path) -> Path:
 
 
 def write_summary_report(run_dir: Path, config: RunConfig, outputs: dict[str, pd.DataFrame]) -> Path:
-    market = outputs["market_path.csv"]
-    pricing = outputs["pricing_history.csv"]
-    trades = outputs["trades.csv"]
-    portfolio = outputs["portfolio_history.csv"]
-    risk_events = outputs["risk_events.csv"]
+    market = _required_output(outputs, "market_path.csv")
+    pricing = _required_output(outputs, "pricing_history.csv")
+    trades = _required_output(outputs, "trades.csv")
+    portfolio = _required_output(outputs, "portfolio_history.csv")
+    risk_events = _required_output(outputs, "risk_events.csv")
     benchmark = outputs.get("benchmark.csv", pd.DataFrame())
     _require_summary_frame(market, {"underlying_price"}, "market_path")
     _require_summary_frame(pricing, {"option_price"}, "pricing_history")
@@ -278,6 +278,13 @@ def _require_summary_frame(df: pd.DataFrame, columns: set[str], name: str) -> No
     _require(df, columns, name)
     if df.empty:
         raise ReportingError(f"{name} DataFrame must include at least one row for summary_report.md.")
+
+
+def _required_output(outputs: dict[str, pd.DataFrame], filename: str) -> pd.DataFrame:
+    try:
+        return outputs[filename]
+    except KeyError as exc:
+        raise ReportingError(f"required pipeline output is missing: {filename}") from exc
 
 
 def _sha256_file(path: Path) -> str:
