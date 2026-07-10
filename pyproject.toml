@@ -6,7 +6,36 @@ build-backend = "setuptools.build_meta"
 name = "pyrisklab"
 version = "0.1.0"
 description = "Local Python options-pricing and risk-simulation engine."
+readme = "README.md"
 requires-python = ">=3.11"
+authors = [
+    { name = "Muni Ul" },
+]
+keywords = ["options", "risk", "simulation", "benchmark", "cli"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Scientific/Engineering",
+    "Topic :: Software Development :: Testing",
+]
+dependencies = [
+    "numpy",
+    "pandas",
+    "scipy",
+    "matplotlib",
+    "PyYAML",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "ruff",
+]
+
+[project.scripts]
+pyrisklab = "pyrisklab.cli:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]

@@ -75,7 +75,7 @@ python -m pip install --upgrade pip
 pip install -r requirements.txt
 ```
 
-The repo also includes a tiny root launcher so `python -m pyrisklab ...` works from the repository root without an editable install. If you prefer a standard editable package workflow, run `pip install -e .` after installing requirements.
+The repo also includes a tiny root launcher so `python -m pyrisklab ...` works from the repository root without an editable install. If you prefer a standard editable package workflow, run `pip install -e .` after installing requirements; that also exposes the shorter `pyrisklab` console command.
 
 macOS/Linux:
 
@@ -115,6 +115,12 @@ Show the installed package version:
 
 ```bash
 python -m pyrisklab --version
+```
+
+After an editable install, the equivalent console command is:
+
+```bash
+pyrisklab run --config configs/demo.yaml --overwrite
 ```
 
 Optional risk-control demo:
