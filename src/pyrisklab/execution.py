@@ -61,14 +61,12 @@ def execute_orders(orders: pd.DataFrame, commission_per_contract: float = 0.0, c
     trades = []
     for row in orders.itertuples(index=False):
         quantity = _as_contract_quantity(row.quantity, "order.quantity")
-        price = float(row.requested_price)
+        price = _as_nonnegative_price(row.requested_price, "requested_price")
         side = str(row.side).upper()
         if quantity <= 0:
             raise ExecutionError(f"order.quantity must be greater than 0. Received {quantity}.")
         if side not in {"BUY", "SELL"}:
             raise ExecutionError(f"order.side must be BUY or SELL. Received {row.side!r}.")
-        if not np.isfinite(price) or price < 0:
-            raise ExecutionError(f"requested_price must be finite and >= 0. Received {price}.")
         notional = price * quantity * contract_multiplier
         trades.append(
             {
@@ -106,9 +104,7 @@ def _build_price_lookup(pricing_history: pd.DataFrame) -> dict[tuple[int, str], 
         raise ExecutionError("pricing_history has duplicate rows for the same step and symbol.")
     lookup = {}
     for row in pricing_history.itertuples(index=False):
-        price = float(row.option_price)
-        if not np.isfinite(price) or price < 0:
-            raise ExecutionError(f"option_price must be finite and >= 0. Received {price}.")
+        price = _as_nonnegative_price(row.option_price, "option_price")
         lookup[(int(row.step), str(row.symbol))] = price
     return lookup
 
@@ -127,3 +123,15 @@ def _as_contract_quantity(value, field: str) -> int:
     except (OverflowError, TypeError, ValueError) as exc:
         raise ExecutionError(f"{field} must be an integer. Received {value!r}.") from exc
     return quantity
+
+
+def _as_nonnegative_price(value, field: str) -> float:
+    if isinstance(value, bool):
+        raise ExecutionError(f"{field} must be numeric. Received {value!r}.")
+    try:
+        price = float(value)
+    except (TypeError, ValueError) as exc:
+        raise ExecutionError(f"{field} must be numeric. Received {value!r}.") from exc
+    if not np.isfinite(price) or price < 0:
+        raise ExecutionError(f"{field} must be finite and >= 0. Received {value!r}.")
+    return price

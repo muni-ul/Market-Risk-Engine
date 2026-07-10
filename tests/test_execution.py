@@ -71,6 +71,20 @@ def test_nonfinite_commission_fails():
         execute_orders(orders, commission_per_contract=np.nan)
 
 
+def test_nonnumeric_requested_price_fails_cleanly():
+    orders = create_orders_from_signals(signal("BUY", 1), pricing())
+    orders.loc[0, "requested_price"] = "bad-price"
+    with pytest.raises(ExecutionError, match="requested_price"):
+        execute_orders(orders)
+
+
+def test_nonnumeric_pricing_history_price_fails_cleanly():
+    bad_pricing = pricing()
+    bad_pricing.loc[0, "option_price"] = "bad-price"
+    with pytest.raises(ExecutionError, match="option_price"):
+        create_orders_from_signals(signal("BUY", 1), bad_pricing)
+
+
 def test_fractional_contract_multiplier_fails():
     orders = create_orders_from_signals(signal("BUY", 1), pricing())
     with pytest.raises(ExecutionError, match="contract_multiplier"):
