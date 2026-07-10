@@ -5,6 +5,7 @@ import pandas as pd
 import pytest
 
 from pyrisklab.exceptions import StrategyError
+from pyrisklab.models import StrategyConfig
 from pyrisklab.strategy import generate_signals
 
 
@@ -41,3 +42,31 @@ def test_nonfinite_option_price_fails(strategy_config):
     pricing.loc[0, "option_price"] = np.nan
     with pytest.raises(StrategyError, match="option_price"):
         generate_signals(pricing, greeks, strategy_config)
+
+
+def test_invalid_strategy_thresholds_fail_defensively():
+    pricing, greeks = frames(0.5)
+    config = StrategyConfig("simple_delta_rule", 0.8, 0.7, 1, 0)
+    with pytest.raises(StrategyError, match="buy_delta_below"):
+        generate_signals(pricing, greeks, config)
+
+
+def test_nonnumeric_strategy_threshold_fails_defensively():
+    pricing, greeks = frames(0.5)
+    config = StrategyConfig("simple_delta_rule", "low", 0.7, 1, 0)
+    with pytest.raises(StrategyError, match="buy_delta_below"):
+        generate_signals(pricing, greeks, config)
+
+
+def test_invalid_strategy_quantity_fails_defensively():
+    pricing, greeks = frames(0.5)
+    config = StrategyConfig("simple_delta_rule", 0.45, 0.7, 0, 0)
+    with pytest.raises(StrategyError, match="trade_quantity"):
+        generate_signals(pricing, greeks, config)
+
+
+def test_fractional_strategy_quantity_fails_defensively():
+    pricing, greeks = frames(0.5)
+    config = StrategyConfig("simple_delta_rule", 0.45, 0.7, 1.5, 0)
+    with pytest.raises(StrategyError, match="trade_quantity"):
+        generate_signals(pricing, greeks, config)

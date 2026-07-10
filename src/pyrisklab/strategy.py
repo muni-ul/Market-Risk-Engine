@@ -1,5 +1,8 @@
 from __future__ import annotations
 
+import math
+from numbers import Real
+
 import numpy as np
 import pandas as pd
 
@@ -8,6 +11,7 @@ from pyrisklab.models import StrategyConfig
 
 
 def generate_signals(pricing_history: pd.DataFrame, greeks_history: pd.DataFrame, strategy_config: StrategyConfig) -> pd.DataFrame:
+    _validate_strategy_config(strategy_config)
     _validate_inputs(pricing_history, greeks_history)
     merged = pricing_history.merge(
         greeks_history[["step", "symbol", "delta", "gamma", "vega"]],
@@ -78,6 +82,69 @@ def _validate_inputs(pricing_history: pd.DataFrame, greeks_history: pd.DataFrame
         raise StrategyError(f"greeks_history is missing required columns: {', '.join(sorted(missing_greeks))}.")
     _require_finite(pricing_history, ["option_price", "underlying_price", "time_to_expiry"], "pricing_history")
     _require_finite(greeks_history, ["gamma", "vega"], "greeks_history")
+
+
+def _validate_strategy_config(strategy_config: StrategyConfig) -> None:
+    if strategy_config.name != "simple_delta_rule":
+        raise StrategyError(f"strategy.name must be 'simple_delta_rule'. Received {strategy_config.name!r}.")
+    buy_delta_below = _as_finite_float(strategy_config.buy_delta_below, "strategy.buy_delta_below")
+    sell_delta_above = _as_finite_float(strategy_config.sell_delta_above, "strategy.sell_delta_above")
+    if not -1 <= buy_delta_below <= 1:
+        raise StrategyError(
+            f"strategy.buy_delta_below must be between -1 and 1. Received {buy_delta_below}."
+        )
+    if not -1 <= sell_delta_above <= 1:
+        raise StrategyError(
+            f"strategy.sell_delta_above must be between -1 and 1. Received {sell_delta_above}."
+        )
+    if buy_delta_below >= sell_delta_above:
+        raise StrategyError("strategy.buy_delta_below must be less than strategy.sell_delta_above.")
+    _as_positive_integer(strategy_config.trade_quantity, "strategy.trade_quantity")
+    _as_nonnegative_integer(
+        strategy_config.min_steps_between_trades,
+        "strategy.min_steps_between_trades",
+    )
+
+
+def _as_finite_float(value, field_name: str) -> float:
+    if isinstance(value, bool):
+        raise StrategyError(f"{field_name} must be numeric. Received {value!r}.")
+    try:
+        parsed = float(value)
+    except (TypeError, ValueError) as exc:
+        raise StrategyError(f"{field_name} must be numeric. Received {value!r}.") from exc
+    if not np.isfinite(parsed):
+        raise StrategyError(f"{field_name} must be finite. Received {value!r}.")
+    return parsed
+
+
+def _as_positive_integer(value, field_name: str) -> int:
+    parsed = _as_integer(value, field_name)
+    if parsed <= 0:
+        raise StrategyError(f"{field_name} must be > 0. Received {parsed}.")
+    return parsed
+
+
+def _as_nonnegative_integer(value, field_name: str) -> int:
+    parsed = _as_integer(value, field_name)
+    if parsed < 0:
+        raise StrategyError(f"{field_name} must be >= 0. Received {parsed}.")
+    return parsed
+
+
+def _as_integer(value, field_name: str) -> int:
+    if isinstance(value, bool):
+        raise StrategyError(f"{field_name} must be an integer. Received {value!r}.")
+    if isinstance(value, Real):
+        numeric = float(value)
+        if not math.isfinite(numeric):
+            raise StrategyError(f"{field_name} must be a finite integer. Received {value!r}.")
+        if not numeric.is_integer():
+            raise StrategyError(f"{field_name} must be an integer. Received {value!r}.")
+    try:
+        return int(value)
+    except (OverflowError, TypeError, ValueError) as exc:
+        raise StrategyError(f"{field_name} must be an integer. Received {value!r}.") from exc
 
 
 def _require_finite(df: pd.DataFrame, columns: list[str], name: str) -> None:
