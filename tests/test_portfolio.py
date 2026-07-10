@@ -83,6 +83,12 @@ def test_nonfinite_market_price_fails():
         Portfolio(10000).mark_to_market(1, "CALL_105", float("inf"))
 
 
+def test_nonnumeric_pricing_history_price_fails_cleanly():
+    pricing = pd.DataFrame({"step": [0], "symbol": ["CALL_105"], "option_price": ["bad-price"]})
+    with pytest.raises(PortfolioError, match="pricing_history.option_price"):
+        build_portfolio_history(pd.DataFrame(), pricing, 10000)
+
+
 def test_drawdown_updates_correctly():
     pricing = pd.DataFrame({"step": [0, 1], "symbol": ["CALL_105", "CALL_105"], "option_price": [5.0, 4.0]})
     trades = pd.DataFrame({"step": [0], "symbol": ["CALL_105"], "side": ["BUY"], "quantity": [1], "fill_price": [5.0], "commission": [0.0]})

@@ -103,7 +103,8 @@ def build_portfolio_history(trades: pd.DataFrame, pricing_history: pd.DataFrame,
     for price in pricing_history.sort_values(["step"]).itertuples(index=False):
         for trade in trades_by_step.get(int(price.step), []):
             portfolio.apply_trade(trade)
-        portfolio.mark_to_market(int(price.step), str(price.symbol), float(price.option_price))
+        market_price = _as_finite_float(price.option_price, "pricing_history.option_price")
+        portfolio.mark_to_market(int(price.step), str(price.symbol), market_price)
     return pd.DataFrame([snapshot.__dict__ for snapshot in portfolio.snapshots])
 
 
