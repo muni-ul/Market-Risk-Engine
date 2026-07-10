@@ -22,6 +22,7 @@ def generate_benchmark_inputs(num_prices: int, seed: int) -> dict[str, np.ndarra
 
 
 def price_loop(inputs: dict[str, np.ndarray]) -> np.ndarray:
+    _validate_inputs(inputs)
     return np.array(
         [
             black_scholes_price(spot, 105.0, time_to_expiry, 0.04, 0.20, "call")
@@ -31,6 +32,7 @@ def price_loop(inputs: dict[str, np.ndarray]) -> np.ndarray:
 
 
 def price_vectorized(inputs: dict[str, np.ndarray]) -> np.ndarray:
+    _validate_inputs(inputs)
     return np.asarray(black_scholes_price(inputs["spot"], 105.0, inputs["time_to_expiry"], 0.04, 0.20, "call"))
 
 
@@ -72,3 +74,18 @@ def _time(fn: Callable[[dict[str, np.ndarray]], np.ndarray], inputs: dict[str, n
     start = time.perf_counter()
     result = fn(inputs)
     return result, time.perf_counter() - start
+
+
+def _validate_inputs(inputs: dict[str, np.ndarray]) -> None:
+    required = {"spot", "time_to_expiry"}
+    missing = required - set(inputs)
+    if missing:
+        raise BenchmarkError(f"benchmark inputs are missing: {', '.join(sorted(missing))}.")
+    spot = np.asarray(inputs["spot"], dtype=float)
+    time_to_expiry = np.asarray(inputs["time_to_expiry"], dtype=float)
+    if spot.shape != time_to_expiry.shape:
+        raise BenchmarkError("benchmark input arrays must all have the same length.")
+    if not np.isfinite(spot).all() or (spot <= 0).any():
+        raise BenchmarkError("benchmark spot inputs must be finite and greater than 0.")
+    if not np.isfinite(time_to_expiry).all() or (time_to_expiry < 0).any():
+        raise BenchmarkError("benchmark time_to_expiry inputs must be finite and >= 0.")

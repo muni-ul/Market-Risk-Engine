@@ -22,6 +22,7 @@ PyRiskLab is a local Python simulation engine that uses options pricing as the d
 - `configs/risk_stress.yaml` intentionally tightens position and notional limits so reviewers can see blocked orders and readable risk events.
 - Reporting uses CSV, PNG, and Markdown so reviewers can inspect outputs without a dashboard.
 - The benchmark verifies numerical equivalence before reporting speedup.
+- Benchmark input validation keeps performance numbers tied to comparable, finite input arrays.
 
 ## Resume Bullets
 
