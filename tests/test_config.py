@@ -44,6 +44,13 @@ def test_invalid_volatility_fails(tmp_path):
         load_config(write_config(tmp_path, data))
 
 
+def test_nonfinite_float_fails(tmp_path):
+    data = demo_config()
+    data["market"]["drift"] = float("nan")
+    with pytest.raises(ConfigError, match="market.drift"):
+        load_config(write_config(tmp_path, data))
+
+
 def test_invalid_option_type_fails(tmp_path):
     data = demo_config()
     data["option"]["option_type"] = "calls"

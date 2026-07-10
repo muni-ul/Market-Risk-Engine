@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import math
 import re
 from pathlib import Path
 from typing import Any
@@ -155,6 +156,8 @@ def _as_float(value: Any, field: str) -> float:
         parsed = float(value)
     except (TypeError, ValueError) as exc:
         raise ConfigError(f"{field} must be numeric. Received {value!r}.") from exc
+    if not math.isfinite(parsed):
+        raise ConfigError(f"{field} must be finite. Received {value!r}.")
     return parsed
 
 
