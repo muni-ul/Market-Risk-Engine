@@ -34,9 +34,11 @@ def intrinsic_value(spot, strike: float, option_type: str):
 def black_scholes_price(spot, strike: float, time_to_expiry, risk_free_rate: float, volatility: float, option_type: str):
     if option_type not in {"call", "put"}:
         raise PricingError(f"option_type must be 'call' or 'put'. Received {option_type!r}.")
-    if strike <= 0:
+    if not np.isfinite(strike) or strike <= 0:
         raise PricingError(f"strike must be greater than 0. Received {strike}.")
-    if volatility < 0:
+    if not np.isfinite(risk_free_rate):
+        raise PricingError(f"risk_free_rate must be finite. Received {risk_free_rate}.")
+    if not np.isfinite(volatility) or volatility < 0:
         raise PricingError(f"volatility must be >= 0. Received {volatility}.")
 
     s = np.asarray(spot, dtype=float)

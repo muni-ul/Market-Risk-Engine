@@ -11,9 +11,11 @@ from pyrisklab.models import OptionContract
 def calculate_greeks(spot, strike: float, time_to_expiry, risk_free_rate: float, volatility: float, option_type: str) -> dict[str, object]:
     if option_type not in {"call", "put"}:
         raise GreeksError(f"option_type must be 'call' or 'put'. Received {option_type!r}.")
-    if strike <= 0:
+    if not np.isfinite(strike) or strike <= 0:
         raise GreeksError(f"strike must be greater than 0. Received {strike}.")
-    if volatility < 0:
+    if not np.isfinite(risk_free_rate):
+        raise GreeksError(f"risk_free_rate must be finite. Received {risk_free_rate}.")
+    if not np.isfinite(volatility) or volatility < 0:
         raise GreeksError(f"volatility must be >= 0. Received {volatility}.")
 
     s = np.asarray(spot, dtype=float)

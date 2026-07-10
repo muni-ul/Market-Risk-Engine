@@ -1,7 +1,9 @@
 from __future__ import annotations
 
 import numpy as np
+import pytest
 
+from pyrisklab.exceptions import GreeksError
 from pyrisklab.greeks import calculate_greeks
 
 
@@ -21,6 +23,11 @@ def test_put_delta_is_reasonable():
 def test_near_expiry_handling_does_not_crash():
     greeks = calculate_greeks(100, 100, 0.0, 0.05, 0.2, "call")
     assert all(np.isfinite(value) for value in greeks.values())
+
+
+def test_nonfinite_greek_parameter_fails():
+    with pytest.raises(GreeksError, match="volatility"):
+        calculate_greeks(100, 100, 1.0, 0.05, np.nan, "call")
 
 
 def test_scalar_spot_with_vector_time_returns_vector_greeks():

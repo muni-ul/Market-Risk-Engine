@@ -30,6 +30,11 @@ def test_invalid_option_type_fails():
         black_scholes_price(100, 100, 1.0, 0.05, 0.2, "calls")
 
 
+def test_nonfinite_pricing_parameter_fails():
+    with pytest.raises(PricingError, match="risk_free_rate"):
+        black_scholes_price(100, 100, 1.0, np.nan, 0.2, "call")
+
+
 def test_vectorized_input_returns_expected_shape():
     prices = black_scholes_price(np.array([95, 100, 105]), 100, np.array([1, 1, 1]), 0.05, 0.2, "call")
     assert prices.shape == (3,)
