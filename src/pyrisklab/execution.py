@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from numbers import Real
+
 import numpy as np
 import pandas as pd
 
@@ -112,7 +114,7 @@ def _build_price_lookup(pricing_history: pd.DataFrame) -> dict[tuple[int, str], 
 def _as_contract_quantity(value, field: str) -> int:
     if isinstance(value, bool):
         raise ExecutionError(f"{field} must be an integer. Received {value!r}.")
-    if isinstance(value, float) and not value.is_integer():
+    if isinstance(value, Real) and not float(value).is_integer():
         raise ExecutionError(f"{field} must be an integer. Received {value!r}.")
     try:
         quantity = int(value)

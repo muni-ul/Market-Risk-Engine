@@ -1,9 +1,11 @@
 from __future__ import annotations
 
 import pandas as pd
+import pytest
 import yaml
 
-from pyrisklab.pipeline import run_simulation
+from pyrisklab.exceptions import RunError
+from pyrisklab.pipeline import _as_order_quantity, run_simulation
 
 
 def test_pipeline_smoke_creates_core_artifacts(tmp_path):
@@ -47,3 +49,13 @@ def test_pipeline_respects_disabled_fake_execution(tmp_path):
     assert trades.empty
     if not orders.empty:
         assert set(orders["status"]) == {"SKIPPED"}
+
+
+def test_pipeline_rejects_fractional_order_quantity_before_risk():
+    with pytest.raises(RunError, match="order quantity"):
+        _as_order_quantity(1.5)
+
+
+def test_pipeline_rejects_numpy_fractional_order_quantity_before_risk():
+    with pytest.raises(RunError, match="order quantity"):
+        _as_order_quantity(pd.Series([1.5]).iloc[0])

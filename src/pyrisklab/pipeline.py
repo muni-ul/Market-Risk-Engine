@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from numbers import Real
 from pathlib import Path
 
 import pandas as pd
@@ -7,6 +8,7 @@ import pandas as pd
 from pyrisklab.benchmark import run_pricing_benchmark
 from pyrisklab.config import load_config
 from pyrisklab.execution import TRADE_COLUMNS, create_orders_from_signals, execute_orders
+from pyrisklab.exceptions import RunError
 from pyrisklab.greeks import calculate_greeks_for_market_path
 from pyrisklab.market import simulate_gbm_path
 from pyrisklab.models import RunResult
@@ -94,7 +96,7 @@ def _apply_risk(orders: pd.DataFrame, config) -> tuple[pd.DataFrame, pd.DataFram
             snapshot.total_value,
             snapshot.drawdown_pct,
             risk_portfolio.cash,
-            config.execution.commission_per_contract * int(row.quantity),
+            config.execution.commission_per_contract * _as_order_quantity(row.quantity),
         )
         order_record = row._asdict()
         if result.allowed:
@@ -126,3 +128,17 @@ def _skip_execution(orders: pd.DataFrame) -> pd.DataFrame:
     audited["status"] = "SKIPPED"
     audited["risk_reason"] = "Fake execution disabled by config."
     return audited.reindex(columns=[*orders.columns, "status", "risk_reason"])
+
+
+def _as_order_quantity(value) -> int:
+    if isinstance(value, bool):
+        raise RunError(f"order quantity must be an integer before risk orchestration. Received {value!r}.")
+    if isinstance(value, Real) and not float(value).is_integer():
+        raise RunError(f"order quantity must be an integer before risk orchestration. Received {value!r}.")
+    try:
+        quantity = int(value)
+    except (TypeError, ValueError) as exc:
+        raise RunError(f"order quantity must be an integer before risk orchestration. Received {value!r}.") from exc
+    if quantity <= 0:
+        raise RunError(f"order quantity must be > 0 before risk orchestration. Received {quantity}.")
+    return quantity

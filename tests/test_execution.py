@@ -44,6 +44,13 @@ def test_fractional_order_quantity_fails():
         execute_orders(orders)
 
 
+def test_numpy_fractional_order_quantity_fails():
+    orders = create_orders_from_signals(signal("BUY", 1), pricing())
+    orders.loc[0, "quantity"] = np.float64(1.5)
+    with pytest.raises(ExecutionError, match="integer"):
+        execute_orders(orders)
+
+
 def test_nonfinite_commission_fails():
     orders = create_orders_from_signals(signal("BUY", 1), pricing())
     with pytest.raises(ExecutionError, match="commission_per_contract"):
