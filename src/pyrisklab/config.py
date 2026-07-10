@@ -155,6 +155,8 @@ def _require(raw: dict[str, Any], key: str, field: str | None = None) -> Any:
 
 
 def _as_float(value: Any, field: str) -> float:
+    if isinstance(value, bool):
+        raise ConfigError(f"{field} must be numeric. Received {value!r}.")
     try:
         parsed = float(value)
     except (TypeError, ValueError) as exc:
