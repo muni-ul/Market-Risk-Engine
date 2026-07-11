@@ -344,6 +344,11 @@ def _sha256_file(path: Path) -> str:
 
 
 def _artifact_names(run_dir: Path) -> list[str]:
-    names = {path.name for path in run_dir.iterdir() if path.is_file()}
+    try:
+        names = {path.name for path in run_dir.iterdir() if path.is_file()}
+    except OSError as exc:
+        raise RunError(
+            f"could not list generated artifacts in {run_dir}. Check folder permissions."
+        ) from exc
     names.update({"run_metadata.json", "summary_report.md"})
     return sorted(names)
