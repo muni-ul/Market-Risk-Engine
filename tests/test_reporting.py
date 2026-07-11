@@ -122,6 +122,15 @@ def test_run_metadata_records_reproducible_artifact_context(tmp_path):
     assert "summary_report.md" in metadata["generated_artifacts"]
 
 
+def test_run_metadata_config_hash_failure_raises_run_error(tmp_path):
+    run_dir = prepare_output_dir(tmp_path, "demo")
+    config = load_config("configs/demo.yaml")
+    outputs = {"market_path.csv": pd.DataFrame({"step": [0]})}
+
+    with pytest.raises(RunError, match="could not read config file"):
+        write_run_metadata(run_dir, config, tmp_path / "missing.yaml", outputs)
+
+
 def test_summary_report_lists_metadata_artifact(tmp_path):
     run_dir = prepare_output_dir(tmp_path, "demo")
     config = load_config("configs/demo.yaml")

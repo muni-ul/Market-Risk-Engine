@@ -318,9 +318,14 @@ def _summary_float(value, field_name: str) -> float:
 
 def _sha256_file(path: Path) -> str:
     digest = hashlib.sha256()
-    with path.open("rb") as file:
-        for chunk in iter(lambda: file.read(1024 * 1024), b""):
-            digest.update(chunk)
+    try:
+        with path.open("rb") as file:
+            for chunk in iter(lambda: file.read(1024 * 1024), b""):
+                digest.update(chunk)
+    except OSError as exc:
+        raise RunError(
+            f"could not read config file for metadata hashing: {path}"
+        ) from exc
     return digest.hexdigest()
 
 
