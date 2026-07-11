@@ -147,6 +147,12 @@ def test_summary_report_mentions_empty_trades_and_risk_events(tmp_path):
     assert "No risk events were triggered" in report
     assert "## Greeks" in report
     assert "Final delta: 0.5500" in report
+    assert "## Strategy Signals" in report
+    assert "Strategy: `simple_delta_rule`" in report
+    assert "Buy when delta is below: 0.4500" in report
+    assert "Sell when delta is above: 0.7000" in report
+    assert "Trade quantity: 1" in report
+    assert "Minimum steps between trades: 5" in report
     assert "## Fake Execution" in report
     assert "Enabled: true" in report
     assert "Fill model: `deterministic_mid`" in report

@@ -218,6 +218,7 @@ def write_summary_report(run_dir: Path, config: RunConfig, outputs: dict[str, pd
     signals = _optional_output(outputs, "signals.csv")
     orders = _optional_output(outputs, "orders.csv")
     order_status_counts = _order_status_counts(orders)
+    strategy_text = _strategy_summary_text(config, signals, orders, order_status_counts)
     execution_text = _execution_summary_text(config, trades)
     risk_text = _risk_summary_text(config, risk_events)
     benchmark_text = _benchmark_summary_text(benchmark, config.benchmark.enabled)
@@ -263,11 +264,7 @@ This is a local simulation only. It does not use live market data, place real tr
 
 ## Strategy Signals
 
-- Total signal rows: {len(signals)}
-- Proposed simulated orders: {len(orders)}
-- Approved simulated orders: {order_status_counts[ORDER_STATUS_APPROVED]}
-- Blocked simulated orders: {order_status_counts[ORDER_STATUS_BLOCKED]}
-- Skipped simulated orders: {order_status_counts[ORDER_STATUS_SKIPPED]}
+{strategy_text}
 
 ## Portfolio Results
 
@@ -501,6 +498,28 @@ def _risk_summary_text(config: RunConfig, risk_events: pd.DataFrame) -> str:
             f"- Max loss: {config.risk.max_loss_pct:.2%}",
             f"- Stop trading on breach: {str(config.risk.stop_trading_on_breach).lower()}",
             f"- Result: {risk_note}",
+        ]
+    )
+
+
+def _strategy_summary_text(
+    config: RunConfig,
+    signals: pd.DataFrame,
+    orders: pd.DataFrame,
+    order_status_counts: dict[str, int],
+) -> str:
+    return "\n".join(
+        [
+            f"- Strategy: `{config.strategy.name}`",
+            f"- Buy when delta is below: {config.strategy.buy_delta_below:.4f}",
+            f"- Sell when delta is above: {config.strategy.sell_delta_above:.4f}",
+            f"- Trade quantity: {config.strategy.trade_quantity}",
+            f"- Minimum steps between trades: {config.strategy.min_steps_between_trades}",
+            f"- Total signal rows: {len(signals)}",
+            f"- Proposed simulated orders: {len(orders)}",
+            f"- Approved simulated orders: {order_status_counts[ORDER_STATUS_APPROVED]}",
+            f"- Blocked simulated orders: {order_status_counts[ORDER_STATUS_BLOCKED]}",
+            f"- Skipped simulated orders: {order_status_counts[ORDER_STATUS_SKIPPED]}",
         ]
     )
 

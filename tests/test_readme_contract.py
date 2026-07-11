@@ -49,6 +49,8 @@ def test_sample_output_docs_are_linked_and_present():
         assert "benchmark.enabled is false" in report_excerpt
         assert report_excerpt.index("## Strategy Signals") < report_excerpt.index("## Portfolio Results")
         assert report_excerpt.index("## Greeks") < report_excerpt.index("## Strategy Signals")
+        assert "Buy when delta is below" in report_excerpt
+        assert "Minimum steps between trades" in report_excerpt
         assert "## Fake Execution" in report_excerpt
         assert "Fill model" in report_excerpt
         assert "Contract multiplier" in report_excerpt
