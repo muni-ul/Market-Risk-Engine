@@ -18,6 +18,14 @@ The demo run writes CSV files under `results/<run_name>/`. These files are desig
 
 `market_path.csv` also includes `path_id` when `market.paths` is greater than `1`. The main demo config uses one path, so the default output focuses on the single-path contract.
 
+## Order Audit Statuses
+
+`orders.csv` uses a small status vocabulary so reviewers can scan execution and risk behavior quickly:
+
+- `APPROVED`: the simulated order passed risk validation and was eligible for fake execution.
+- `BLOCKED`: the risk manager rejected the simulated order and wrote a reason to `risk_reason`.
+- `SKIPPED`: fake execution was disabled in config, so proposed orders were not filled.
+
 ## Valid Empty Outputs
 
 Some files can be empty while still being correct:

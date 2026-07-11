@@ -55,4 +55,8 @@ def test_sample_output_docs_are_linked_and_present():
     with open("docs/SAMPLE_OUTPUT.md", encoding="utf-8") as sample_output_file:
         assert "order status counts" in sample_output_file.read()
     with open("docs/sample_outputs/csv_contracts.md", encoding="utf-8") as contracts_file:
-        assert "`benchmark.enabled` is false" in contracts_file.read()
+        csv_contracts = contracts_file.read()
+        assert "`benchmark.enabled` is false" in csv_contracts
+        assert "`APPROVED`" in csv_contracts
+        assert "`BLOCKED`" in csv_contracts
+        assert "`SKIPPED`" in csv_contracts
