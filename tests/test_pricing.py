@@ -70,3 +70,30 @@ def test_price_market_path_rejects_invalid_trading_days():
 
     with pytest.raises(PricingError, match="trading_days"):
         price_market_path(market_path, option, 0)
+
+
+def test_price_market_path_rejects_non_dataframe_market_path():
+    option = OptionContract("SIM_STOCK", "CALL_105", "call", 105.0, 0.04, 0.2, 90)
+
+    with pytest.raises(PricingError, match="market path"):
+        price_market_path([{"step": 0}], option, 252)
+
+
+def test_price_market_path_rejects_fractional_trading_days():
+    market_path = pd.DataFrame(
+        {"step": [0], "time_years": [0.0], "underlying_price": [100.0]}
+    )
+    option = OptionContract("SIM_STOCK", "CALL_105", "call", 105.0, 0.04, 0.2, 90)
+
+    with pytest.raises(PricingError, match="trading_days"):
+        price_market_path(market_path, option, 252.5)
+
+
+def test_price_market_path_rejects_boolean_trading_days():
+    market_path = pd.DataFrame(
+        {"step": [0], "time_years": [0.0], "underlying_price": [100.0]}
+    )
+    option = OptionContract("SIM_STOCK", "CALL_105", "call", 105.0, 0.04, 0.2, 90)
+
+    with pytest.raises(PricingError, match="trading_days"):
+        price_market_path(market_path, option, True)

@@ -1,5 +1,8 @@
 from __future__ import annotations
 
+import math
+from numbers import Real
+
 import numpy as np
 import pandas as pd
 from scipy.stats import norm
@@ -85,11 +88,11 @@ def black_scholes_price(spot, strike: float, time_to_expiry, risk_free_rate: flo
 
 
 def price_market_path(market_path: pd.DataFrame, option: OptionContract, trading_days: int) -> pd.DataFrame:
+    market_path = _require_dataframe(market_path, "market path")
     _require_columns(market_path, {"step", "time_years", "underlying_price"}, "market path")
     if market_path.empty:
         raise PricingError("market path is empty. Run market simulation before pricing options.")
-    if trading_days <= 0:
-        raise PricingError(f"trading_days must be > 0. Received {trading_days}.")
+    trading_days = _as_positive_integer(trading_days, "trading_days")
     time_to_expiry = np.maximum((option.initial_days_to_expiry - market_path["step"].to_numpy()) / trading_days, 0.0)
     option_price = black_scholes_price(
         market_path["underlying_price"].to_numpy(),
@@ -120,6 +123,32 @@ def _require_columns(df: pd.DataFrame, columns: set[str], name: str) -> None:
     missing = columns - set(df.columns)
     if missing:
         raise PricingError(f"{name} must include columns: {', '.join(sorted(missing))}.")
+
+
+def _require_dataframe(value, name: str) -> pd.DataFrame:
+    if not isinstance(value, pd.DataFrame):
+        raise PricingError(
+            f"{name} must be a pandas DataFrame. Received {type(value).__name__}."
+        )
+    return value
+
+
+def _as_positive_integer(value, field_name: str) -> int:
+    if isinstance(value, bool):
+        raise PricingError(f"{field_name} must be an integer. Received {value!r}.")
+    if isinstance(value, Real):
+        numeric = float(value)
+        if not math.isfinite(numeric):
+            raise PricingError(f"{field_name} must be a finite integer. Received {value!r}.")
+        if not numeric.is_integer():
+            raise PricingError(f"{field_name} must be an integer. Received {value!r}.")
+    try:
+        parsed = int(value)
+    except (OverflowError, TypeError, ValueError) as exc:
+        raise PricingError(f"{field_name} must be an integer. Received {value!r}.") from exc
+    if parsed <= 0:
+        raise PricingError(f"{field_name} must be > 0. Received {parsed}.")
+    return parsed
 
 
 def _scalar_if_scalar(result: np.ndarray):
