@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import math
 import shutil
 from pathlib import Path
 
@@ -138,10 +139,24 @@ def write_summary_report(run_dir: Path, config: RunConfig, outputs: dict[str, pd
     _require_summary_frame(market, {"underlying_price"}, "market_path")
     _require_summary_frame(pricing, {"option_price"}, "pricing_history")
     _require_summary_frame(portfolio, {"total_value", "drawdown_pct"}, "portfolio_history")
-    final_value = float(portfolio["total_value"].iloc[-1])
-    max_drawdown = float(portfolio["drawdown_pct"].max())
-    initial_option_price = float(pricing["option_price"].iloc[0])
-    final_option_price = float(pricing["option_price"].iloc[-1])
+    initial_underlying = _summary_float(
+        market["underlying_price"].iloc[0],
+        "market_path.underlying_price",
+    )
+    final_underlying = _summary_float(
+        market["underlying_price"].iloc[-1],
+        "market_path.underlying_price",
+    )
+    final_value = _summary_float(portfolio["total_value"].iloc[-1], "portfolio_history.total_value")
+    max_drawdown = _summary_float(portfolio["drawdown_pct"].max(), "portfolio_history.drawdown_pct")
+    initial_option_price = _summary_float(
+        pricing["option_price"].iloc[0],
+        "pricing_history.option_price",
+    )
+    final_option_price = _summary_float(
+        pricing["option_price"].iloc[-1],
+        "pricing_history.option_price",
+    )
     signals = outputs.get("signals.csv", pd.DataFrame())
     orders = outputs.get("orders.csv", pd.DataFrame())
     if not config.execution.enabled:
@@ -176,8 +191,8 @@ This is a local simulation only. It does not use live market data, place real tr
 
 ## Market Simulation
 
-- Initial underlying price: ${market['underlying_price'].iloc[0]:.2f}
-- Final underlying price: ${market['underlying_price'].iloc[-1]:.2f}
+- Initial underlying price: ${initial_underlying:.2f}
+- Final underlying price: ${final_underlying:.2f}
 - Generated steps: {len(market)}
 - Model: geometric Brownian motion with synthetic data
 - Drift assumption: {config.market.drift:.2%}
@@ -285,6 +300,20 @@ def _required_output(outputs: dict[str, pd.DataFrame], filename: str) -> pd.Data
         return outputs[filename]
     except KeyError as exc:
         raise ReportingError(f"required pipeline output is missing: {filename}") from exc
+
+
+def _summary_float(value, field_name: str) -> float:
+    try:
+        parsed = float(value)
+    except (TypeError, ValueError) as exc:
+        raise ReportingError(
+            f"{field_name} must be numeric for summary_report.md. Received {value!r}."
+        ) from exc
+    if not math.isfinite(parsed):
+        raise ReportingError(
+            f"{field_name} must be finite for summary_report.md. Received {value!r}."
+        )
+    return parsed
 
 
 def _sha256_file(path: Path) -> str:

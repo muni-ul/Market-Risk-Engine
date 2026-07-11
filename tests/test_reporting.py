@@ -156,6 +156,22 @@ def test_summary_report_requires_nonempty_core_frames(tmp_path):
         write_summary_report(run_dir, config, outputs)
 
 
+def test_summary_report_rejects_nonnumeric_summary_values(tmp_path):
+    run_dir = prepare_output_dir(tmp_path, "demo")
+    config = load_config("configs/demo.yaml")
+    outputs = {
+        "market_path.csv": pd.DataFrame({"underlying_price": [100.0, 101.0]}),
+        "pricing_history.csv": pd.DataFrame({"option_price": ["bad-price", 4.0]}),
+        "trades.csv": pd.DataFrame(columns=["step", "symbol"]),
+        "portfolio_history.csv": pd.DataFrame({"total_value": [10000.0], "drawdown_pct": [0.0]}),
+        "risk_events.csv": pd.DataFrame(columns=["step", "reason"]),
+        "benchmark.csv": pd.DataFrame(),
+    }
+
+    with pytest.raises(ReportingError, match="pricing_history.option_price"):
+        write_summary_report(run_dir, config, outputs)
+
+
 def test_summary_report_requires_vectorized_benchmark_row(tmp_path):
     run_dir = prepare_output_dir(tmp_path, "demo")
     config = load_config("configs/demo.yaml")
