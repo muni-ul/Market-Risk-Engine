@@ -1,5 +1,8 @@
 from __future__ import annotations
 
+import math
+from numbers import Real
+
 import numpy as np
 import pandas as pd
 from scipy.stats import norm
@@ -65,14 +68,14 @@ def calculate_greeks(spot, strike: float, time_to_expiry, risk_free_rate: float,
 
 
 def calculate_greeks_for_market_path(market_path: pd.DataFrame, option: OptionContract, trading_days: int) -> pd.DataFrame:
+    market_path = _require_dataframe(market_path, "market path")
     required = {"step", "time_years", "underlying_price"}
     missing = required - set(market_path.columns)
     if missing:
         raise GreeksError(f"market path must include columns: {', '.join(sorted(missing))}.")
     if market_path.empty:
         raise GreeksError("market path is empty. Run market simulation before calculating Greeks.")
-    if trading_days <= 0:
-        raise GreeksError(f"trading_days must be > 0. Received {trading_days}.")
+    trading_days = _as_positive_integer(trading_days, "trading_days")
     time_to_expiry = np.maximum((option.initial_days_to_expiry - market_path["step"].to_numpy()) / trading_days, 0.0)
     greeks = calculate_greeks(
         market_path["underlying_price"].to_numpy(),
@@ -109,3 +112,29 @@ def _scalar_if_scalar(result: np.ndarray):
 def _reject_bool_scalar(value, field_name: str) -> None:
     if isinstance(value, bool):
         raise GreeksError(f"{field_name} must be numeric. Received {value!r}.")
+
+
+def _require_dataframe(value, name: str) -> pd.DataFrame:
+    if not isinstance(value, pd.DataFrame):
+        raise GreeksError(
+            f"{name} must be a pandas DataFrame. Received {type(value).__name__}."
+        )
+    return value
+
+
+def _as_positive_integer(value, field_name: str) -> int:
+    if isinstance(value, bool):
+        raise GreeksError(f"{field_name} must be an integer. Received {value!r}.")
+    if isinstance(value, Real):
+        numeric = float(value)
+        if not math.isfinite(numeric):
+            raise GreeksError(f"{field_name} must be a finite integer. Received {value!r}.")
+        if not numeric.is_integer():
+            raise GreeksError(f"{field_name} must be an integer. Received {value!r}.")
+    try:
+        parsed = int(value)
+    except (OverflowError, TypeError, ValueError) as exc:
+        raise GreeksError(f"{field_name} must be an integer. Received {value!r}.") from exc
+    if parsed <= 0:
+        raise GreeksError(f"{field_name} must be > 0. Received {parsed}.")
+    return parsed
