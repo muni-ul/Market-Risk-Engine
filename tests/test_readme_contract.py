@@ -66,6 +66,10 @@ def test_sample_output_docs_are_linked_and_present():
         sample_output = sample_output_file.read()
         assert "order status counts" in sample_output
         assert "`status` and `risk_reason` audit columns" in sample_output
+        assert "generated artifact byte sizes" in sample_output
+    with open("docs/PORTFOLIO_CASE_STUDY.md", encoding="utf-8") as case_study_file:
+        case_study = case_study_file.read()
+        assert "artifact byte sizes" in case_study
     with open("docs/sample_outputs/csv_contracts.md", encoding="utf-8") as contracts_file:
         csv_contracts = contracts_file.read()
         assert "`benchmark.enabled` is false" in csv_contracts
