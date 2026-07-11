@@ -17,6 +17,7 @@ def test_readme_contains_required_demo_and_scope_language():
     assert "docs/PORTFOLIO_CASE_STUDY.md" in readme
     assert "results/demo_run/greeks.png" in readme
     assert "expected artifact names" in readme
+    assert "approved, blocked, and skipped simulated orders" in readme
     assert "benchmark.enabled" in readme
     assert "Generated outputs are not required before setup" in readme
     assert "## Troubleshooting" in readme
