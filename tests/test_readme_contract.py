@@ -14,6 +14,10 @@ def test_readme_contains_required_demo_and_scope_language():
     assert "docs/sample_outputs/" in readme
     assert "docs/PORTFOLIO_CASE_STUDY.md" in readme
     assert "results/demo_run/greeks.png" in readme
+    assert "Generated outputs are not required before setup" in readme
+    assert "## Troubleshooting" in readme
+    assert "pip install -e ." in readme
+    assert "ConfigError: market.volatility must be >= 0" in readme
 
 
 def test_sample_output_docs_are_linked_and_present():

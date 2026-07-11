@@ -176,6 +176,8 @@ results/demo_run/
   summary_report.md
 ```
 
+The `results/demo_run/` folder is created locally after running the demo. Generated outputs are not required before setup, and the repository keeps `results/` mostly empty so reviewers can reproduce the run themselves.
+
 `orders.csv` includes proposed simulated orders with risk approval status. `run_metadata.json` records deterministic run context, the config SHA-256 digest, row counts, and generated artifact names. Empty `trades.csv` or `risk_events.csv` files are valid outcomes and still include headers.
 
 ## Benchmark
@@ -203,6 +205,21 @@ After running the demo, open:
 - `results/demo_run/summary_report.md`
 
 These generated files are the screenshot-ready project artifacts.
+
+## Troubleshooting
+
+If `python -m pyrisklab` cannot import the package, run the command from the repository root after installing dependencies, or use `pip install -e .` for an editable install.
+
+If `results/demo_run/` already exists, rerun with `--overwrite` or change `run_name` in `configs/demo.yaml`.
+
+Config mistakes are reported as clean project errors, for example:
+
+```text
+ConfigError: market.volatility must be >= 0. Received -0.20.
+RunError: results/demo_run already exists. Use --overwrite or choose a different run_name.
+```
+
+If matplotlib behaves differently on a local machine, the project forces a non-interactive PNG backend for report generation, so no desktop plotting window is required.
 
 ## Project Structure
 
