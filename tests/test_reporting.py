@@ -13,6 +13,7 @@ from pyrisklab.config import load_config
 from pyrisklab.exceptions import ReportingError, RunError
 from pyrisklab.models import (
     BenchmarkConfig,
+    ORDER_STATUS_COLUMN,
     ORDER_STATUS_APPROVED,
     ORDER_STATUS_BLOCKED,
     ORDER_STATUS_SKIPPED,
@@ -165,7 +166,7 @@ def test_summary_report_counts_order_audit_statuses(tmp_path):
         "pricing_history.csv": pd.DataFrame({"option_price": [3.0, 4.0]}),
         "orders.csv": pd.DataFrame(
             {
-                "status": [
+                ORDER_STATUS_COLUMN: [
                     ORDER_STATUS_APPROVED,
                     ORDER_STATUS_BLOCKED,
                     ORDER_STATUS_SKIPPED,
@@ -223,7 +224,7 @@ def test_run_metadata_records_order_audit_counts(tmp_path):
     outputs = {
         "orders.csv": pd.DataFrame(
             {
-                "status": [
+                ORDER_STATUS_COLUMN: [
                     ORDER_STATUS_APPROVED,
                     ORDER_STATUS_BLOCKED,
                     ORDER_STATUS_BLOCKED,

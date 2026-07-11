@@ -5,7 +5,7 @@ import pytest
 import yaml
 
 from pyrisklab.exceptions import RunError
-from pyrisklab.models import ORDER_STATUS_SKIPPED
+from pyrisklab.models import ORDER_AUDIT_COLUMNS, ORDER_STATUS_COLUMN, ORDER_STATUS_SKIPPED
 from pyrisklab.pipeline import _as_order_quantity, run_simulation
 
 
@@ -46,10 +46,10 @@ def test_pipeline_respects_disabled_fake_execution(tmp_path):
 
     orders = pd.read_csv(result.output_path / "orders.csv")
     trades = pd.read_csv(result.output_path / "trades.csv")
-    assert {"status", "risk_reason"}.issubset(orders.columns)
+    assert set(ORDER_AUDIT_COLUMNS).issubset(orders.columns)
     assert trades.empty
     if not orders.empty:
-        assert set(orders["status"]) == {ORDER_STATUS_SKIPPED}
+        assert set(orders[ORDER_STATUS_COLUMN]) == {ORDER_STATUS_SKIPPED}
 
 
 def test_pipeline_preserves_empty_order_schema(tmp_path):
@@ -70,7 +70,7 @@ def test_pipeline_preserves_empty_order_schema(tmp_path):
     orders = pd.read_csv(result.output_path / "orders.csv")
     trades = pd.read_csv(result.output_path / "trades.csv")
     assert orders.empty
-    assert {"status", "risk_reason"}.issubset(orders.columns)
+    assert set(ORDER_AUDIT_COLUMNS).issubset(orders.columns)
     assert trades.empty
 
 

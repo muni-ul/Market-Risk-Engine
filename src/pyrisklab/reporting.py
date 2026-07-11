@@ -17,6 +17,7 @@ from pyrisklab import __version__
 from pyrisklab.exceptions import ReportingError, RunError
 from pyrisklab.models import (
     ORDER_AUDIT_STATUSES,
+    ORDER_STATUS_COLUMN,
     ORDER_STATUS_APPROVED,
     ORDER_STATUS_BLOCKED,
     ORDER_STATUS_SKIPPED,
@@ -403,9 +404,9 @@ def _summary_float(value, field_name: str) -> float:
 
 def _order_status_counts(orders: pd.DataFrame) -> dict[str, int]:
     statuses = dict.fromkeys(ORDER_AUDIT_STATUSES, 0)
-    if "status" not in orders.columns:
+    if ORDER_STATUS_COLUMN not in orders.columns:
         return statuses
-    counts = orders["status"].astype(str).str.upper().value_counts()
+    counts = orders[ORDER_STATUS_COLUMN].astype(str).str.upper().value_counts()
     for status in statuses:
         statuses[status] = int(counts.get(status, 0))
     return statuses

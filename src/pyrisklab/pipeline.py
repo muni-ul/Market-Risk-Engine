@@ -13,8 +13,11 @@ from pyrisklab.exceptions import RunError
 from pyrisklab.greeks import calculate_greeks_for_market_path
 from pyrisklab.market import simulate_gbm_path
 from pyrisklab.models import (
+    ORDER_AUDIT_COLUMNS,
+    ORDER_RISK_REASON_COLUMN,
     ORDER_STATUS_APPROVED,
     ORDER_STATUS_BLOCKED,
+    ORDER_STATUS_COLUMN,
     ORDER_STATUS_SKIPPED,
     RunResult,
 )
@@ -109,8 +112,8 @@ def _apply_risk(orders: pd.DataFrame, config) -> tuple[pd.DataFrame, pd.DataFram
         )
         order_record = row._asdict()
         if result.allowed:
-            order_record["status"] = ORDER_STATUS_APPROVED
-            order_record["risk_reason"] = ""
+            order_record[ORDER_STATUS_COLUMN] = ORDER_STATUS_APPROVED
+            order_record[ORDER_RISK_REASON_COLUMN] = ""
             approved_order = row._asdict()
             approved.append(approved_order)
             trade = execute_orders(
@@ -121,10 +124,10 @@ def _apply_risk(orders: pd.DataFrame, config) -> tuple[pd.DataFrame, pd.DataFram
             ).iloc[0]
             risk_portfolio.apply_trade(trade)
         else:
-            order_record["status"] = ORDER_STATUS_BLOCKED
-            order_record["risk_reason"] = result.events[0].reason if result.events else "Blocked by risk manager."
+            order_record[ORDER_STATUS_COLUMN] = ORDER_STATUS_BLOCKED
+            order_record[ORDER_RISK_REASON_COLUMN] = result.events[0].reason if result.events else "Blocked by risk manager."
         audited.append(order_record)
-    audited_columns = [*orders.columns, "status", "risk_reason"]
+    audited_columns = [*orders.columns, *ORDER_AUDIT_COLUMNS]
     return (
         pd.DataFrame(audited, columns=audited_columns),
         pd.DataFrame(approved, columns=orders.columns),
@@ -134,9 +137,9 @@ def _apply_risk(orders: pd.DataFrame, config) -> tuple[pd.DataFrame, pd.DataFram
 
 def _skip_execution(orders: pd.DataFrame) -> pd.DataFrame:
     audited = orders.copy()
-    audited["status"] = ORDER_STATUS_SKIPPED
-    audited["risk_reason"] = "Fake execution disabled by config."
-    return audited.reindex(columns=[*orders.columns, "status", "risk_reason"])
+    audited[ORDER_STATUS_COLUMN] = ORDER_STATUS_SKIPPED
+    audited[ORDER_RISK_REASON_COLUMN] = "Fake execution disabled by config."
+    return audited.reindex(columns=[*orders.columns, *ORDER_AUDIT_COLUMNS])
 
 
 def _as_order_quantity(value) -> int:
