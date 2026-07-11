@@ -22,6 +22,7 @@ That command loads a YAML config, generates a synthetic market path, prices a Eu
 - Used `argparse` and a thin CLI so orchestration stays in `pipeline.py`.
 - Used dataclasses for typed config and domain objects instead of passing raw dictionaries through the whole system.
 - Used deterministic seeds and copied `config_used.yaml` into every run folder to make outputs reproducible.
+- Recorded expected and generated artifact names in run metadata so reviewers can audit output completeness.
 - Kept strategy logic intentionally simple because its purpose is to drive execution, portfolio, and risk behavior, not to claim profitability.
 - Stored outputs as CSV, PNG, JSON, and Markdown because those formats are easy to inspect in GitHub, VS Code, Excel, and pandas.
 - Added `configs/risk_stress.yaml` as an optional reviewer demo for blocked orders and readable risk events.

@@ -15,6 +15,7 @@ def test_readme_contains_required_demo_and_scope_language():
     assert "docs/sample_outputs/chart_artifacts.md" in readme
     assert "docs/PORTFOLIO_CASE_STUDY.md" in readme
     assert "results/demo_run/greeks.png" in readme
+    assert "expected artifact names" in readme
     assert "Generated outputs are not required before setup" in readme
     assert "## Troubleshooting" in readme
     assert "pip install -e ." in readme
