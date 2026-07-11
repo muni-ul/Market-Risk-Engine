@@ -86,6 +86,8 @@ def _validate_inputs(inputs: dict[str, np.ndarray]) -> None:
     time_to_expiry = np.asarray(inputs["time_to_expiry"], dtype=float)
     if spot.shape != time_to_expiry.shape:
         raise BenchmarkError("benchmark input arrays must all have the same length.")
+    if spot.size == 0:
+        raise BenchmarkError("benchmark input arrays must include at least one price.")
     if not np.isfinite(spot).all() or (spot <= 0).any():
         raise BenchmarkError("benchmark spot inputs must be finite and greater than 0.")
     if not np.isfinite(time_to_expiry).all() or (time_to_expiry < 0).any():

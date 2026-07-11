@@ -45,6 +45,11 @@ def test_mismatched_benchmark_inputs_raise_project_error():
         price_loop({"spot": np.array([100.0, 101.0]), "time_to_expiry": np.array([0.5])})
 
 
+def test_empty_benchmark_inputs_raise_project_error():
+    with pytest.raises(BenchmarkError, match="at least one price"):
+        price_loop({"spot": np.array([]), "time_to_expiry": np.array([])})
+
+
 def test_nonfinite_benchmark_inputs_raise_project_error():
     with pytest.raises(BenchmarkError, match="finite"):
         price_loop({"spot": np.array([100.0, np.nan]), "time_to_expiry": np.array([0.5, 0.5])})
