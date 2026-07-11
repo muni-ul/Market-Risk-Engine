@@ -183,8 +183,12 @@ def write_summary_report(run_dir: Path, config: RunConfig, outputs: dict[str, pd
         if vector_rows.empty:
             raise ReportingError("benchmark DataFrame must include a numpy_vectorized row when benchmark output is not empty.")
         vector = vector_rows.iloc[0]
+        speedup = _summary_float(
+            vector["speedup_vs_loop"],
+            "benchmark.speedup_vs_loop",
+        )
         benchmark_text = (
-            f"Vectorized NumPy pricing ran {vector['speedup_vs_loop']:.2f}x faster "
+            f"Vectorized NumPy pricing ran {speedup:.2f}x faster "
             "than the Python loop on this machine. Benchmark results vary by hardware, "
             "Python version, and input size."
         )
