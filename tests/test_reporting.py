@@ -313,7 +313,7 @@ def test_summary_report_artifact_listing_failure_raises_run_error(tmp_path, monk
 def test_expected_artifact_verifier_names_missing_outputs(tmp_path):
     run_dir = prepare_output_dir(tmp_path, "demo")
     for filename in EXPECTED_ARTIFACT_NAMES - {"drawdown.png"}:
-        (run_dir / filename).write_text("", encoding="utf-8")
+        (run_dir / filename).write_text("content", encoding="utf-8")
 
     with pytest.raises(RunError, match="drawdown.png"):
         _verify_expected_artifacts(run_dir)
@@ -322,7 +322,17 @@ def test_expected_artifact_verifier_names_missing_outputs(tmp_path):
 def test_expected_artifact_verifier_does_not_count_pending_metadata(tmp_path):
     run_dir = prepare_output_dir(tmp_path, "demo")
     for filename in EXPECTED_ARTIFACT_NAMES - {"run_metadata.json"}:
-        (run_dir / filename).write_text("", encoding="utf-8")
+        (run_dir / filename).write_text("content", encoding="utf-8")
 
     with pytest.raises(RunError, match="run_metadata.json"):
+        _verify_expected_artifacts(run_dir)
+
+
+def test_expected_artifact_verifier_rejects_empty_outputs(tmp_path):
+    run_dir = prepare_output_dir(tmp_path, "demo")
+    for filename in EXPECTED_ARTIFACT_NAMES:
+        (run_dir / filename).write_text("content", encoding="utf-8")
+    (run_dir / "benchmark.csv").write_text("", encoding="utf-8")
+
+    with pytest.raises(RunError, match="benchmark.csv"):
         _verify_expected_artifacts(run_dir)

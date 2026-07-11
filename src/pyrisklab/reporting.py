@@ -418,3 +418,19 @@ def _verify_expected_artifacts(run_dir: Path) -> None:
             "reporting did not create expected artifacts: "
             f"{', '.join(sorted(missing))}."
         )
+    empty = []
+    for name in sorted(EXPECTED_ARTIFACT_NAMES):
+        path = run_dir / name
+        try:
+            size = path.stat().st_size
+        except OSError as exc:
+            raise RunError(
+                f"could not inspect generated artifact {name} in {run_dir}."
+            ) from exc
+        if size == 0:
+            empty.append(name)
+    if empty:
+        raise RunError(
+            "reporting created empty artifacts: "
+            f"{', '.join(empty)}."
+        )
