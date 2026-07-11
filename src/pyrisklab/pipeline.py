@@ -58,7 +58,10 @@ def run_simulation(config_path: str | Path, overwrite: bool = False, progress=No
         config.execution.contract_multiplier,
     )
 
-    _emit(progress, "[6/7] Running benchmark...")
+    if config.benchmark.enabled:
+        _emit(progress, "[6/7] Running benchmark...")
+    else:
+        _emit(progress, "[6/7] Benchmark disabled by config. Skipping...")
     benchmark = run_pricing_benchmark(config.benchmark)
 
     outputs = {

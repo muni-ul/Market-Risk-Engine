@@ -73,6 +73,25 @@ def test_pipeline_preserves_empty_order_schema(tmp_path):
     assert trades.empty
 
 
+def test_pipeline_reports_disabled_benchmark_progress(tmp_path):
+    with open("configs/demo.yaml", encoding="utf-8") as config_file:
+        config = yaml.safe_load(config_file)
+    config["run_name"] = "benchmark_disabled_run"
+    config["output_dir"] = str(tmp_path)
+    config["market"]["steps"] = 5
+    config["option"]["days_to_expiry"] = 5
+    config["benchmark"]["enabled"] = False
+    path = tmp_path / "config.yaml"
+    path.write_text(yaml.safe_dump(config), encoding="utf-8")
+    progress_messages = []
+
+    result = run_simulation(path, overwrite=True, progress=progress_messages.append)
+
+    benchmark = pd.read_csv(result.output_path / "benchmark.csv")
+    assert "[6/7] Benchmark disabled by config. Skipping..." in progress_messages
+    assert benchmark.empty
+
+
 def test_pipeline_rejects_fractional_order_quantity_before_risk():
     with pytest.raises(RunError, match="order quantity"):
         _as_order_quantity(1.5)
