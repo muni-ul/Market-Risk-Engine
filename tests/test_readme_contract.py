@@ -28,6 +28,10 @@ def test_readme_contains_required_demo_and_scope_language():
     assert "## Troubleshooting" in readme
     assert "pip install -e ." in readme
     assert "ConfigError: market.volatility must be >= 0" in readme
+    assert "## Resume And Interview Framing" in readme
+    assert "local Python engineering project" in readme
+    assert "vectorized NumPy pricing" in readme
+    assert "repository hygiene" in readme
 
 
 def test_sample_output_docs_are_linked_and_present():

@@ -220,6 +220,14 @@ After running the demo, open:
 
 These generated files are the screenshot-ready project artifacts.
 
+## Resume And Interview Framing
+
+Use PyRiskLab to describe a local Python engineering project, not a trading product:
+
+- Built a modular Python simulation engine with deterministic YAML configs, CLI automation, NumPy/SciPy numerical code, pandas pipelines, fake execution, risk validation, and reproducible CSV/PNG/Markdown reports.
+- Implemented performance-aware Black-Scholes benchmarking that compares Python-loop pricing against vectorized NumPy pricing, records pricing assumptions, and verifies numerical equivalence before reporting speedup.
+- Added pytest coverage for config validation, pricing formulas, Greeks, execution state, portfolio accounting, risk rules, benchmark behavior, reporting contracts, packaging metadata, and repository hygiene.
+
 ## Troubleshooting
 
 If `python -m pyrisklab` cannot import the package, run the command from the repository root after installing dependencies, or use `pip install -e .` for an editable install.
