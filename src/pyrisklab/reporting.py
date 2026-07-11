@@ -144,7 +144,7 @@ def write_summary_report(run_dir: Path, config: RunConfig, outputs: dict[str, pd
     trades = _required_output(outputs, "trades.csv")
     portfolio = _required_output(outputs, "portfolio_history.csv")
     risk_events = _required_output(outputs, "risk_events.csv")
-    benchmark = outputs.get("benchmark.csv", pd.DataFrame())
+    benchmark = _optional_output(outputs, "benchmark.csv")
     _require_summary_frame(market, {"underlying_price"}, "market_path")
     _require_summary_frame(pricing, {"option_price"}, "pricing_history")
     _require_summary_frame(portfolio, {"total_value", "drawdown_pct"}, "portfolio_history")
@@ -166,8 +166,8 @@ def write_summary_report(run_dir: Path, config: RunConfig, outputs: dict[str, pd
         pricing["option_price"].iloc[-1],
         "pricing_history.option_price",
     )
-    signals = outputs.get("signals.csv", pd.DataFrame())
-    orders = outputs.get("orders.csv", pd.DataFrame())
+    signals = _optional_output(outputs, "signals.csv")
+    orders = _optional_output(outputs, "orders.csv")
     if not config.execution.enabled:
         trade_note = "Fake execution was disabled in the config, so proposed orders were not filled."
     elif trades.empty:
@@ -314,6 +314,12 @@ def _required_output(outputs: dict[str, pd.DataFrame], filename: str) -> pd.Data
     except KeyError as exc:
         raise ReportingError(f"required pipeline output is missing: {filename}") from exc
     return _require_dataframe(output, filename)
+
+
+def _optional_output(outputs: dict[str, pd.DataFrame], filename: str) -> pd.DataFrame:
+    if filename not in outputs:
+        return pd.DataFrame()
+    return _require_dataframe(outputs[filename], filename)
 
 
 def _csv_row_counts(outputs: dict[str, pd.DataFrame]) -> dict[str, int]:
