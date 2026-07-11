@@ -45,6 +45,16 @@ def test_mismatched_benchmark_inputs_raise_project_error():
         price_loop({"spot": np.array([100.0, 101.0]), "time_to_expiry": np.array([0.5])})
 
 
+def test_non_mapping_benchmark_inputs_raise_project_error():
+    with pytest.raises(BenchmarkError, match="mapping"):
+        price_loop([("spot", np.array([100.0])), ("time_to_expiry", np.array([0.5]))])
+
+
+def test_nonnumeric_benchmark_inputs_raise_project_error():
+    with pytest.raises(BenchmarkError, match="numeric arrays"):
+        price_loop({"spot": np.array(["bad"]), "time_to_expiry": np.array([0.5])})
+
+
 def test_empty_benchmark_inputs_raise_project_error():
     with pytest.raises(BenchmarkError, match="at least one price"):
         price_loop({"spot": np.array([]), "time_to_expiry": np.array([])})

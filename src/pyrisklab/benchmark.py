@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import math
 import time
-from collections.abc import Callable
+from collections.abc import Callable, Mapping
 from numbers import Real
 
 import numpy as np
@@ -78,12 +78,17 @@ def _time(fn: Callable[[dict[str, np.ndarray]], np.ndarray], inputs: dict[str, n
 
 
 def _validate_inputs(inputs: dict[str, np.ndarray]) -> None:
+    if not isinstance(inputs, Mapping):
+        raise BenchmarkError(f"benchmark inputs must be a mapping. Received {type(inputs).__name__}.")
     required = {"spot", "time_to_expiry"}
     missing = required - set(inputs)
     if missing:
         raise BenchmarkError(f"benchmark inputs are missing: {', '.join(sorted(missing))}.")
-    spot = np.asarray(inputs["spot"], dtype=float)
-    time_to_expiry = np.asarray(inputs["time_to_expiry"], dtype=float)
+    try:
+        spot = np.asarray(inputs["spot"], dtype=float)
+        time_to_expiry = np.asarray(inputs["time_to_expiry"], dtype=float)
+    except (TypeError, ValueError) as exc:
+        raise BenchmarkError("benchmark inputs must be numeric arrays.") from exc
     if spot.shape != time_to_expiry.shape:
         raise BenchmarkError("benchmark input arrays must all have the same length.")
     if spot.size == 0:
