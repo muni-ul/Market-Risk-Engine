@@ -13,6 +13,7 @@ def test_readme_contains_required_demo_and_scope_language():
     assert "docs/SAMPLE_OUTPUT.md" in readme
     assert "docs/sample_outputs/" in readme
     assert "docs/sample_outputs/chart_artifacts.md" in readme
+    assert "docs/sample_outputs/risk_stress_demo.md" in readme
     assert "docs/PORTFOLIO_CASE_STUDY.md" in readme
     assert "results/demo_run/greeks.png" in readme
     assert "expected artifact names" in readme
@@ -32,6 +33,7 @@ def test_sample_output_docs_are_linked_and_present():
         "csv_contracts.md",
         "chart_artifacts.md",
         "run_metadata_example.md",
+        "risk_stress_demo.md",
     ):
         assert filename in sample_index
         with open(f"docs/sample_outputs/{filename}", encoding="utf-8") as sample_file:

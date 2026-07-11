@@ -16,6 +16,7 @@ Generated benchmark timings vary by machine, so these examples describe output s
 - `csv_contracts.md`: expected CSV files and the columns reviewers should see.
 - `chart_artifacts.md`: expected PNG chart files and what each chart communicates.
 - `run_metadata_example.md`: reproducibility metadata shape, including config digest, expected artifacts, and generated artifacts.
+- `risk_stress_demo.md`: optional blocked-order demo using `configs/risk_stress.yaml`.
 
 ## Why These Are Docs Instead Of Generated Results
 
