@@ -71,6 +71,12 @@ def test_nonfinite_commission_fails():
         execute_orders(orders, commission_per_contract=np.nan)
 
 
+def test_boolean_commission_fails():
+    orders = create_orders_from_signals(signal("BUY", 1), pricing())
+    with pytest.raises(ExecutionError, match="commission_per_contract"):
+        execute_orders(orders, commission_per_contract=True)
+
+
 def test_nonnumeric_requested_price_fails_cleanly():
     orders = create_orders_from_signals(signal("BUY", 1), pricing())
     orders.loc[0, "requested_price"] = "bad-price"

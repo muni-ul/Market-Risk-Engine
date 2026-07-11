@@ -47,8 +47,10 @@ def create_orders_from_signals(signals: pd.DataFrame, pricing_history: pd.DataFr
 def execute_orders(orders: pd.DataFrame, commission_per_contract: float = 0.0, contract_multiplier: int = 100, fill_model: str = "deterministic_mid") -> pd.DataFrame:
     if fill_model != "deterministic_mid":
         raise ExecutionError(f"fill_model must be 'deterministic_mid'. Received {fill_model!r}.")
-    if not np.isfinite(commission_per_contract) or commission_per_contract < 0:
-        raise ExecutionError(f"commission_per_contract must be >= 0. Received {commission_per_contract}.")
+    commission_per_contract = _as_nonnegative_price(
+        commission_per_contract,
+        "commission_per_contract",
+    )
     contract_multiplier = _as_contract_quantity(contract_multiplier, "contract_multiplier")
     if contract_multiplier <= 0:
         raise ExecutionError(f"contract_multiplier must be > 0. Received {contract_multiplier}.")
