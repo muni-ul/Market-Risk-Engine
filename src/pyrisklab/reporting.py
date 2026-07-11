@@ -25,7 +25,7 @@ from pyrisklab.models import (
 )
 
 
-METADATA_SCHEMA_VERSION = 2
+METADATA_SCHEMA_VERSION = 3
 
 EXPECTED_ARTIFACT_NAMES = frozenset(
     {
@@ -116,6 +116,12 @@ def write_run_metadata(
         "output_dir": run_dir.as_posix(),
         "execution_enabled": config.execution.enabled,
         "benchmark_enabled": config.benchmark.enabled,
+        "benchmark_settings": {
+            "enabled": config.benchmark.enabled,
+            "num_prices": config.benchmark.num_prices,
+            "seed": config.benchmark.seed,
+            "tolerance": config.benchmark.tolerance,
+        },
         "simulation_only": True,
         "csv_row_counts": _csv_row_counts(outputs),
         "order_status_counts": _order_status_counts(_optional_output(outputs, "orders.csv")),

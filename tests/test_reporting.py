@@ -306,6 +306,12 @@ def test_run_metadata_records_reproducible_artifact_context(tmp_path):
     assert metadata["python_version"]
     assert metadata["platform"]
     assert metadata["simulation_only"] is True
+    assert metadata["benchmark_settings"] == {
+        "enabled": config.benchmark.enabled,
+        "num_prices": config.benchmark.num_prices,
+        "seed": config.benchmark.seed,
+        "tolerance": config.benchmark.tolerance,
+    }
     expected_digest = hashlib.sha256(Path("configs/demo.yaml").read_bytes()).hexdigest()
     assert metadata["config_sha256"] == expected_digest
     assert metadata["csv_row_counts"] == {"market_path.csv": 2, "trades.csv": 0}

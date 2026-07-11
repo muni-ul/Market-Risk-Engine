@@ -21,6 +21,7 @@ def test_readme_contains_required_demo_and_scope_language():
     assert "approved, blocked, and skipped simulated orders" in readme
     assert "order status counts" in readme
     assert "benchmark.enabled" in readme
+    assert "benchmark settings" in readme
     assert "pricing assumptions" in readme
     assert "--debug" in readme
     assert "traceback" in readme
@@ -73,8 +74,9 @@ def test_sample_output_docs_are_linked_and_present():
         metadata_doc = metadata_file.read()
         assert "order_status_counts" in metadata_doc
         assert "schema_version" in metadata_doc
-        assert '"schema_version": 2' in metadata_doc
+        assert '"schema_version": 3' in metadata_doc
         assert "config_sha256" in metadata_doc
+        assert "benchmark_settings" in metadata_doc
         assert "generated_artifact_sizes_bytes" in metadata_doc
     with open("docs/sample_outputs/risk_stress_demo.md", encoding="utf-8") as risk_demo_file:
         risk_demo = risk_demo_file.read()
@@ -106,6 +108,7 @@ def test_reviewer_guide_contains_demo_and_scope_contracts():
     assert "python -m pyrisklab run --config configs/risk_stress.yaml --overwrite" in reviewer_guide
     assert "summary_report.md" in reviewer_guide
     assert "run_metadata.json" in reviewer_guide
+    assert "benchmark settings" in reviewer_guide
     assert "generated artifact byte sizes" in reviewer_guide
     assert "benchmark.csv" in reviewer_guide
     assert "pytest" in reviewer_guide

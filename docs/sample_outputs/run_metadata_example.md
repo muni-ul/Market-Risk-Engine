@@ -6,7 +6,7 @@ Representative shape:
 
 ```json
 {
-  "schema_version": 2,
+  "schema_version": 3,
   "project": "PyRiskLab",
   "project_version": "0.1.0",
   "python_version": "3.12.x",
@@ -18,6 +18,12 @@ Representative shape:
   "output_dir": "results/demo_run",
   "execution_enabled": true,
   "benchmark_enabled": true,
+  "benchmark_settings": {
+    "enabled": true,
+    "num_prices": 100000,
+    "seed": 42,
+    "tolerance": 1e-8
+  },
   "simulation_only": true,
   "csv_row_counts": {
     "benchmark.csv": 2,
@@ -97,4 +103,4 @@ Representative shape:
 
 The exact row counts depend on the config. For the default demo, the configured `market.steps: 252` produces `253` path rows because the initial step is included.
 
-`schema_version` and `project_version` make the metadata format explicit as the project evolves. Schema version `2` includes generated artifact byte-size auditing. `config_sha256` lets a reviewer confirm which config produced the run, while `expected_artifacts`, `generated_artifacts`, and `generated_artifact_sizes_bytes` make output completeness auditable without opening every file. Byte sizes vary by machine and matplotlib metadata, so the example values are representative rather than fixed.
+`schema_version` and `project_version` make the metadata format explicit as the project evolves. Schema version `3` includes generated artifact byte-size auditing and benchmark settings for reproducibility. `config_sha256` lets a reviewer confirm which config produced the run, while `expected_artifacts`, `generated_artifacts`, and `generated_artifact_sizes_bytes` make output completeness auditable without opening every file. Byte sizes vary by machine and matplotlib metadata, so the example values are representative rather than fixed.
