@@ -42,7 +42,9 @@ def test_sample_output_docs_are_linked_and_present():
             assert sample_file.read().strip()
 
     with open("docs/sample_outputs/summary_report_excerpt.md", encoding="utf-8") as report_file:
-        assert "benchmark.enabled is false" in report_file.read()
+        report_excerpt = report_file.read()
+        assert "benchmark.enabled is false" in report_excerpt
+        assert report_excerpt.index("## Strategy Signals") < report_excerpt.index("## Portfolio Results")
     with open("docs/sample_outputs/run_metadata_example.md", encoding="utf-8") as metadata_file:
         metadata_doc = metadata_file.read()
         assert "order_status_counts" in metadata_doc
