@@ -30,6 +30,25 @@ Representative shape:
     "signals.csv": 253,
     "trades.csv": 0
   },
+  "expected_artifacts": [
+    "benchmark.csv",
+    "config_used.yaml",
+    "drawdown.png",
+    "greeks.png",
+    "greeks_history.csv",
+    "market_path.csv",
+    "market_path.png",
+    "option_price.png",
+    "orders.csv",
+    "portfolio_history.csv",
+    "portfolio_value.png",
+    "pricing_history.csv",
+    "risk_events.csv",
+    "run_metadata.json",
+    "signals.csv",
+    "summary_report.md",
+    "trades.csv"
+  ],
   "generated_artifacts": [
     "benchmark.csv",
     "config_used.yaml",

@@ -151,6 +151,7 @@ def test_run_metadata_records_reproducible_artifact_context(tmp_path):
     expected_digest = hashlib.sha256(Path("configs/demo.yaml").read_bytes()).hexdigest()
     assert metadata["config_sha256"] == expected_digest
     assert metadata["csv_row_counts"] == {"market_path.csv": 2, "trades.csv": 0}
+    assert set(metadata["expected_artifacts"]) == EXPECTED_ARTIFACT_NAMES
     assert "run_metadata.json" in metadata["generated_artifacts"]
     assert "summary_report.md" in metadata["generated_artifacts"]
 
