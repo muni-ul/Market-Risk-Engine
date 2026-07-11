@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from dataclasses import asdict
 import math
 import time
 from collections.abc import Callable, Mapping
@@ -9,7 +10,7 @@ import numpy as np
 import pandas as pd
 
 from pyrisklab.exceptions import BenchmarkError
-from pyrisklab.models import BenchmarkConfig
+from pyrisklab.models import BenchmarkConfig, BenchmarkResult
 from pyrisklab.pricing import black_scholes_price
 
 
@@ -94,33 +95,38 @@ def run_pricing_benchmark(config: BenchmarkConfig) -> pd.DataFrame:
     if max_abs_error > config.tolerance:
         raise BenchmarkError("loop and vectorized pricing results differed beyond tolerance.")
     vector_speedup = loop_runtime / vector_runtime if vector_runtime > 0 else float("inf")
-    return pd.DataFrame(
+    return pd.DataFrame.from_records(
         [
-            {
-                "method": "python_loop",
-                "num_prices": config.num_prices,
-                "option_type": BENCHMARK_OPTION_TYPE,
-                "strike": BENCHMARK_STRIKE,
-                "risk_free_rate": BENCHMARK_RISK_FREE_RATE,
-                "volatility": BENCHMARK_VOLATILITY,
-                "runtime_seconds": loop_runtime,
-                "speedup_vs_loop": 1.0,
-                "max_abs_error_vs_loop": 0.0,
-                "passed_equivalence_check": True,
-            },
-            {
-                "method": "numpy_vectorized",
-                "num_prices": config.num_prices,
-                "option_type": BENCHMARK_OPTION_TYPE,
-                "strike": BENCHMARK_STRIKE,
-                "risk_free_rate": BENCHMARK_RISK_FREE_RATE,
-                "volatility": BENCHMARK_VOLATILITY,
-                "runtime_seconds": vector_runtime,
-                "speedup_vs_loop": vector_speedup,
-                "max_abs_error_vs_loop": max_abs_error,
-                "passed_equivalence_check": True,
-            },
-        ]
+            asdict(
+                BenchmarkResult(
+                    method="python_loop",
+                    num_prices=config.num_prices,
+                    option_type=BENCHMARK_OPTION_TYPE,
+                    strike=BENCHMARK_STRIKE,
+                    risk_free_rate=BENCHMARK_RISK_FREE_RATE,
+                    volatility=BENCHMARK_VOLATILITY,
+                    runtime_seconds=loop_runtime,
+                    speedup_vs_loop=1.0,
+                    max_abs_error_vs_loop=0.0,
+                    passed_equivalence_check=True,
+                )
+            ),
+            asdict(
+                BenchmarkResult(
+                    method="numpy_vectorized",
+                    num_prices=config.num_prices,
+                    option_type=BENCHMARK_OPTION_TYPE,
+                    strike=BENCHMARK_STRIKE,
+                    risk_free_rate=BENCHMARK_RISK_FREE_RATE,
+                    volatility=BENCHMARK_VOLATILITY,
+                    runtime_seconds=vector_runtime,
+                    speedup_vs_loop=vector_speedup,
+                    max_abs_error_vs_loop=max_abs_error,
+                    passed_equivalence_check=True,
+                )
+            ),
+        ],
+        columns=BENCHMARK_COLUMNS,
     )
 
 

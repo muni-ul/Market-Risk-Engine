@@ -10,7 +10,7 @@ from pyrisklab.benchmark import (
     run_pricing_benchmark,
 )
 from pyrisklab.exceptions import BenchmarkError
-from pyrisklab.models import BenchmarkConfig
+from pyrisklab.models import BenchmarkConfig, BenchmarkResult
 
 
 def test_benchmark_returns_loop_and_vectorized_rows():
@@ -21,6 +21,10 @@ def test_benchmark_returns_loop_and_vectorized_rows():
     assert set(df["strike"]) == {105.0}
     assert set(df["risk_free_rate"]) == {0.04}
     assert set(df["volatility"]) == {0.20}
+
+
+def test_benchmark_result_model_matches_csv_contract():
+    assert list(BenchmarkResult.__dataclass_fields__) == BENCHMARK_COLUMNS
 
 
 def test_disabled_benchmark_keeps_output_headers():

@@ -48,7 +48,7 @@ The strongest files to open first are:
 - `summary_report.md`: run summary, simulation-only language, Greeks, risk/execution audit counts, benchmark evidence, generated artifact list, and limitations.
 - `run_metadata.json`: config path, config SHA-256 digest, benchmark settings, row counts, order status counts, expected artifacts, generated artifacts, and generated artifact byte sizes.
 - `orders.csv`: proposed simulated orders with `status` and `risk_reason` audit columns.
-- `benchmark.csv`: loop-vs-vectorized Black-Scholes runtime, speedup, max absolute error, and equivalence check.
+- `benchmark.csv`: loop-vs-vectorized Black-Scholes assumptions, runtime, speedup, max absolute error, and equivalence check.
 - `portfolio_value.png` and `drawdown.png`: quick visual evidence that portfolio state is tracked through the run.
 
 ## Optional Risk-Audit Demo

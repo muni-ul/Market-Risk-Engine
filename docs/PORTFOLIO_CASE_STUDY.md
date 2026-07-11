@@ -60,7 +60,7 @@ The test suite is designed around behavior that would matter in a real engineeri
 
 ## Performance Signal
 
-PyRiskLab includes a small benchmark that compares Python-loop Black-Scholes pricing with vectorized NumPy pricing on the same generated inputs. It reports runtime, speedup, and numerical-equivalence checks in `benchmark.csv`. The benchmark is intentionally honest: numbers vary by machine, and the README does not claim a fixed universal speedup.
+PyRiskLab includes a small benchmark that compares Python-loop Black-Scholes pricing with vectorized NumPy pricing on the same generated inputs. It reports pricing assumptions, runtime, speedup, and numerical-equivalence checks in `benchmark.csv`. The benchmark is intentionally honest: numbers vary by machine, and the README does not claim a fixed universal speedup.
 
 ## Result
 

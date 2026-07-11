@@ -51,7 +51,7 @@ configs/demo.yaml
 
 - `cli.py`: parses arguments, prints clean progress/errors, and keeps tracebacks behind `--debug`.
 - `config.py`: loads YAML and validates inputs.
-- `models.py`: dataclasses for configs, orders, trades, positions, snapshots, and risk events.
+- `models.py`: dataclasses for configs, orders, trades, positions, snapshots, risk events, and benchmark results.
 - `market.py`: generates synthetic GBM price paths.
 - `pricing.py`: implements Black-Scholes pricing.
 - `greeks.py`: calculates Delta, Gamma, Vega, Theta, and Rho.
@@ -73,7 +73,7 @@ Execution follows the same pattern: the fake execution function rejects unsuppor
 
 ## Why Vectorization Matters
 
-The pricing benchmark compares a Python loop against vectorized NumPy for the same generated Black-Scholes inputs. The goal is honest measurement: prove that implementation choices matter, verify numerical equivalence, and report machine-dependent speedup without exaggeration.
+The pricing benchmark compares a Python loop against vectorized NumPy for the same generated Black-Scholes inputs. `BenchmarkResult` rows include pricing assumptions, runtime, speedup, max absolute error, and the equivalence-check flag so `benchmark.csv` is auditable without reading source code. The goal is honest measurement: prove that implementation choices matter, verify numerical equivalence, and report machine-dependent speedup without exaggeration.
 
 ## Out Of Scope
 

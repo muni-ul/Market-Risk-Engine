@@ -188,6 +188,10 @@ class RiskCheckResult:
 class BenchmarkResult:
     method: str
     num_prices: int
+    option_type: str
+    strike: float
+    risk_free_rate: float
+    volatility: float
     runtime_seconds: float
     speedup_vs_loop: float
     max_abs_error_vs_loop: float
