@@ -44,6 +44,18 @@ def test_nonfinite_option_price_fails(strategy_config):
         generate_signals(pricing, greeks, strategy_config)
 
 
+def test_non_dataframe_pricing_history_fails_cleanly(strategy_config):
+    _pricing, greeks = frames(0.5)
+    with pytest.raises(StrategyError, match="pricing_history"):
+        generate_signals([{"step": 1}], greeks, strategy_config)
+
+
+def test_non_dataframe_greeks_history_fails_cleanly(strategy_config):
+    pricing, _greeks = frames(0.5)
+    with pytest.raises(StrategyError, match="greeks_history"):
+        generate_signals(pricing, [{"delta": 0.5}], strategy_config)
+
+
 def test_invalid_strategy_thresholds_fail_defensively():
     pricing, greeks = frames(0.5)
     config = StrategyConfig("simple_delta_rule", 0.8, 0.7, 1, 0)

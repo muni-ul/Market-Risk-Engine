@@ -12,6 +12,8 @@ from pyrisklab.models import StrategyConfig
 
 def generate_signals(pricing_history: pd.DataFrame, greeks_history: pd.DataFrame, strategy_config: StrategyConfig) -> pd.DataFrame:
     _validate_strategy_config(strategy_config)
+    pricing_history = _require_dataframe(pricing_history, "pricing_history")
+    greeks_history = _require_dataframe(greeks_history, "greeks_history")
     _validate_inputs(pricing_history, greeks_history)
     merged = pricing_history.merge(
         greeks_history[["step", "symbol", "delta", "gamma", "vega"]],
@@ -152,3 +154,11 @@ def _require_finite(df: pd.DataFrame, columns: list[str], name: str) -> None:
         values = pd.to_numeric(df[column], errors="coerce")
         if not np.isfinite(values).all():
             raise StrategyError(f"{name}.{column} must contain only finite numeric values.")
+
+
+def _require_dataframe(value, name: str) -> pd.DataFrame:
+    if not isinstance(value, pd.DataFrame):
+        raise StrategyError(
+            f"{name} must be a pandas DataFrame. Received {type(value).__name__}."
+        )
+    return value
