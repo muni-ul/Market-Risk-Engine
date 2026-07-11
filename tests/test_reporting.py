@@ -188,6 +188,7 @@ def test_run_metadata_records_reproducible_artifact_context(tmp_path):
     metadata = json.loads(metadata_path.read_text(encoding="utf-8"))
 
     assert metadata["project"] == "PyRiskLab"
+    assert metadata["schema_version"] == reporting.METADATA_SCHEMA_VERSION
     assert metadata["run_name"] == "demo_run"
     assert metadata["seed"] == 42
     assert metadata["python_version"]

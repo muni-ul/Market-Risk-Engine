@@ -18,6 +18,8 @@ from pyrisklab.exceptions import ReportingError, RunError
 from pyrisklab.models import RunConfig
 
 
+METADATA_SCHEMA_VERSION = 1
+
 EXPECTED_ARTIFACT_NAMES = frozenset(
     {
         "benchmark.csv",
@@ -95,7 +97,7 @@ def write_run_metadata(
 ) -> Path:
     path = run_dir / "run_metadata.json"
     metadata = {
-        "schema_version": 1,
+        "schema_version": METADATA_SCHEMA_VERSION,
         "project": "PyRiskLab",
         "project_version": __version__,
         "python_version": platform.python_version(),
