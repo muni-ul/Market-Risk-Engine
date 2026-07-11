@@ -51,6 +51,8 @@ def test_sample_output_docs_are_linked_and_present():
         assert report_excerpt.index("## Greeks") < report_excerpt.index("## Strategy Signals")
         assert "Buy when delta is below" in report_excerpt
         assert "Minimum steps between trades" in report_excerpt
+        assert "Final cash" in report_excerpt
+        assert "Peak portfolio value" in report_excerpt
         assert "## Fake Execution" in report_excerpt
         assert "Fill model" in report_excerpt
         assert "Contract multiplier" in report_excerpt

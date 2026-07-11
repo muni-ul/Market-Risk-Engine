@@ -136,7 +136,17 @@ def test_summary_report_mentions_empty_trades_and_risk_events(tmp_path):
             }
         ),
         "trades.csv": pd.DataFrame(columns=["step", "symbol"]),
-        "portfolio_history.csv": pd.DataFrame({"total_value": [10000.0], "drawdown_pct": [0.0]}),
+        "portfolio_history.csv": pd.DataFrame(
+            {
+                "cash": [10000.0],
+                "position_quantity": [0],
+                "realized_pnl": [0.0],
+                "unrealized_pnl": [0.0],
+                "total_value": [10000.0],
+                "peak_value": [10000.0],
+                "drawdown_pct": [0.0],
+            }
+        ),
         "risk_events.csv": pd.DataFrame(columns=["step", "reason"]),
         "benchmark.csv": pd.DataFrame(),
     }
@@ -153,6 +163,11 @@ def test_summary_report_mentions_empty_trades_and_risk_events(tmp_path):
     assert "Sell when delta is above: 0.7000" in report
     assert "Trade quantity: 1" in report
     assert "Minimum steps between trades: 5" in report
+    assert "Final cash: $10,000.00" in report
+    assert "Final position quantity: 0" in report
+    assert "Final realized P&L: $0.00" in report
+    assert "Final unrealized P&L: $0.00" in report
+    assert "Peak portfolio value: $10,000.00" in report
     assert "## Fake Execution" in report
     assert "Enabled: true" in report
     assert "Fill model: `deterministic_mid`" in report

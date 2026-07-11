@@ -219,6 +219,14 @@ def write_summary_report(run_dir: Path, config: RunConfig, outputs: dict[str, pd
     orders = _optional_output(outputs, "orders.csv")
     order_status_counts = _order_status_counts(orders)
     strategy_text = _strategy_summary_text(config, signals, orders, order_status_counts)
+    portfolio_text = _portfolio_summary_text(
+        config,
+        trades,
+        portfolio,
+        risk_events,
+        final_value,
+        max_drawdown,
+    )
     execution_text = _execution_summary_text(config, trades)
     risk_text = _risk_summary_text(config, risk_events)
     benchmark_text = _benchmark_summary_text(benchmark, config.benchmark.enabled)
@@ -268,11 +276,7 @@ This is a local simulation only. It does not use live market data, place real tr
 
 ## Portfolio Results
 
-- Starting cash: ${config.risk.starting_cash:,.2f}
-- Number of simulated trades: {len(trades)}
-- Final portfolio value: ${final_value:,.2f}
-- Max drawdown: {max_drawdown:.2%}
-- Risk events: {len(risk_events)}
+{portfolio_text}
 
 ## Fake Execution
 
@@ -500,6 +504,56 @@ def _risk_summary_text(config: RunConfig, risk_events: pd.DataFrame) -> str:
             f"- Result: {risk_note}",
         ]
     )
+
+
+def _portfolio_summary_text(
+    config: RunConfig,
+    trades: pd.DataFrame,
+    portfolio: pd.DataFrame,
+    risk_events: pd.DataFrame,
+    final_value: float,
+    max_drawdown: float,
+) -> str:
+    final_row = portfolio.iloc[-1]
+    lines = [
+        f"- Starting cash: ${config.risk.starting_cash:,.2f}",
+        f"- Number of simulated trades: {len(trades)}",
+    ]
+    if "cash" in portfolio.columns:
+        final_cash = _summary_float(final_row["cash"], "portfolio_history.cash")
+        lines.append(f"- Final cash: ${final_cash:,.2f}")
+    if "position_quantity" in portfolio.columns:
+        final_position = _summary_int(
+            final_row["position_quantity"],
+            "portfolio_history.position_quantity",
+        )
+        lines.append(f"- Final position quantity: {final_position}")
+    if "realized_pnl" in portfolio.columns:
+        realized_pnl = _summary_float(
+            final_row["realized_pnl"],
+            "portfolio_history.realized_pnl",
+        )
+        lines.append(f"- Final realized P&L: ${realized_pnl:,.2f}")
+    if "unrealized_pnl" in portfolio.columns:
+        unrealized_pnl = _summary_float(
+            final_row["unrealized_pnl"],
+            "portfolio_history.unrealized_pnl",
+        )
+        lines.append(f"- Final unrealized P&L: ${unrealized_pnl:,.2f}")
+    if "peak_value" in portfolio.columns:
+        peak_value = _summary_float(
+            final_row["peak_value"],
+            "portfolio_history.peak_value",
+        )
+        lines.append(f"- Peak portfolio value: ${peak_value:,.2f}")
+    lines.extend(
+        [
+            f"- Final portfolio value: ${final_value:,.2f}",
+            f"- Max drawdown: {max_drawdown:.2%}",
+            f"- Risk events: {len(risk_events)}",
+        ]
+    )
+    return "\n".join(lines)
 
 
 def _strategy_summary_text(
