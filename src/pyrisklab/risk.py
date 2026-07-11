@@ -30,6 +30,18 @@ class RiskManager:
     ) -> RiskCheckResult:
         quantity = _as_contract_quantity(order_row.quantity)
         price = _as_nonnegative_price(order_row.requested_price, "order requested_price")
+        current_position_quantity = _as_integer(
+            current_position_quantity,
+            "current_position_quantity",
+        )
+        portfolio_value = _as_nonnegative_price(portfolio_value, "portfolio_value")
+        drawdown_pct = _as_nonnegative_price(drawdown_pct, "drawdown_pct")
+        estimated_commission = _as_nonnegative_price(
+            estimated_commission,
+            "estimated_commission",
+        )
+        if available_cash is not None:
+            available_cash = _as_nonnegative_price(available_cash, "available_cash")
         side = str(order_row.side).upper()
         if quantity <= 0:
             raise RiskError("risk validation received an invalid order quantity or price.")
@@ -92,6 +104,13 @@ def _as_contract_quantity(value) -> int:
 
 
 def _as_positive_integer(value, field_name: str) -> int:
+    parsed = _as_integer(value, field_name)
+    if parsed <= 0:
+        raise RiskError(f"{field_name} must be > 0. Received {parsed}.")
+    return parsed
+
+
+def _as_integer(value, field_name: str) -> int:
     if isinstance(value, bool):
         raise RiskError(f"{field_name} must be an integer. Received {value!r}.")
     if isinstance(value, Real):
@@ -104,8 +123,6 @@ def _as_positive_integer(value, field_name: str) -> int:
         parsed = int(value)
     except (OverflowError, TypeError, ValueError) as exc:
         raise RiskError(f"{field_name} must be an integer. Received {value!r}.") from exc
-    if parsed <= 0:
-        raise RiskError(f"{field_name} must be > 0. Received {parsed}.")
     return parsed
 
 

@@ -87,3 +87,28 @@ def test_nonnumeric_order_price_fails_defensively(risk_config):
 def test_boolean_order_price_fails_defensively(risk_config):
     with pytest.raises(RiskError, match="requested_price"):
         RiskManager(risk_config).validate_order(order(price=True), 0, 10000)
+
+
+def test_fractional_current_position_fails_defensively(risk_config):
+    with pytest.raises(RiskError, match="current_position_quantity"):
+        RiskManager(risk_config).validate_order(order(), 0.5, 10000)
+
+
+def test_nonfinite_portfolio_value_fails_defensively(risk_config):
+    with pytest.raises(RiskError, match="portfolio_value"):
+        RiskManager(risk_config).validate_order(order(), 0, float("inf"))
+
+
+def test_boolean_drawdown_fails_defensively(risk_config):
+    with pytest.raises(RiskError, match="drawdown_pct"):
+        RiskManager(risk_config).validate_order(order(), 0, 10000, drawdown_pct=True)
+
+
+def test_negative_available_cash_fails_defensively(risk_config):
+    with pytest.raises(RiskError, match="available_cash"):
+        RiskManager(risk_config).validate_order(order(), 0, 10000, available_cash=-1)
+
+
+def test_boolean_estimated_commission_fails_defensively(risk_config):
+    with pytest.raises(RiskError, match="estimated_commission"):
+        RiskManager(risk_config).validate_order(order(), 0, 10000, estimated_commission=True)
