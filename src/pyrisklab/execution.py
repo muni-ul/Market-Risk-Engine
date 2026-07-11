@@ -13,6 +13,8 @@ TRADE_COLUMNS = ["trade_id", "order_id", "step", "symbol", "side", "quantity", "
 
 
 def create_orders_from_signals(signals: pd.DataFrame, pricing_history: pd.DataFrame, default_order_type: str = "market") -> pd.DataFrame:
+    signals = _require_dataframe(signals, "signals")
+    pricing_history = _require_dataframe(pricing_history, "pricing_history")
     _validate_signal_inputs(signals, pricing_history)
     price_lookup = _build_price_lookup(pricing_history)
     orders = []
@@ -45,6 +47,7 @@ def create_orders_from_signals(signals: pd.DataFrame, pricing_history: pd.DataFr
 
 
 def execute_orders(orders: pd.DataFrame, commission_per_contract: float = 0.0, contract_multiplier: int = 100, fill_model: str = "deterministic_mid") -> pd.DataFrame:
+    orders = _require_dataframe(orders, "orders")
     if fill_model != "deterministic_mid":
         raise ExecutionError(f"fill_model must be 'deterministic_mid'. Received {fill_model!r}.")
     commission_per_contract = _as_nonnegative_price(
@@ -137,3 +140,11 @@ def _as_nonnegative_price(value, field: str) -> float:
     if not np.isfinite(price) or price < 0:
         raise ExecutionError(f"{field} must be finite and >= 0. Received {value!r}.")
     return price
+
+
+def _require_dataframe(value, name: str) -> pd.DataFrame:
+    if not isinstance(value, pd.DataFrame):
+        raise ExecutionError(
+            f"{name} must be a pandas DataFrame. Received {type(value).__name__}."
+        )
+    return value

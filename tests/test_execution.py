@@ -37,6 +37,16 @@ def test_fractional_signal_quantity_fails():
         create_orders_from_signals(signal("BUY", 1.5), pricing())
 
 
+def test_non_dataframe_signals_fail_cleanly():
+    with pytest.raises(ExecutionError, match="signals"):
+        create_orders_from_signals([{"action": "BUY"}], pricing())
+
+
+def test_non_dataframe_pricing_history_fails_cleanly():
+    with pytest.raises(ExecutionError, match="pricing_history"):
+        create_orders_from_signals(signal("BUY", 1), [{"option_price": 5.0}])
+
+
 def test_fractional_order_quantity_fails():
     orders = create_orders_from_signals(signal("BUY", 1), pricing())
     orders.loc[0, "quantity"] = 1.5
@@ -49,6 +59,11 @@ def test_order_side_is_normalized_before_execution():
     orders.loc[0, "side"] = "buy"
     trades = execute_orders(orders)
     assert trades["side"].iloc[0] == "BUY"
+
+
+def test_non_dataframe_orders_fail_cleanly():
+    with pytest.raises(ExecutionError, match="orders"):
+        execute_orders([{"side": "BUY"}])
 
 
 def test_nonfinite_order_quantity_fails():
