@@ -195,6 +195,7 @@ def write_summary_report(run_dir: Path, config: RunConfig, outputs: dict[str, pd
     )
     signals = _optional_output(outputs, "signals.csv")
     orders = _optional_output(outputs, "orders.csv")
+    order_status_counts = _order_status_counts(orders)
     if not config.execution.enabled:
         trade_note = "Fake execution was disabled in the config, so proposed orders were not filled."
     elif trades.empty:
@@ -260,6 +261,9 @@ This is a local simulation only. It does not use live market data, place real tr
 
 - Total signal rows: {len(signals)}
 - Proposed simulated orders: {len(orders)}
+- Approved simulated orders: {order_status_counts["APPROVED"]}
+- Blocked simulated orders: {order_status_counts["BLOCKED"]}
+- Skipped simulated orders: {order_status_counts["SKIPPED"]}
 
 ## Portfolio Results
 
@@ -386,6 +390,16 @@ def _summary_float(value, field_name: str) -> float:
             f"{field_name} must be finite for summary_report.md. Received {value!r}."
         )
     return parsed
+
+
+def _order_status_counts(orders: pd.DataFrame) -> dict[str, int]:
+    statuses = {"APPROVED": 0, "BLOCKED": 0, "SKIPPED": 0}
+    if "status" not in orders.columns:
+        return statuses
+    counts = orders["status"].astype(str).str.upper().value_counts()
+    for status in statuses:
+        statuses[status] = int(counts.get(status, 0))
+    return statuses
 
 
 def _sha256_file(path: Path) -> str:

@@ -152,6 +152,30 @@ def test_summary_report_mentions_disabled_benchmark_config(tmp_path):
     assert "benchmark.enabled is false" in report
 
 
+def test_summary_report_counts_order_audit_statuses(tmp_path):
+    run_dir = prepare_output_dir(tmp_path, "demo")
+    config = load_config("configs/demo.yaml")
+    outputs = {
+        "market_path.csv": pd.DataFrame({"underlying_price": [100.0, 101.0]}),
+        "pricing_history.csv": pd.DataFrame({"option_price": [3.0, 4.0]}),
+        "orders.csv": pd.DataFrame(
+            {
+                "status": ["APPROVED", "BLOCKED", "SKIPPED", "BLOCKED"],
+            }
+        ),
+        "trades.csv": pd.DataFrame({"step": [1], "symbol": ["CALL_105"]}),
+        "portfolio_history.csv": pd.DataFrame({"total_value": [10000.0], "drawdown_pct": [0.0]}),
+        "risk_events.csv": pd.DataFrame({"step": [2, 3], "reason": ["limit", "limit"]}),
+        "benchmark.csv": pd.DataFrame(),
+    }
+
+    report = write_summary_report(run_dir, config, outputs).read_text(encoding="utf-8")
+
+    assert "Approved simulated orders: 1" in report
+    assert "Blocked simulated orders: 2" in report
+    assert "Skipped simulated orders: 1" in report
+
+
 def test_run_metadata_records_reproducible_artifact_context(tmp_path):
     run_dir = prepare_output_dir(tmp_path, "demo")
     config = load_config("configs/demo.yaml")
