@@ -231,6 +231,10 @@ def test_summary_report_describes_benchmark_evidence(tmp_path):
             {
                 "method": ["python_loop", "numpy_vectorized"],
                 "num_prices": [1000, 1000],
+                "option_type": ["call", "call"],
+                "strike": [105.0, 105.0],
+                "risk_free_rate": [0.04, 0.04],
+                "volatility": [0.20, 0.20],
                 "runtime_seconds": [0.2, 0.01],
                 "speedup_vs_loop": [1.0, 20.0],
                 "max_abs_error_vs_loop": [0.0, 1e-10],
@@ -242,6 +246,10 @@ def test_summary_report_describes_benchmark_evidence(tmp_path):
     report = write_summary_report(run_dir, config, outputs).read_text(encoding="utf-8")
 
     assert "20.00x faster" in report
+    assert "Option type: `call`" in report
+    assert "Strike: $105.00" in report
+    assert "Risk-free rate: 4.00%" in report
+    assert "Volatility: 20.00%" in report
     assert "Prices compared: 1,000" in report
     assert "Python loop runtime: 0.200000 seconds" in report
     assert "NumPy vectorized runtime: 0.010000 seconds" in report

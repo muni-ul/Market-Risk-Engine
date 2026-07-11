@@ -456,10 +456,12 @@ def _benchmark_summary_text(benchmark: pd.DataFrame, enabled: bool) -> str:
         "benchmark.passed_equivalence_check",
     ):
         raise ReportingError("benchmark equivalence check must pass before summary_report.md can report speedup.")
+    assumption_lines = _benchmark_assumption_lines(vector)
     return "\n".join(
         [
             f"Vectorized NumPy pricing ran {speedup:.2f}x faster than the Python loop on this machine.",
             "",
+            *assumption_lines,
             f"- Prices compared: {num_prices:,}",
             f"- Python loop runtime: {loop_runtime:.6f} seconds",
             f"- NumPy vectorized runtime: {vector_runtime:.6f} seconds",
@@ -469,6 +471,25 @@ def _benchmark_summary_text(benchmark: pd.DataFrame, enabled: bool) -> str:
             "Benchmark results vary by hardware, Python version, and input size.",
         ]
     )
+
+
+def _benchmark_assumption_lines(row: pd.Series) -> list[str]:
+    lines: list[str] = []
+    if "option_type" in row:
+        lines.append(f"- Option type: `{str(row['option_type'])}`")
+    if "strike" in row:
+        strike = _summary_float(row["strike"], "benchmark.strike")
+        lines.append(f"- Strike: ${strike:.2f}")
+    if "risk_free_rate" in row:
+        risk_free_rate = _summary_float(
+            row["risk_free_rate"],
+            "benchmark.risk_free_rate",
+        )
+        lines.append(f"- Risk-free rate: {risk_free_rate:.2%}")
+    if "volatility" in row:
+        volatility = _summary_float(row["volatility"], "benchmark.volatility")
+        lines.append(f"- Volatility: {volatility:.2%}")
+    return lines
 
 
 def _execution_summary_text(config: RunConfig, trades: pd.DataFrame) -> str:

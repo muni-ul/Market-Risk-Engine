@@ -111,6 +111,10 @@ This is a local simulation only. It does not use live market data, place real tr
 
 Vectorized NumPy pricing ran faster than the Python loop on this machine.
 
+- Option type: generated from the benchmark setup
+- Strike: generated from the benchmark setup
+- Risk-free rate: generated from the benchmark setup
+- Volatility: generated from the benchmark setup
 - Prices compared: generated from the benchmark config
 - Python loop runtime: measured locally
 - NumPy vectorized runtime: measured locally

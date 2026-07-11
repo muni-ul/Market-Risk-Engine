@@ -14,7 +14,7 @@ The demo run writes CSV files under `results/<run_name>/`. These files are desig
 | `trades.csv` | Simulated fills for approved orders | `trade_id`, `order_id`, `step`, `symbol`, `side`, `quantity`, `fill_price`, `commission`, `contract_multiplier`, `notional`, `fill_model` |
 | `portfolio_history.csv` | Cash, position, value, and drawdown over time | `step`, `cash`, `symbol`, `position_quantity`, `average_cost`, `market_price`, `positions_value`, `realized_pnl`, `unrealized_pnl`, `total_value`, `peak_value`, `drawdown`, `drawdown_pct` |
 | `risk_events.csv` | Blocked-order events | `step`, `event_type`, `severity`, `symbol`, `proposed_side`, `proposed_quantity`, `proposed_notional`, `portfolio_value`, `limit_name`, `limit_value`, `observed_value`, `reason` |
-| `benchmark.csv` | Loop-vs-vectorized pricing comparison | `method`, `num_prices`, `runtime_seconds`, `speedup_vs_loop`, `max_abs_error_vs_loop`, `passed_equivalence_check` |
+| `benchmark.csv` | Loop-vs-vectorized pricing comparison | `method`, `num_prices`, `option_type`, `strike`, `risk_free_rate`, `volatility`, `runtime_seconds`, `speedup_vs_loop`, `max_abs_error_vs_loop`, `passed_equivalence_check` |
 
 `market_path.csv` also includes `path_id` when `market.paths` is greater than `1`. The main demo config uses one path, so the default output focuses on the single-path contract.
 

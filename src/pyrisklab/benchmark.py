@@ -13,6 +13,24 @@ from pyrisklab.models import BenchmarkConfig
 from pyrisklab.pricing import black_scholes_price
 
 
+BENCHMARK_OPTION_TYPE = "call"
+BENCHMARK_STRIKE = 105.0
+BENCHMARK_RISK_FREE_RATE = 0.04
+BENCHMARK_VOLATILITY = 0.20
+BENCHMARK_COLUMNS = [
+    "method",
+    "num_prices",
+    "option_type",
+    "strike",
+    "risk_free_rate",
+    "volatility",
+    "runtime_seconds",
+    "speedup_vs_loop",
+    "max_abs_error_vs_loop",
+    "passed_equivalence_check",
+]
+
+
 def generate_benchmark_inputs(num_prices: int, seed: int) -> dict[str, np.ndarray]:
     num_prices = _as_positive_integer(num_prices, "num_prices")
     rng = np.random.default_rng(seed)
@@ -26,20 +44,40 @@ def price_loop(inputs: dict[str, np.ndarray]) -> np.ndarray:
     _validate_inputs(inputs)
     return np.array(
         [
-            black_scholes_price(spot, 105.0, time_to_expiry, 0.04, 0.20, "call")
-            for spot, time_to_expiry in zip(inputs["spot"], inputs["time_to_expiry"], strict=True)
+            black_scholes_price(
+                spot,
+                BENCHMARK_STRIKE,
+                time_to_expiry,
+                BENCHMARK_RISK_FREE_RATE,
+                BENCHMARK_VOLATILITY,
+                BENCHMARK_OPTION_TYPE,
+            )
+            for spot, time_to_expiry in zip(
+                inputs["spot"],
+                inputs["time_to_expiry"],
+                strict=True,
+            )
         ]
     )
 
 
 def price_vectorized(inputs: dict[str, np.ndarray]) -> np.ndarray:
     _validate_inputs(inputs)
-    return np.asarray(black_scholes_price(inputs["spot"], 105.0, inputs["time_to_expiry"], 0.04, 0.20, "call"))
+    return np.asarray(
+        black_scholes_price(
+            inputs["spot"],
+            BENCHMARK_STRIKE,
+            inputs["time_to_expiry"],
+            BENCHMARK_RISK_FREE_RATE,
+            BENCHMARK_VOLATILITY,
+            BENCHMARK_OPTION_TYPE,
+        )
+    )
 
 
 def run_pricing_benchmark(config: BenchmarkConfig) -> pd.DataFrame:
     if not config.enabled:
-        return pd.DataFrame(columns=["method", "num_prices", "runtime_seconds", "speedup_vs_loop", "max_abs_error_vs_loop", "passed_equivalence_check"])
+        return pd.DataFrame(columns=BENCHMARK_COLUMNS)
     inputs = generate_benchmark_inputs(config.num_prices, config.seed)
     loop_prices, loop_runtime = _time(price_loop, inputs)
     vector_prices, vector_runtime = _time(price_vectorized, inputs)
@@ -61,6 +99,10 @@ def run_pricing_benchmark(config: BenchmarkConfig) -> pd.DataFrame:
             {
                 "method": "python_loop",
                 "num_prices": config.num_prices,
+                "option_type": BENCHMARK_OPTION_TYPE,
+                "strike": BENCHMARK_STRIKE,
+                "risk_free_rate": BENCHMARK_RISK_FREE_RATE,
+                "volatility": BENCHMARK_VOLATILITY,
                 "runtime_seconds": loop_runtime,
                 "speedup_vs_loop": 1.0,
                 "max_abs_error_vs_loop": 0.0,
@@ -69,6 +111,10 @@ def run_pricing_benchmark(config: BenchmarkConfig) -> pd.DataFrame:
             {
                 "method": "numpy_vectorized",
                 "num_prices": config.num_prices,
+                "option_type": BENCHMARK_OPTION_TYPE,
+                "strike": BENCHMARK_STRIKE,
+                "risk_free_rate": BENCHMARK_RISK_FREE_RATE,
+                "volatility": BENCHMARK_VOLATILITY,
                 "runtime_seconds": vector_runtime,
                 "speedup_vs_loop": vector_speedup,
                 "max_abs_error_vs_loop": max_abs_error,

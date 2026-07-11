@@ -3,7 +3,12 @@ from __future__ import annotations
 import numpy as np
 import pytest
 
-from pyrisklab.benchmark import generate_benchmark_inputs, price_loop, run_pricing_benchmark
+from pyrisklab.benchmark import (
+    BENCHMARK_COLUMNS,
+    generate_benchmark_inputs,
+    price_loop,
+    run_pricing_benchmark,
+)
 from pyrisklab.exceptions import BenchmarkError
 from pyrisklab.models import BenchmarkConfig
 
@@ -11,6 +16,17 @@ from pyrisklab.models import BenchmarkConfig
 def test_benchmark_returns_loop_and_vectorized_rows():
     df = run_pricing_benchmark(BenchmarkConfig(True, 1000, 42))
     assert set(df["method"]) == {"python_loop", "numpy_vectorized"}
+    assert list(df.columns) == BENCHMARK_COLUMNS
+    assert set(df["option_type"]) == {"call"}
+    assert set(df["strike"]) == {105.0}
+    assert set(df["risk_free_rate"]) == {0.04}
+    assert set(df["volatility"]) == {0.20}
+
+
+def test_disabled_benchmark_keeps_output_headers():
+    df = run_pricing_benchmark(BenchmarkConfig(False, 1000, 42))
+    assert df.empty
+    assert list(df.columns) == BENCHMARK_COLUMNS
 
 
 def test_benchmark_saves_a_csv(tmp_path):

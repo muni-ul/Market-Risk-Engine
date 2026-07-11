@@ -21,6 +21,7 @@ def test_readme_contains_required_demo_and_scope_language():
     assert "approved, blocked, and skipped simulated orders" in readme
     assert "order status counts" in readme
     assert "benchmark.enabled" in readme
+    assert "pricing assumptions" in readme
     assert "--debug" in readme
     assert "traceback" in readme
     assert "Generated outputs are not required before setup" in readme
@@ -47,6 +48,8 @@ def test_sample_output_docs_are_linked_and_present():
     with open("docs/sample_outputs/summary_report_excerpt.md", encoding="utf-8") as report_file:
         report_excerpt = report_file.read()
         assert "benchmark.enabled is false" in report_excerpt
+        assert "Risk-free rate" in report_excerpt
+        assert "Volatility" in report_excerpt
         assert report_excerpt.index("## Strategy Signals") < report_excerpt.index("## Portfolio Results")
         assert report_excerpt.index("## Greeks") < report_excerpt.index("## Strategy Signals")
         assert "Buy when delta is below" in report_excerpt
@@ -84,6 +87,8 @@ def test_sample_output_docs_are_linked_and_present():
     with open("docs/sample_outputs/csv_contracts.md", encoding="utf-8") as contracts_file:
         csv_contracts = contracts_file.read()
         assert "`benchmark.enabled` is false" in csv_contracts
+        assert "`risk_free_rate`" in csv_contracts
+        assert "`volatility`" in csv_contracts
         assert "`APPROVED`" in csv_contracts
         assert "`BLOCKED`" in csv_contracts
         assert "`SKIPPED`" in csv_contracts

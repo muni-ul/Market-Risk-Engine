@@ -199,7 +199,7 @@ PyRiskLab benchmarks two Black-Scholes pricing approaches on the same determinis
 - `python_loop`
 - `numpy_vectorized`
 
-The benchmark writes runtime, speedup, and numerical-equivalence checks to `benchmark.csv`. Results vary by machine and input size, so the benchmark demonstrates performance-aware engineering rather than guaranteeing a fixed speedup.
+The benchmark writes pricing assumptions, runtime, speedup, and numerical-equivalence checks to `benchmark.csv`. Results vary by machine and input size, so the benchmark demonstrates performance-aware engineering rather than guaranteeing a fixed speedup.
 
 If `benchmark.enabled` is false in a config, the report calls that out explicitly and writes an empty `benchmark.csv` with the same stable file contract.
 
