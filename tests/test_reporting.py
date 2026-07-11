@@ -23,6 +23,28 @@ def test_output_directory_is_created(tmp_path):
     assert prepare_output_dir(tmp_path, "demo").exists()
 
 
+def test_output_directory_create_failure_raises_readable_run_error(tmp_path, monkeypatch):
+    def fail_mkdir(_self, **_kwargs):
+        raise OSError("disk is unavailable")
+
+    monkeypatch.setattr(Path, "mkdir", fail_mkdir)
+
+    with pytest.raises(RunError, match="could not create"):
+        prepare_output_dir(tmp_path, "demo")
+
+
+def test_output_directory_overwrite_failure_raises_readable_run_error(tmp_path, monkeypatch):
+    run_dir = prepare_output_dir(tmp_path, "demo")
+
+    def fail_rmtree(_path):
+        raise OSError("directory is locked")
+
+    monkeypatch.setattr("pyrisklab.reporting.shutil.rmtree", fail_rmtree)
+
+    with pytest.raises(RunError, match="could not overwrite"):
+        prepare_output_dir(tmp_path, run_dir.name, overwrite=True)
+
+
 def test_empty_trades_still_produce_trades_csv(tmp_path):
     run_dir = prepare_output_dir(tmp_path, "demo")
     save_csv_outputs(run_dir, {"trades.csv": pd.DataFrame(columns=["step", "symbol"])})

@@ -22,8 +22,18 @@ def prepare_output_dir(output_dir: Path, run_name: str, overwrite: bool = False)
     if run_dir.exists():
         if not overwrite:
             raise RunError(f"{run_dir} already exists. Use --overwrite or choose a different run_name.")
-        shutil.rmtree(run_dir)
-    run_dir.mkdir(parents=True, exist_ok=True)
+        try:
+            shutil.rmtree(run_dir)
+        except OSError as exc:
+            raise RunError(
+                f"could not overwrite {run_dir}. Check folder permissions."
+            ) from exc
+    try:
+        run_dir.mkdir(parents=True, exist_ok=True)
+    except OSError as exc:
+        raise RunError(
+            f"could not create {run_dir}. Check folder permissions."
+        ) from exc
     return run_dir
 
 
