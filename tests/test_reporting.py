@@ -196,9 +196,23 @@ def test_run_metadata_records_reproducible_artifact_context(tmp_path):
     expected_digest = hashlib.sha256(Path("configs/demo.yaml").read_bytes()).hexdigest()
     assert metadata["config_sha256"] == expected_digest
     assert metadata["csv_row_counts"] == {"market_path.csv": 2, "trades.csv": 0}
+    assert metadata["order_status_counts"] == {"APPROVED": 0, "BLOCKED": 0, "SKIPPED": 0}
     assert set(metadata["expected_artifacts"]) == reporting.EXPECTED_ARTIFACT_NAMES
     assert "run_metadata.json" in metadata["generated_artifacts"]
     assert "summary_report.md" in metadata["generated_artifacts"]
+
+
+def test_run_metadata_records_order_audit_counts(tmp_path):
+    run_dir = prepare_output_dir(tmp_path, "demo")
+    config = load_config("configs/demo.yaml")
+    outputs = {
+        "orders.csv": pd.DataFrame({"status": ["APPROVED", "BLOCKED", "BLOCKED", "SKIPPED"]}),
+    }
+
+    metadata_path = write_run_metadata(run_dir, config, Path("configs/demo.yaml"), outputs)
+    metadata = json.loads(metadata_path.read_text(encoding="utf-8"))
+
+    assert metadata["order_status_counts"] == {"APPROVED": 1, "BLOCKED": 2, "SKIPPED": 1}
 
 
 def test_run_metadata_config_hash_failure_raises_run_error(tmp_path):

@@ -182,7 +182,7 @@ results/demo_run/
 
 The `results/demo_run/` folder is created locally after running the demo. Generated outputs are not required before setup, and the repository keeps `results/` mostly empty so reviewers can reproduce the run themselves.
 
-`orders.csv` includes proposed simulated orders with risk approval status. `summary_report.md` summarizes approved, blocked, and skipped simulated orders so the risk/execution audit trail is visible without opening every CSV. `run_metadata.json` records deterministic run context, the config SHA-256 digest, row counts, expected artifact names, and generated artifact names. Empty `trades.csv`, `risk_events.csv`, or disabled-benchmark `benchmark.csv` files are valid outcomes and still include headers.
+`orders.csv` includes proposed simulated orders with risk approval status. `summary_report.md` summarizes approved, blocked, and skipped simulated orders so the risk/execution audit trail is visible without opening every CSV. `run_metadata.json` records deterministic run context, the config SHA-256 digest, row counts, order status counts, expected artifact names, and generated artifact names. Empty `trades.csv`, `risk_events.csv`, or disabled-benchmark `benchmark.csv` files are valid outcomes and still include headers.
 
 ## Benchmark
 

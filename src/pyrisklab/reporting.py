@@ -109,6 +109,7 @@ def write_run_metadata(
         "benchmark_enabled": config.benchmark.enabled,
         "simulation_only": True,
         "csv_row_counts": _csv_row_counts(outputs),
+        "order_status_counts": _order_status_counts(_optional_output(outputs, "orders.csv")),
         "expected_artifacts": sorted(EXPECTED_ARTIFACT_NAMES),
         "generated_artifacts": _artifact_names(run_dir, pending={"run_metadata.json"}),
     }

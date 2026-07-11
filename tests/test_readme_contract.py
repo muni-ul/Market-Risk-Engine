@@ -18,6 +18,7 @@ def test_readme_contains_required_demo_and_scope_language():
     assert "results/demo_run/greeks.png" in readme
     assert "expected artifact names" in readme
     assert "approved, blocked, and skipped simulated orders" in readme
+    assert "order status counts" in readme
     assert "benchmark.enabled" in readme
     assert "Generated outputs are not required before setup" in readme
     assert "## Troubleshooting" in readme
@@ -42,5 +43,7 @@ def test_sample_output_docs_are_linked_and_present():
 
     with open("docs/sample_outputs/summary_report_excerpt.md", encoding="utf-8") as report_file:
         assert "benchmark.enabled is false" in report_file.read()
+    with open("docs/sample_outputs/run_metadata_example.md", encoding="utf-8") as metadata_file:
+        assert "order_status_counts" in metadata_file.read()
     with open("docs/sample_outputs/csv_contracts.md", encoding="utf-8") as contracts_file:
         assert "`benchmark.enabled` is false" in contracts_file.read()

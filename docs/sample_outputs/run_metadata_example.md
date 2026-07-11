@@ -30,6 +30,11 @@ Representative shape:
     "signals.csv": 253,
     "trades.csv": 0
   },
+  "order_status_counts": {
+    "APPROVED": 0,
+    "BLOCKED": 0,
+    "SKIPPED": 0
+  },
   "expected_artifacts": [
     "benchmark.csv",
     "config_used.yaml",
