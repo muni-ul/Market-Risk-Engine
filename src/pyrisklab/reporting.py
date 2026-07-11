@@ -18,6 +18,29 @@ from pyrisklab.exceptions import ReportingError, RunError
 from pyrisklab.models import RunConfig
 
 
+EXPECTED_ARTIFACT_NAMES = frozenset(
+    {
+        "benchmark.csv",
+        "config_used.yaml",
+        "drawdown.png",
+        "greeks.png",
+        "greeks_history.csv",
+        "market_path.csv",
+        "market_path.png",
+        "option_price.png",
+        "orders.csv",
+        "portfolio_history.csv",
+        "portfolio_value.png",
+        "pricing_history.csv",
+        "risk_events.csv",
+        "run_metadata.json",
+        "signals.csv",
+        "summary_report.md",
+        "trades.csv",
+    }
+)
+
+
 def prepare_output_dir(output_dir: Path, run_name: str, overwrite: bool = False) -> Path:
     run_dir = output_dir / run_name
     if run_dir.exists():
@@ -273,6 +296,7 @@ def generate_reports(run_dir: Path, config: RunConfig, config_path: Path, output
     paths.extend(generate_charts(run_dir, outputs))
     paths.append(write_run_metadata(run_dir, config, config_path, outputs))
     paths.append(write_summary_report(run_dir, config, outputs))
+    _verify_expected_artifacts(run_dir)
     return paths
 
 
@@ -377,3 +401,13 @@ def _artifact_names(run_dir: Path) -> list[str]:
         ) from exc
     names.update({"run_metadata.json", "summary_report.md"})
     return sorted(names)
+
+
+def _verify_expected_artifacts(run_dir: Path) -> None:
+    actual = set(_artifact_names(run_dir))
+    missing = EXPECTED_ARTIFACT_NAMES - actual
+    if missing:
+        raise RunError(
+            "reporting did not create expected artifacts: "
+            f"{', '.join(sorted(missing))}."
+        )

@@ -10,12 +10,14 @@ import pytest
 from pyrisklab.config import load_config
 from pyrisklab.exceptions import ReportingError, RunError
 from pyrisklab.reporting import (
+    EXPECTED_ARTIFACT_NAMES,
     generate_charts,
     plot_greeks,
     prepare_output_dir,
     save_csv_outputs,
     write_run_metadata,
     write_summary_report,
+    _verify_expected_artifacts,
 )
 
 
@@ -306,3 +308,12 @@ def test_summary_report_artifact_listing_failure_raises_run_error(tmp_path, monk
 
     with pytest.raises(RunError, match="could not list generated artifacts"):
         write_summary_report(run_dir, config, outputs)
+
+
+def test_expected_artifact_verifier_names_missing_outputs(tmp_path):
+    run_dir = prepare_output_dir(tmp_path, "demo")
+    for filename in EXPECTED_ARTIFACT_NAMES - {"drawdown.png"}:
+        (run_dir / filename).write_text("", encoding="utf-8")
+
+    with pytest.raises(RunError, match="drawdown.png"):
+        _verify_expected_artifacts(run_dir)
