@@ -14,6 +14,7 @@ def test_readme_contains_required_demo_and_scope_language():
     assert "docs/sample_outputs/" in readme
     assert "docs/sample_outputs/chart_artifacts.md" in readme
     assert "docs/sample_outputs/risk_stress_demo.md" in readme
+    assert "docs/REVIEWER_GUIDE.md" in readme
     assert "docs/PORTFOLIO_CASE_STUDY.md" in readme
     assert "results/demo_run/greeks.png" in readme
     assert "expected artifact names" in readme
@@ -70,3 +71,17 @@ def test_sample_output_docs_are_linked_and_present():
         assert "`APPROVED`" in csv_contracts
         assert "`BLOCKED`" in csv_contracts
         assert "`SKIPPED`" in csv_contracts
+
+
+def test_reviewer_guide_contains_demo_and_scope_contracts():
+    with open("docs/REVIEWER_GUIDE.md", encoding="utf-8") as reviewer_file:
+        reviewer_guide = reviewer_file.read()
+
+    assert "python -m pyrisklab run --config configs/demo.yaml --overwrite" in reviewer_guide
+    assert "python -m pyrisklab run --config configs/risk_stress.yaml --overwrite" in reviewer_guide
+    assert "summary_report.md" in reviewer_guide
+    assert "run_metadata.json" in reviewer_guide
+    assert "benchmark.csv" in reviewer_guide
+    assert "pytest" in reviewer_guide
+    assert "ruff check ." in reviewer_guide
+    assert "not a trading bot" in reviewer_guide

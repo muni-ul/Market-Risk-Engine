@@ -62,6 +62,8 @@ configs/demo.yaml
 
 See `docs/ARCHITECTURE.md` for the longer design explanation.
 
+For a quick evaluator walkthrough, see `docs/REVIEWER_GUIDE.md`.
+
 For a portfolio-style narrative of the problem, engineering decisions, tradeoffs, and interview story, see `docs/PORTFOLIO_CASE_STUDY.md`.
 
 ## Local Setup
@@ -199,7 +201,7 @@ If `benchmark.enabled` is false in a config, the report calls that out explicitl
 
 For a committed example of the expected terminal and report shape, see `docs/SAMPLE_OUTPUT.md`. For more concrete output contracts, see `docs/sample_outputs/`, including `docs/sample_outputs/chart_artifacts.md` for the generated PNG chart set and `docs/sample_outputs/risk_stress_demo.md` for the risk-audit preset.
 
-For the project story and resume/interview framing, see `docs/PORTFOLIO_CASE_STUDY.md` and `docs/INTERVIEW_NOTES.md`.
+For the project story and resume/interview framing, see `docs/REVIEWER_GUIDE.md`, `docs/PORTFOLIO_CASE_STUDY.md`, and `docs/INTERVIEW_NOTES.md`.
 
 After running the demo, open:
 
