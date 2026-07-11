@@ -77,3 +77,5 @@ Representative shape:
 ```
 
 The exact row counts depend on the config. For the default demo, the configured `market.steps: 252` produces `253` path rows because the initial step is included.
+
+`schema_version` and `project_version` make the metadata format explicit as the project evolves. `config_sha256` lets a reviewer confirm which config produced the run, while `expected_artifacts` and `generated_artifacts` make output completeness auditable without opening every file.
