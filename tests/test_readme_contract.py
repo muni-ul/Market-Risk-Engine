@@ -57,6 +57,7 @@ def test_sample_output_docs_are_linked_and_present():
         assert "order_status_counts" in metadata_doc
         assert "schema_version" in metadata_doc
         assert "config_sha256" in metadata_doc
+        assert "generated_artifact_sizes_bytes" in metadata_doc
     with open("docs/sample_outputs/risk_stress_demo.md", encoding="utf-8") as risk_demo_file:
         risk_demo = risk_demo_file.read()
         assert "blocked simulated order counts" in risk_demo
@@ -81,6 +82,7 @@ def test_reviewer_guide_contains_demo_and_scope_contracts():
     assert "python -m pyrisklab run --config configs/risk_stress.yaml --overwrite" in reviewer_guide
     assert "summary_report.md" in reviewer_guide
     assert "run_metadata.json" in reviewer_guide
+    assert "generated artifact byte sizes" in reviewer_guide
     assert "benchmark.csv" in reviewer_guide
     assert "pytest" in reviewer_guide
     assert "ruff check ." in reviewer_guide

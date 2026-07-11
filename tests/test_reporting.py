@@ -253,6 +253,8 @@ def test_run_metadata_records_reproducible_artifact_context(tmp_path):
         "market_path.csv": pd.DataFrame({"step": [0, 1], "underlying_price": [100.0, 101.0]}),
         "trades.csv": pd.DataFrame(columns=["step", "symbol"]),
     }
+    save_csv_outputs(run_dir, outputs)
+    (run_dir / "summary_report.md").write_text("# Summary\n", encoding="utf-8")
 
     metadata_path = write_run_metadata(run_dir, config, Path("configs/demo.yaml"), outputs)
     metadata = json.loads(metadata_path.read_text(encoding="utf-8"))
@@ -275,6 +277,9 @@ def test_run_metadata_records_reproducible_artifact_context(tmp_path):
     assert set(metadata["expected_artifacts"]) == reporting.EXPECTED_ARTIFACT_NAMES
     assert "run_metadata.json" in metadata["generated_artifacts"]
     assert "summary_report.md" in metadata["generated_artifacts"]
+    assert metadata["generated_artifact_sizes_bytes"]["market_path.csv"] > 0
+    assert metadata["generated_artifact_sizes_bytes"]["trades.csv"] > 0
+    assert metadata["generated_artifact_sizes_bytes"]["run_metadata.json"] > 0
 
 
 def test_run_metadata_records_order_audit_counts(tmp_path):

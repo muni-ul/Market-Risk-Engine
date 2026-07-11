@@ -121,14 +121,25 @@ def write_run_metadata(
         "order_status_counts": _order_status_counts(_optional_output(outputs, "orders.csv")),
         "expected_artifacts": sorted(EXPECTED_ARTIFACT_NAMES),
         "generated_artifacts": _artifact_names(run_dir, pending={"run_metadata.json"}),
+        "generated_artifact_sizes_bytes": {},
     }
+    _write_json(path, metadata, run_dir)
+    for _attempt in range(5):
+        current_sizes = _artifact_sizes(run_dir)
+        if metadata["generated_artifact_sizes_bytes"] == current_sizes:
+            return path
+        metadata["generated_artifact_sizes_bytes"] = current_sizes
+        _write_json(path, metadata, run_dir)
+    return path
+
+
+def _write_json(path: Path, content: dict, run_dir: Path) -> None:
     try:
-        path.write_text(json.dumps(metadata, indent=2) + "\n", encoding="utf-8")
+        path.write_text(json.dumps(content, indent=2) + "\n", encoding="utf-8")
     except OSError as exc:
         raise RunError(
             f"could not write run_metadata.json to {run_dir}. Check folder permissions."
         ) from exc
-    return path
 
 
 def generate_charts(run_dir: Path, outputs: dict[str, pd.DataFrame]) -> list[Path]:
@@ -517,6 +528,24 @@ def _artifact_names(run_dir: Path, pending: set[str] | None = None) -> list[str]
     if pending:
         names.update(pending)
     return sorted(names)
+
+
+def _artifact_sizes(run_dir: Path) -> dict[str, int]:
+    sizes = {}
+    try:
+        artifacts = sorted(path for path in run_dir.iterdir() if path.is_file())
+    except OSError as exc:
+        raise RunError(
+            f"could not list generated artifacts in {run_dir}. Check folder permissions."
+        ) from exc
+    for path in artifacts:
+        try:
+            sizes[path.name] = path.stat().st_size
+        except OSError as exc:
+            raise RunError(
+                f"could not inspect generated artifact {path.name} in {run_dir}."
+            ) from exc
+    return sizes
 
 
 def _verify_expected_artifacts(run_dir: Path) -> None:

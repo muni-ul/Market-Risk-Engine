@@ -72,10 +72,29 @@ Representative shape:
     "signals.csv",
     "summary_report.md",
     "trades.csv"
-  ]
+  ],
+  "generated_artifact_sizes_bytes": {
+    "benchmark.csv": 180,
+    "config_used.yaml": 720,
+    "drawdown.png": 48123,
+    "greeks.png": 71234,
+    "greeks_history.csv": 18200,
+    "market_path.csv": 9400,
+    "market_path.png": 52344,
+    "option_price.png": 50122,
+    "orders.csv": 96,
+    "portfolio_history.csv": 16800,
+    "portfolio_value.png": 48890,
+    "pricing_history.csv": 15100,
+    "risk_events.csv": 132,
+    "run_metadata.json": 2400,
+    "signals.csv": 14600,
+    "summary_report.md": 2200,
+    "trades.csv": 88
+  }
 }
 ```
 
 The exact row counts depend on the config. For the default demo, the configured `market.steps: 252` produces `253` path rows because the initial step is included.
 
-`schema_version` and `project_version` make the metadata format explicit as the project evolves. `config_sha256` lets a reviewer confirm which config produced the run, while `expected_artifacts` and `generated_artifacts` make output completeness auditable without opening every file.
+`schema_version` and `project_version` make the metadata format explicit as the project evolves. `config_sha256` lets a reviewer confirm which config produced the run, while `expected_artifacts`, `generated_artifacts`, and `generated_artifact_sizes_bytes` make output completeness auditable without opening every file. Byte sizes vary by machine and matplotlib metadata, so the example values are representative rather than fixed.
