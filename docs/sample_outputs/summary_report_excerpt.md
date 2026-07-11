@@ -57,7 +57,11 @@ This is a local simulation only. It does not use live market data, place real tr
 
 ## Fake Execution
 
-Generated from fake execution state, or reports that fake execution was disabled.
+- Enabled: generated from `execution.enabled`
+- Fill model: generated from `execution.fill_model`
+- Commission per contract: generated from `execution.commission_per_contract`
+- Contract multiplier: generated from `execution.contract_multiplier`
+- Result: generated from fake execution state, or reports that fake execution was disabled
 
 ## Risk Events
 

@@ -218,12 +218,7 @@ def write_summary_report(run_dir: Path, config: RunConfig, outputs: dict[str, pd
     signals = _optional_output(outputs, "signals.csv")
     orders = _optional_output(outputs, "orders.csv")
     order_status_counts = _order_status_counts(orders)
-    if not config.execution.enabled:
-        trade_note = "Fake execution was disabled in the config, so proposed orders were not filled."
-    elif trades.empty:
-        trade_note = "No simulated trades were executed in this run."
-    else:
-        trade_note = f"{len(trades)} simulated trades were executed."
+    execution_text = _execution_summary_text(config, trades)
     risk_note = "No risk events were triggered in this run." if risk_events.empty else f"{len(risk_events)} risk events were recorded."
     benchmark_text = _benchmark_summary_text(benchmark, config.benchmark.enabled)
     artifact_list = "\n".join(
@@ -284,7 +279,7 @@ This is a local simulation only. It does not use live market data, place real tr
 
 ## Fake Execution
 
-{trade_note}
+{execution_text}
 
 ## Risk Events
 
@@ -471,6 +466,24 @@ def _benchmark_summary_text(benchmark: pd.DataFrame, enabled: bool) -> str:
             "- Numerical equivalence check: passed",
             "",
             "Benchmark results vary by hardware, Python version, and input size.",
+        ]
+    )
+
+
+def _execution_summary_text(config: RunConfig, trades: pd.DataFrame) -> str:
+    if not config.execution.enabled:
+        trade_note = "Fake execution was disabled in the config, so proposed orders were not filled."
+    elif trades.empty:
+        trade_note = "No simulated trades were executed in this run."
+    else:
+        trade_note = f"{len(trades)} simulated trades were executed."
+    return "\n".join(
+        [
+            f"- Enabled: {str(config.execution.enabled).lower()}",
+            f"- Fill model: `{config.execution.fill_model}`",
+            f"- Commission per contract: ${config.execution.commission_per_contract:.2f}",
+            f"- Contract multiplier: {config.execution.contract_multiplier}",
+            f"- Result: {trade_note}",
         ]
     )
 

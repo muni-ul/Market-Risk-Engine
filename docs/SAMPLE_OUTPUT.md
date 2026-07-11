@@ -67,6 +67,14 @@ This is a local simulation only. It does not use live market data, place real tr
 - Final theta: generated from the final simulated option state
 - Final rho: generated from the final simulated option state
 
+## Fake Execution
+
+- Enabled: generated from the execution config
+- Fill model: deterministic simulated fill model
+- Commission per contract: configured local assumption
+- Contract multiplier: configured local assumption
+- Result: generated from fake execution state
+
 ## Benchmark
 
 Vectorized NumPy pricing ran faster than the Python loop on this machine.

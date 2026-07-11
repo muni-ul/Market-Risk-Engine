@@ -50,6 +50,8 @@ def test_sample_output_docs_are_linked_and_present():
         assert report_excerpt.index("## Strategy Signals") < report_excerpt.index("## Portfolio Results")
         assert report_excerpt.index("## Greeks") < report_excerpt.index("## Strategy Signals")
         assert "## Fake Execution" in report_excerpt
+        assert "Fill model" in report_excerpt
+        assert "Contract multiplier" in report_excerpt
         assert "## Risk Events" in report_excerpt
         assert "## Limitations" in report_excerpt
         assert report_excerpt.index("## Fake Execution") < report_excerpt.index("## Risk Events")

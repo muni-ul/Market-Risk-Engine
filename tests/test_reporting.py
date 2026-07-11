@@ -147,6 +147,11 @@ def test_summary_report_mentions_empty_trades_and_risk_events(tmp_path):
     assert "No risk events were triggered" in report
     assert "## Greeks" in report
     assert "Final delta: 0.5500" in report
+    assert "## Fake Execution" in report
+    assert "Enabled: true" in report
+    assert "Fill model: `deterministic_mid`" in report
+    assert "Commission per contract: $0.00" in report
+    assert "Contract multiplier: 100" in report
 
 
 def test_summary_report_validates_greeks_columns_when_present(tmp_path):
