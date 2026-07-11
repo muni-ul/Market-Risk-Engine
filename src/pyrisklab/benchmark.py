@@ -43,6 +43,13 @@ def run_pricing_benchmark(config: BenchmarkConfig) -> pd.DataFrame:
     inputs = generate_benchmark_inputs(config.num_prices, config.seed)
     loop_prices, loop_runtime = _time(price_loop, inputs)
     vector_prices, vector_runtime = _time(price_vectorized, inputs)
+    loop_prices = _require_price_vector(loop_prices, "python_loop")
+    vector_prices = _require_price_vector(vector_prices, "numpy_vectorized")
+    if loop_prices.shape != vector_prices.shape:
+        raise BenchmarkError(
+            "benchmark pricing outputs must have matching shapes. "
+            f"Received python_loop={loop_prices.shape} and numpy_vectorized={vector_prices.shape}."
+        )
     if not np.isfinite(loop_prices).all() or not np.isfinite(vector_prices).all():
         raise BenchmarkError("benchmark pricing produced non-finite values.")
     max_abs_error = float(np.max(np.abs(loop_prices - vector_prices)))
@@ -73,8 +80,25 @@ def run_pricing_benchmark(config: BenchmarkConfig) -> pd.DataFrame:
 
 def _time(fn: Callable[[dict[str, np.ndarray]], np.ndarray], inputs: dict[str, np.ndarray]) -> tuple[np.ndarray, float]:
     start = time.perf_counter()
-    result = fn(inputs)
+    try:
+        result = fn(inputs)
+    except BenchmarkError:
+        raise
+    except Exception as exc:
+        raise BenchmarkError("pricing benchmark could not be completed.") from exc
     return result, time.perf_counter() - start
+
+
+def _require_price_vector(value, method_name: str) -> np.ndarray:
+    try:
+        prices = np.asarray(value, dtype=float)
+    except (TypeError, ValueError) as exc:
+        raise BenchmarkError(f"{method_name} benchmark output must be numeric.") from exc
+    if prices.ndim != 1:
+        raise BenchmarkError(f"{method_name} benchmark output must be a one-dimensional array.")
+    if prices.size == 0:
+        raise BenchmarkError(f"{method_name} benchmark output must include at least one price.")
+    return prices
 
 
 def _validate_inputs(inputs: dict[str, np.ndarray]) -> None:

@@ -63,3 +63,33 @@ def test_empty_benchmark_inputs_raise_project_error():
 def test_nonfinite_benchmark_inputs_raise_project_error():
     with pytest.raises(BenchmarkError, match="finite"):
         price_loop({"spot": np.array([100.0, np.nan]), "time_to_expiry": np.array([0.5, 0.5])})
+
+
+def test_mismatched_benchmark_outputs_raise_project_error(monkeypatch):
+    def short_vectorized(_inputs):
+        return np.array([1.0])
+
+    monkeypatch.setattr("pyrisklab.benchmark.price_vectorized", short_vectorized)
+
+    with pytest.raises(BenchmarkError, match="matching shapes"):
+        run_pricing_benchmark(BenchmarkConfig(True, 3, 42))
+
+
+def test_nonfinite_benchmark_outputs_raise_project_error(monkeypatch):
+    def nan_vectorized(inputs):
+        return np.full_like(inputs["spot"], np.nan, dtype=float)
+
+    monkeypatch.setattr("pyrisklab.benchmark.price_vectorized", nan_vectorized)
+
+    with pytest.raises(BenchmarkError, match="non-finite"):
+        run_pricing_benchmark(BenchmarkConfig(True, 3, 42))
+
+
+def test_nonnumeric_benchmark_outputs_raise_project_error(monkeypatch):
+    def bad_vectorized(inputs):
+        return ["bad-price"] * len(inputs["spot"])
+
+    monkeypatch.setattr("pyrisklab.benchmark.price_vectorized", bad_vectorized)
+
+    with pytest.raises(BenchmarkError, match="numeric"):
+        run_pricing_benchmark(BenchmarkConfig(True, 3, 42))
