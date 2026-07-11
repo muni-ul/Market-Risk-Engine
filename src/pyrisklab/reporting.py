@@ -109,7 +109,7 @@ def write_run_metadata(
         "benchmark_enabled": config.benchmark.enabled,
         "simulation_only": True,
         "csv_row_counts": _csv_row_counts(outputs),
-        "generated_artifacts": _artifact_names(run_dir),
+        "generated_artifacts": _artifact_names(run_dir, pending={"run_metadata.json"}),
     }
     try:
         path.write_text(json.dumps(metadata, indent=2) + "\n", encoding="utf-8")
@@ -217,7 +217,13 @@ def write_summary_report(run_dir: Path, config: RunConfig, outputs: dict[str, pd
             "than the Python loop on this machine. Benchmark results vary by hardware, "
             "Python version, and input size."
         )
-    artifact_list = "\n".join(f"- `{name}`" for name in _artifact_names(run_dir))
+    artifact_list = "\n".join(
+        f"- `{name}`"
+        for name in _artifact_names(
+            run_dir,
+            pending={"run_metadata.json", "summary_report.md"},
+        )
+    )
     text = f"""# PyRiskLab Run Summary
 
 Run name: `{config.run_name}`
@@ -294,8 +300,8 @@ def generate_reports(run_dir: Path, config: RunConfig, config_path: Path, output
     paths = [save_config_copy(config_path, run_dir)]
     paths.extend(save_csv_outputs(run_dir, outputs))
     paths.extend(generate_charts(run_dir, outputs))
-    paths.append(write_run_metadata(run_dir, config, config_path, outputs))
     paths.append(write_summary_report(run_dir, config, outputs))
+    paths.append(write_run_metadata(run_dir, config, config_path, outputs))
     _verify_expected_artifacts(run_dir)
     return paths
 
@@ -392,14 +398,15 @@ def _sha256_file(path: Path) -> str:
     return digest.hexdigest()
 
 
-def _artifact_names(run_dir: Path) -> list[str]:
+def _artifact_names(run_dir: Path, pending: set[str] | None = None) -> list[str]:
     try:
         names = {path.name for path in run_dir.iterdir() if path.is_file()}
     except OSError as exc:
         raise RunError(
             f"could not list generated artifacts in {run_dir}. Check folder permissions."
         ) from exc
-    names.update({"run_metadata.json", "summary_report.md"})
+    if pending:
+        names.update(pending)
     return sorted(names)
 
 

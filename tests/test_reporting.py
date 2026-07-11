@@ -317,3 +317,12 @@ def test_expected_artifact_verifier_names_missing_outputs(tmp_path):
 
     with pytest.raises(RunError, match="drawdown.png"):
         _verify_expected_artifacts(run_dir)
+
+
+def test_expected_artifact_verifier_does_not_count_pending_metadata(tmp_path):
+    run_dir = prepare_output_dir(tmp_path, "demo")
+    for filename in EXPECTED_ARTIFACT_NAMES - {"run_metadata.json"}:
+        (run_dir / filename).write_text("", encoding="utf-8")
+
+    with pytest.raises(RunError, match="run_metadata.json"):
+        _verify_expected_artifacts(run_dir)
