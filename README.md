@@ -77,6 +77,8 @@ pip install -r requirements.txt
 
 The repo also includes a tiny root launcher so `python -m pyrisklab ...` works from the repository root without an editable install. If you prefer a standard editable package workflow, run `pip install -e .` after installing requirements; that also exposes the shorter `pyrisklab` console command.
 
+No API keys, accounts, or local secrets are required. `.env.example` is included only to document that the Version 1 MVP runs without environment variables; real `.env` files stay ignored.
+
 macOS/Linux:
 
 ```bash
