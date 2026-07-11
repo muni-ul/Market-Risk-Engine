@@ -122,6 +122,17 @@ Vectorized NumPy pricing ran faster than the Python loop on this machine.
 - Numerical equivalence check: passed
 
 Benchmark results vary by hardware, Python version, and input size.
+
+## Run Metadata
+
+- Metadata file: `run_metadata.json`
+- Metadata schema version: generated from the reporting schema
+- Config SHA-256 digest: recorded in `run_metadata.json`
+- Benchmark enabled: generated from the benchmark config
+- Benchmark prices: generated from the benchmark config
+- Benchmark seed: generated from the benchmark config
+- Benchmark tolerance: generated from the benchmark config
+- Artifact audit: expected artifacts, generated artifacts, and byte sizes are recorded in metadata
 ```
 
 ## Why This Matters

@@ -179,6 +179,11 @@ def test_summary_report_mentions_empty_trades_and_risk_events(tmp_path):
     assert "Max drawdown: 15.00%" in report
     assert "Max loss: 10.00%" in report
     assert "Stop trading on breach: true" in report
+    assert "## Run Metadata" in report
+    assert "Metadata schema version: 3" in report
+    assert "Config SHA-256 digest: recorded in `run_metadata.json`" in report
+    assert "Benchmark prices: 100,000" in report
+    assert "Artifact audit: expected artifacts, generated artifacts, and byte sizes" in report
 
 
 def test_summary_report_validates_greeks_columns_when_present(tmp_path):

@@ -61,6 +61,8 @@ def test_sample_output_docs_are_linked_and_present():
         assert "Minimum steps between trades" in report_excerpt
         assert "Final cash" in report_excerpt
         assert "Peak portfolio value" in report_excerpt
+        assert "## Run Metadata" in report_excerpt
+        assert "Config SHA-256 digest" in report_excerpt
         assert "## Fake Execution" in report_excerpt
         assert "Fill model" in report_excerpt
         assert "Contract multiplier" in report_excerpt

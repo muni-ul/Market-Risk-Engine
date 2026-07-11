@@ -236,6 +236,7 @@ def write_summary_report(run_dir: Path, config: RunConfig, outputs: dict[str, pd
     execution_text = _execution_summary_text(config, trades)
     risk_text = _risk_summary_text(config, risk_events)
     benchmark_text = _benchmark_summary_text(benchmark, config.benchmark.enabled)
+    metadata_text = _metadata_summary_text(config)
     artifact_list = "\n".join(
         f"- `{name}`"
         for name in _artifact_names(
@@ -299,6 +300,10 @@ This is a local simulation only. It does not use live market data, place real tr
 ## Generated Artifacts
 
 {artifact_list}
+
+## Run Metadata
+
+{metadata_text}
 
 ## Limitations
 
@@ -496,6 +501,21 @@ def _benchmark_assumption_lines(row: pd.Series) -> list[str]:
         volatility = _summary_float(row["volatility"], "benchmark.volatility")
         lines.append(f"- Volatility: {volatility:.2%}")
     return lines
+
+
+def _metadata_summary_text(config: RunConfig) -> str:
+    return "\n".join(
+        [
+            "- Metadata file: `run_metadata.json`",
+            f"- Metadata schema version: {METADATA_SCHEMA_VERSION}",
+            "- Config SHA-256 digest: recorded in `run_metadata.json`",
+            f"- Benchmark enabled: {str(config.benchmark.enabled).lower()}",
+            f"- Benchmark prices: {config.benchmark.num_prices:,}",
+            f"- Benchmark seed: {config.benchmark.seed}",
+            f"- Benchmark tolerance: {config.benchmark.tolerance:.1e}",
+            "- Artifact audit: expected artifacts, generated artifacts, and byte sizes are recorded in metadata",
+        ]
+    )
 
 
 def _execution_summary_text(config: RunConfig, trades: pd.DataFrame) -> str:

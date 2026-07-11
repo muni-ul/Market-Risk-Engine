@@ -122,6 +122,17 @@ Benchmark skipped because benchmark.enabled is false.
 - `summary_report.md`
 - `trades.csv`
 
+## Run Metadata
+
+- Metadata file: `run_metadata.json`
+- Metadata schema version: generated from the reporting schema
+- Config SHA-256 digest: recorded in `run_metadata.json`
+- Benchmark enabled: generated from `benchmark.enabled`
+- Benchmark prices: generated from `benchmark.num_prices`
+- Benchmark seed: generated from `benchmark.seed`
+- Benchmark tolerance: generated from `benchmark.tolerance`
+- Artifact audit: expected artifacts, generated artifacts, and byte sizes are recorded in metadata
+
 ## Limitations
 
 PyRiskLab uses synthetic paths and a simplified fake execution model. Results are for software demonstration only.
