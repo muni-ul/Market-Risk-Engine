@@ -12,6 +12,7 @@ def test_readme_contains_required_demo_and_scope_language():
     assert "results/demo_run/" in readme
     assert "docs/SAMPLE_OUTPUT.md" in readme
     assert "docs/sample_outputs/" in readme
+    assert "docs/sample_outputs/chart_artifacts.md" in readme
     assert "docs/PORTFOLIO_CASE_STUDY.md" in readme
     assert "results/demo_run/greeks.png" in readme
     assert "Generated outputs are not required before setup" in readme
@@ -27,6 +28,7 @@ def test_sample_output_docs_are_linked_and_present():
     for filename in (
         "summary_report_excerpt.md",
         "csv_contracts.md",
+        "chart_artifacts.md",
         "run_metadata_example.md",
     ):
         assert filename in sample_index
