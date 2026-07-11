@@ -69,7 +69,15 @@ This is a local simulation only. It does not use live market data, place real tr
 
 ## Benchmark
 
-Vectorized NumPy pricing ran faster than the Python loop on this machine. Benchmark results vary by hardware, Python version, and input size.
+Vectorized NumPy pricing ran faster than the Python loop on this machine.
+
+- Prices compared: generated from the benchmark config
+- Python loop runtime: measured locally
+- NumPy vectorized runtime: measured locally
+- Max absolute error vs loop: generated from the equivalence check
+- Numerical equivalence check: passed
+
+Benchmark results vary by hardware, Python version, and input size.
 ```
 
 ## Why This Matters

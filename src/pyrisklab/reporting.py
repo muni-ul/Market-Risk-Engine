@@ -214,24 +214,7 @@ def write_summary_report(run_dir: Path, config: RunConfig, outputs: dict[str, pd
     else:
         trade_note = f"{len(trades)} simulated trades were executed."
     risk_note = "No risk events were triggered in this run." if risk_events.empty else f"{len(risk_events)} risk events were recorded."
-    benchmark_text = "Benchmark skipped because benchmark.enabled is false."
-    if config.benchmark.enabled:
-        benchmark_text = "Benchmark was enabled but produced no benchmark rows."
-    if not benchmark.empty:
-        _require(benchmark, {"method", "speedup_vs_loop"}, "benchmark")
-        vector_rows = benchmark.loc[benchmark["method"] == "numpy_vectorized"]
-        if vector_rows.empty:
-            raise ReportingError("benchmark DataFrame must include a numpy_vectorized row when benchmark output is not empty.")
-        vector = vector_rows.iloc[0]
-        speedup = _summary_float(
-            vector["speedup_vs_loop"],
-            "benchmark.speedup_vs_loop",
-        )
-        benchmark_text = (
-            f"Vectorized NumPy pricing ran {speedup:.2f}x faster "
-            "than the Python loop on this machine. Benchmark results vary by hardware, "
-            "Python version, and input size."
-        )
+    benchmark_text = _benchmark_summary_text(benchmark, config.benchmark.enabled)
     artifact_list = "\n".join(
         f"- `{name}`"
         for name in _artifact_names(
@@ -428,6 +411,59 @@ def _greeks_summary_text(greeks_history: pd.DataFrame) -> str:
     ).format(**final_greeks)
 
 
+def _benchmark_summary_text(benchmark: pd.DataFrame, enabled: bool) -> str:
+    if benchmark.empty:
+        if enabled:
+            return "Benchmark was enabled but produced no benchmark rows."
+        return "Benchmark skipped because benchmark.enabled is false."
+    required_columns = {
+        "method",
+        "num_prices",
+        "runtime_seconds",
+        "speedup_vs_loop",
+        "max_abs_error_vs_loop",
+        "passed_equivalence_check",
+    }
+    _require(benchmark, required_columns, "benchmark")
+    loop_rows = benchmark.loc[benchmark["method"] == "python_loop"]
+    vector_rows = benchmark.loc[benchmark["method"] == "numpy_vectorized"]
+    if loop_rows.empty:
+        raise ReportingError("benchmark DataFrame must include a python_loop row when benchmark output is not empty.")
+    if vector_rows.empty:
+        raise ReportingError("benchmark DataFrame must include a numpy_vectorized row when benchmark output is not empty.")
+    loop = loop_rows.iloc[0]
+    vector = vector_rows.iloc[0]
+    num_prices = _summary_int(vector["num_prices"], "benchmark.num_prices")
+    loop_runtime = _summary_float(loop["runtime_seconds"], "benchmark.runtime_seconds")
+    vector_runtime = _summary_float(vector["runtime_seconds"], "benchmark.runtime_seconds")
+    speedup = _summary_float(vector["speedup_vs_loop"], "benchmark.speedup_vs_loop")
+    max_abs_error = _summary_float(
+        vector["max_abs_error_vs_loop"],
+        "benchmark.max_abs_error_vs_loop",
+    )
+    if not _summary_bool(
+        loop["passed_equivalence_check"],
+        "benchmark.passed_equivalence_check",
+    ) or not _summary_bool(
+        vector["passed_equivalence_check"],
+        "benchmark.passed_equivalence_check",
+    ):
+        raise ReportingError("benchmark equivalence check must pass before summary_report.md can report speedup.")
+    return "\n".join(
+        [
+            f"Vectorized NumPy pricing ran {speedup:.2f}x faster than the Python loop on this machine.",
+            "",
+            f"- Prices compared: {num_prices:,}",
+            f"- Python loop runtime: {loop_runtime:.6f} seconds",
+            f"- NumPy vectorized runtime: {vector_runtime:.6f} seconds",
+            f"- Max absolute error vs loop: {max_abs_error:.3e}",
+            "- Numerical equivalence check: passed",
+            "",
+            "Benchmark results vary by hardware, Python version, and input size.",
+        ]
+    )
+
+
 def _order_status_counts(orders: pd.DataFrame) -> dict[str, int]:
     statuses = dict.fromkeys(ORDER_AUDIT_STATUSES, 0)
     if ORDER_STATUS_COLUMN not in orders.columns:
@@ -436,6 +472,26 @@ def _order_status_counts(orders: pd.DataFrame) -> dict[str, int]:
     for status in statuses:
         statuses[status] = int(counts.get(status, 0))
     return statuses
+
+
+def _summary_int(value, field_name: str) -> int:
+    parsed = _summary_float(value, field_name)
+    if not parsed.is_integer():
+        raise ReportingError(
+            f"{field_name} must be an integer for summary_report.md. Received {value!r}."
+        )
+    return int(parsed)
+
+
+def _summary_bool(value, field_name: str) -> bool:
+    normalized = str(value).strip().lower()
+    if normalized == "true":
+        return True
+    if normalized == "false":
+        return False
+    raise ReportingError(
+        f"{field_name} must be true or false for summary_report.md. Received {value!r}."
+    )
 
 
 def _sha256_file(path: Path) -> str:

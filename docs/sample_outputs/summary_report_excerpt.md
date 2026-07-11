@@ -65,7 +65,15 @@ Generated from risk manager state; empty state says no risk events were triggere
 
 ## Benchmark
 
-Vectorized NumPy pricing ran `<generated speedup>`x faster than the Python loop on this machine. Benchmark results vary by hardware, Python version, and input size.
+Vectorized NumPy pricing ran `<generated speedup>`x faster than the Python loop on this machine.
+
+- Prices compared: generated from `benchmark.num_prices`
+- Python loop runtime: generated with `time.perf_counter()`
+- NumPy vectorized runtime: generated with `time.perf_counter()`
+- Max absolute error vs loop: generated from the equivalence check
+- Numerical equivalence check: passed
+
+Benchmark results vary by hardware, Python version, and input size.
 
 If `benchmark.enabled` is false, the report says:
 

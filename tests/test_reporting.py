@@ -186,6 +186,37 @@ def test_summary_report_mentions_disabled_benchmark_config(tmp_path):
     assert "benchmark.enabled is false" in report
 
 
+def test_summary_report_describes_benchmark_evidence(tmp_path):
+    run_dir = prepare_output_dir(tmp_path, "demo")
+    config = load_config("configs/demo.yaml")
+    outputs = {
+        "market_path.csv": pd.DataFrame({"underlying_price": [100.0, 101.0]}),
+        "pricing_history.csv": pd.DataFrame({"option_price": [3.0, 4.0]}),
+        "trades.csv": pd.DataFrame(columns=["step", "symbol"]),
+        "portfolio_history.csv": pd.DataFrame({"total_value": [10000.0], "drawdown_pct": [0.0]}),
+        "risk_events.csv": pd.DataFrame(columns=["step", "reason"]),
+        "benchmark.csv": pd.DataFrame(
+            {
+                "method": ["python_loop", "numpy_vectorized"],
+                "num_prices": [1000, 1000],
+                "runtime_seconds": [0.2, 0.01],
+                "speedup_vs_loop": [1.0, 20.0],
+                "max_abs_error_vs_loop": [0.0, 1e-10],
+                "passed_equivalence_check": [True, True],
+            }
+        ),
+    }
+
+    report = write_summary_report(run_dir, config, outputs).read_text(encoding="utf-8")
+
+    assert "20.00x faster" in report
+    assert "Prices compared: 1,000" in report
+    assert "Python loop runtime: 0.200000 seconds" in report
+    assert "NumPy vectorized runtime: 0.010000 seconds" in report
+    assert "Max absolute error vs loop: 1.000e-10" in report
+    assert "Numerical equivalence check: passed" in report
+
+
 def test_summary_report_counts_order_audit_statuses(tmp_path):
     run_dir = prepare_output_dir(tmp_path, "demo")
     config = load_config("configs/demo.yaml")
@@ -365,7 +396,16 @@ def test_summary_report_requires_vectorized_benchmark_row(tmp_path):
         "trades.csv": pd.DataFrame(columns=["step", "symbol"]),
         "portfolio_history.csv": pd.DataFrame({"total_value": [10000.0], "drawdown_pct": [0.0]}),
         "risk_events.csv": pd.DataFrame(columns=["step", "reason"]),
-        "benchmark.csv": pd.DataFrame({"method": ["python_loop"], "speedup_vs_loop": [1.0]}),
+        "benchmark.csv": pd.DataFrame(
+            {
+                "method": ["python_loop"],
+                "num_prices": [1000],
+                "runtime_seconds": [0.2],
+                "speedup_vs_loop": [1.0],
+                "max_abs_error_vs_loop": [0.0],
+                "passed_equivalence_check": [True],
+            }
+        ),
     }
 
     with pytest.raises(ReportingError, match="numpy_vectorized"):
@@ -398,11 +438,43 @@ def test_summary_report_rejects_nonnumeric_benchmark_speedup(tmp_path):
         "portfolio_history.csv": pd.DataFrame({"total_value": [10000.0], "drawdown_pct": [0.0]}),
         "risk_events.csv": pd.DataFrame(columns=["step", "reason"]),
         "benchmark.csv": pd.DataFrame(
-            {"method": ["numpy_vectorized"], "speedup_vs_loop": ["bad-speedup"]}
+            {
+                "method": ["python_loop", "numpy_vectorized"],
+                "num_prices": [1000, 1000],
+                "runtime_seconds": [0.2, 0.01],
+                "speedup_vs_loop": [1.0, "bad-speedup"],
+                "max_abs_error_vs_loop": [0.0, 1e-10],
+                "passed_equivalence_check": [True, True],
+            }
         ),
     }
 
     with pytest.raises(ReportingError, match="benchmark.speedup_vs_loop"):
+        write_summary_report(run_dir, config, outputs)
+
+
+def test_summary_report_rejects_failed_benchmark_equivalence(tmp_path):
+    run_dir = prepare_output_dir(tmp_path, "demo")
+    config = load_config("configs/demo.yaml")
+    outputs = {
+        "market_path.csv": pd.DataFrame({"underlying_price": [100.0, 101.0]}),
+        "pricing_history.csv": pd.DataFrame({"option_price": [3.0, 4.0]}),
+        "trades.csv": pd.DataFrame(columns=["step", "symbol"]),
+        "portfolio_history.csv": pd.DataFrame({"total_value": [10000.0], "drawdown_pct": [0.0]}),
+        "risk_events.csv": pd.DataFrame(columns=["step", "reason"]),
+        "benchmark.csv": pd.DataFrame(
+            {
+                "method": ["python_loop", "numpy_vectorized"],
+                "num_prices": [1000, 1000],
+                "runtime_seconds": [0.2, 0.01],
+                "speedup_vs_loop": [1.0, 20.0],
+                "max_abs_error_vs_loop": [0.0, 1e-3],
+                "passed_equivalence_check": [True, False],
+            }
+        ),
+    }
+
+    with pytest.raises(ReportingError, match="equivalence check"):
         write_summary_report(run_dir, config, outputs)
 
 
