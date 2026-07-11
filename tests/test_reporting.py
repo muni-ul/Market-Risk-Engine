@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from dataclasses import replace
 import hashlib
 import json
 from pathlib import Path
@@ -7,17 +8,17 @@ from pathlib import Path
 import pandas as pd
 import pytest
 
+import pyrisklab.reporting as reporting
 from pyrisklab.config import load_config
 from pyrisklab.exceptions import ReportingError, RunError
+from pyrisklab.models import BenchmarkConfig
 from pyrisklab.reporting import (
-    EXPECTED_ARTIFACT_NAMES,
     generate_charts,
     plot_greeks,
     prepare_output_dir,
     save_csv_outputs,
     write_run_metadata,
     write_summary_report,
-    _verify_expected_artifacts,
 )
 
 
@@ -131,6 +132,26 @@ def test_summary_report_mentions_empty_trades_and_risk_events(tmp_path):
     assert "No risk events were triggered" in report
 
 
+def test_summary_report_mentions_disabled_benchmark_config(tmp_path):
+    run_dir = prepare_output_dir(tmp_path, "demo")
+    config = replace(
+        load_config("configs/demo.yaml"),
+        benchmark=BenchmarkConfig(enabled=False, num_prices=1, seed=42),
+    )
+    outputs = {
+        "market_path.csv": pd.DataFrame({"underlying_price": [100.0, 101.0]}),
+        "pricing_history.csv": pd.DataFrame({"option_price": [3.0, 4.0]}),
+        "trades.csv": pd.DataFrame(columns=["step", "symbol"]),
+        "portfolio_history.csv": pd.DataFrame({"total_value": [10000.0], "drawdown_pct": [0.0]}),
+        "risk_events.csv": pd.DataFrame(columns=["step", "reason"]),
+        "benchmark.csv": pd.DataFrame(),
+    }
+
+    report = write_summary_report(run_dir, config, outputs).read_text(encoding="utf-8")
+
+    assert "benchmark.enabled is false" in report
+
+
 def test_run_metadata_records_reproducible_artifact_context(tmp_path):
     run_dir = prepare_output_dir(tmp_path, "demo")
     config = load_config("configs/demo.yaml")
@@ -151,7 +172,7 @@ def test_run_metadata_records_reproducible_artifact_context(tmp_path):
     expected_digest = hashlib.sha256(Path("configs/demo.yaml").read_bytes()).hexdigest()
     assert metadata["config_sha256"] == expected_digest
     assert metadata["csv_row_counts"] == {"market_path.csv": 2, "trades.csv": 0}
-    assert set(metadata["expected_artifacts"]) == EXPECTED_ARTIFACT_NAMES
+    assert set(metadata["expected_artifacts"]) == reporting.EXPECTED_ARTIFACT_NAMES
     assert "run_metadata.json" in metadata["generated_artifacts"]
     assert "summary_report.md" in metadata["generated_artifacts"]
 
@@ -313,27 +334,27 @@ def test_summary_report_artifact_listing_failure_raises_run_error(tmp_path, monk
 
 def test_expected_artifact_verifier_names_missing_outputs(tmp_path):
     run_dir = prepare_output_dir(tmp_path, "demo")
-    for filename in EXPECTED_ARTIFACT_NAMES - {"drawdown.png"}:
+    for filename in reporting.EXPECTED_ARTIFACT_NAMES - {"drawdown.png"}:
         (run_dir / filename).write_text("content", encoding="utf-8")
 
     with pytest.raises(RunError, match="drawdown.png"):
-        _verify_expected_artifacts(run_dir)
+        reporting._verify_expected_artifacts(run_dir)
 
 
 def test_expected_artifact_verifier_does_not_count_pending_metadata(tmp_path):
     run_dir = prepare_output_dir(tmp_path, "demo")
-    for filename in EXPECTED_ARTIFACT_NAMES - {"run_metadata.json"}:
+    for filename in reporting.EXPECTED_ARTIFACT_NAMES - {"run_metadata.json"}:
         (run_dir / filename).write_text("content", encoding="utf-8")
 
     with pytest.raises(RunError, match="run_metadata.json"):
-        _verify_expected_artifacts(run_dir)
+        reporting._verify_expected_artifacts(run_dir)
 
 
 def test_expected_artifact_verifier_rejects_empty_outputs(tmp_path):
     run_dir = prepare_output_dir(tmp_path, "demo")
-    for filename in EXPECTED_ARTIFACT_NAMES:
+    for filename in reporting.EXPECTED_ARTIFACT_NAMES:
         (run_dir / filename).write_text("content", encoding="utf-8")
     (run_dir / "benchmark.csv").write_text("", encoding="utf-8")
 
     with pytest.raises(RunError, match="benchmark.csv"):
-        _verify_expected_artifacts(run_dir)
+        reporting._verify_expected_artifacts(run_dir)

@@ -202,7 +202,9 @@ def write_summary_report(run_dir: Path, config: RunConfig, outputs: dict[str, pd
     else:
         trade_note = f"{len(trades)} simulated trades were executed."
     risk_note = "No risk events were triggered in this run." if risk_events.empty else f"{len(risk_events)} risk events were recorded."
-    benchmark_text = "Benchmark was disabled or skipped."
+    benchmark_text = "Benchmark skipped because benchmark.enabled is false."
+    if config.benchmark.enabled:
+        benchmark_text = "Benchmark was enabled but produced no benchmark rows."
     if not benchmark.empty:
         _require(benchmark, {"method", "speedup_vs_loop"}, "benchmark")
         vector_rows = benchmark.loc[benchmark["method"] == "numpy_vectorized"]
