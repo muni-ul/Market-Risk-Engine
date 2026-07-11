@@ -4,6 +4,16 @@ from dataclasses import dataclass
 from pathlib import Path
 
 
+ORDER_STATUS_APPROVED = "APPROVED"
+ORDER_STATUS_BLOCKED = "BLOCKED"
+ORDER_STATUS_SKIPPED = "SKIPPED"
+ORDER_AUDIT_STATUSES = (
+    ORDER_STATUS_APPROVED,
+    ORDER_STATUS_BLOCKED,
+    ORDER_STATUS_SKIPPED,
+)
+
+
 @dataclass(frozen=True)
 class MarketConfig:
     initial_price: float

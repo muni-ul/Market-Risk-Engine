@@ -11,7 +11,12 @@ import pytest
 import pyrisklab.reporting as reporting
 from pyrisklab.config import load_config
 from pyrisklab.exceptions import ReportingError, RunError
-from pyrisklab.models import BenchmarkConfig
+from pyrisklab.models import (
+    BenchmarkConfig,
+    ORDER_STATUS_APPROVED,
+    ORDER_STATUS_BLOCKED,
+    ORDER_STATUS_SKIPPED,
+)
 from pyrisklab.reporting import (
     generate_charts,
     plot_greeks,
@@ -160,7 +165,12 @@ def test_summary_report_counts_order_audit_statuses(tmp_path):
         "pricing_history.csv": pd.DataFrame({"option_price": [3.0, 4.0]}),
         "orders.csv": pd.DataFrame(
             {
-                "status": ["APPROVED", "BLOCKED", "SKIPPED", "BLOCKED"],
+                "status": [
+                    ORDER_STATUS_APPROVED,
+                    ORDER_STATUS_BLOCKED,
+                    ORDER_STATUS_SKIPPED,
+                    ORDER_STATUS_BLOCKED,
+                ],
             }
         ),
         "trades.csv": pd.DataFrame({"step": [1], "symbol": ["CALL_105"]}),
@@ -197,7 +207,11 @@ def test_run_metadata_records_reproducible_artifact_context(tmp_path):
     expected_digest = hashlib.sha256(Path("configs/demo.yaml").read_bytes()).hexdigest()
     assert metadata["config_sha256"] == expected_digest
     assert metadata["csv_row_counts"] == {"market_path.csv": 2, "trades.csv": 0}
-    assert metadata["order_status_counts"] == {"APPROVED": 0, "BLOCKED": 0, "SKIPPED": 0}
+    assert metadata["order_status_counts"] == {
+        ORDER_STATUS_APPROVED: 0,
+        ORDER_STATUS_BLOCKED: 0,
+        ORDER_STATUS_SKIPPED: 0,
+    }
     assert set(metadata["expected_artifacts"]) == reporting.EXPECTED_ARTIFACT_NAMES
     assert "run_metadata.json" in metadata["generated_artifacts"]
     assert "summary_report.md" in metadata["generated_artifacts"]
@@ -207,13 +221,26 @@ def test_run_metadata_records_order_audit_counts(tmp_path):
     run_dir = prepare_output_dir(tmp_path, "demo")
     config = load_config("configs/demo.yaml")
     outputs = {
-        "orders.csv": pd.DataFrame({"status": ["APPROVED", "BLOCKED", "BLOCKED", "SKIPPED"]}),
+        "orders.csv": pd.DataFrame(
+            {
+                "status": [
+                    ORDER_STATUS_APPROVED,
+                    ORDER_STATUS_BLOCKED,
+                    ORDER_STATUS_BLOCKED,
+                    ORDER_STATUS_SKIPPED,
+                ]
+            }
+        ),
     }
 
     metadata_path = write_run_metadata(run_dir, config, Path("configs/demo.yaml"), outputs)
     metadata = json.loads(metadata_path.read_text(encoding="utf-8"))
 
-    assert metadata["order_status_counts"] == {"APPROVED": 1, "BLOCKED": 2, "SKIPPED": 1}
+    assert metadata["order_status_counts"] == {
+        ORDER_STATUS_APPROVED: 1,
+        ORDER_STATUS_BLOCKED: 2,
+        ORDER_STATUS_SKIPPED: 1,
+    }
 
 
 def test_run_metadata_config_hash_failure_raises_run_error(tmp_path):

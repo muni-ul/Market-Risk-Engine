@@ -15,7 +15,13 @@ import matplotlib.pyplot as plt  # noqa: E402
 
 from pyrisklab import __version__
 from pyrisklab.exceptions import ReportingError, RunError
-from pyrisklab.models import RunConfig
+from pyrisklab.models import (
+    ORDER_AUDIT_STATUSES,
+    ORDER_STATUS_APPROVED,
+    ORDER_STATUS_BLOCKED,
+    ORDER_STATUS_SKIPPED,
+    RunConfig,
+)
 
 
 METADATA_SCHEMA_VERSION = 1
@@ -264,9 +270,9 @@ This is a local simulation only. It does not use live market data, place real tr
 
 - Total signal rows: {len(signals)}
 - Proposed simulated orders: {len(orders)}
-- Approved simulated orders: {order_status_counts["APPROVED"]}
-- Blocked simulated orders: {order_status_counts["BLOCKED"]}
-- Skipped simulated orders: {order_status_counts["SKIPPED"]}
+- Approved simulated orders: {order_status_counts[ORDER_STATUS_APPROVED]}
+- Blocked simulated orders: {order_status_counts[ORDER_STATUS_BLOCKED]}
+- Skipped simulated orders: {order_status_counts[ORDER_STATUS_SKIPPED]}
 
 ## Portfolio Results
 
@@ -396,7 +402,7 @@ def _summary_float(value, field_name: str) -> float:
 
 
 def _order_status_counts(orders: pd.DataFrame) -> dict[str, int]:
-    statuses = {"APPROVED": 0, "BLOCKED": 0, "SKIPPED": 0}
+    statuses = dict.fromkeys(ORDER_AUDIT_STATUSES, 0)
     if "status" not in orders.columns:
         return statuses
     counts = orders["status"].astype(str).str.upper().value_counts()
