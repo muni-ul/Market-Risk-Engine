@@ -23,7 +23,8 @@ risk:
 - `risk_reason` explains the violated limit in plain English.
 - `risk_events.csv` records the audit trail with `ORDER_BLOCKED` events.
 - `trades.csv` may have headers and zero rows because blocked orders are not filled.
-- `summary_report.md` reports the number of risk events instead of claiming a profitable strategy.
+- `summary_report.md` reports blocked simulated order counts and risk-event counts instead of claiming a profitable strategy.
+- `run_metadata.json` records `order_status_counts` for machine-readable audit checks.
 
 ## Representative Risk Event Shape
 

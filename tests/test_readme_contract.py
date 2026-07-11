@@ -45,6 +45,10 @@ def test_sample_output_docs_are_linked_and_present():
         assert "benchmark.enabled is false" in report_file.read()
     with open("docs/sample_outputs/run_metadata_example.md", encoding="utf-8") as metadata_file:
         assert "order_status_counts" in metadata_file.read()
+    with open("docs/sample_outputs/risk_stress_demo.md", encoding="utf-8") as risk_demo_file:
+        risk_demo = risk_demo_file.read()
+        assert "blocked simulated order counts" in risk_demo
+        assert "order_status_counts" in risk_demo
     with open("docs/SAMPLE_OUTPUT.md", encoding="utf-8") as sample_output_file:
         assert "order status counts" in sample_output_file.read()
     with open("docs/sample_outputs/csv_contracts.md", encoding="utf-8") as contracts_file:
