@@ -21,6 +21,8 @@ def test_readme_contains_required_demo_and_scope_language():
     assert "approved, blocked, and skipped simulated orders" in readme
     assert "order status counts" in readme
     assert "benchmark.enabled" in readme
+    assert "--debug" in readme
+    assert "traceback" in readme
     assert "Generated outputs are not required before setup" in readme
     assert "## Troubleshooting" in readme
     assert "pip install -e ." in readme

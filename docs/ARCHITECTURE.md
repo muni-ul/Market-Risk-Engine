@@ -16,7 +16,7 @@ python -m pyrisklab run --config configs/demo.yaml --overwrite
 
 A dashboard would be visually nice, but it would distract from the core Python engineering signal. For Version 1, Markdown reports and PNG charts are enough.
 
-The CLI remains thin: it parses flags, toggles progress output with `--quiet`, and delegates orchestration to `pipeline.py`.
+The CLI remains thin: it parses flags, toggles progress output with `--quiet`, exposes `--debug` for traceback output during development, and delegates orchestration to `pipeline.py`.
 
 ## Why CSV, Markdown, And PNG
 
@@ -49,7 +49,7 @@ configs/demo.yaml
 
 ## Module Responsibilities
 
-- `cli.py`: parses arguments and prints clean progress/errors.
+- `cli.py`: parses arguments, prints clean progress/errors, and keeps tracebacks behind `--debug`.
 - `config.py`: loads YAML and validates inputs.
 - `models.py`: dataclasses for configs, orders, trades, positions, snapshots, and risk events.
 - `market.py`: generates synthetic GBM price paths.

@@ -115,6 +115,12 @@ Quiet mode keeps progress output off while still printing the final result:
 python -m pyrisklab run --config configs/demo.yaml --overwrite --quiet
 ```
 
+Debug mode prints a traceback for expected project errors when you are developing or diagnosing a failure:
+
+```bash
+python -m pyrisklab run --config configs/demo.yaml --debug
+```
+
 Show the installed package version:
 
 ```bash
@@ -226,6 +232,8 @@ Config mistakes are reported as clean project errors, for example:
 ConfigError: market.volatility must be >= 0. Received -0.20.
 RunError: results/demo_run already exists. Use --overwrite or choose a different run_name.
 ```
+
+For normal reviewer runs, PyRiskLab prints concise project errors without a traceback. Add `--debug` when you want the traceback while developing.
 
 If matplotlib behaves differently on a local machine, the project forces a non-interactive PNG backend for report generation, so no desktop plotting window is required.
 

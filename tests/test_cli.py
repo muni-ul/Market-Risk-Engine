@@ -25,6 +25,7 @@ def test_run_help_includes_config_flag(capsys):
     output = capsys.readouterr().out
     assert "--config" in output
     assert "--quiet" in output
+    assert "--debug" in output
 
 
 def test_top_level_version_flag(capsys):
