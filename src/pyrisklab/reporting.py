@@ -3,6 +3,7 @@ from __future__ import annotations
 import hashlib
 import json
 import math
+import platform
 import shutil
 from pathlib import Path
 
@@ -74,6 +75,8 @@ def write_run_metadata(
         "schema_version": 1,
         "project": "PyRiskLab",
         "project_version": __version__,
+        "python_version": platform.python_version(),
+        "platform": platform.platform(),
         "run_name": config.run_name,
         "seed": config.seed,
         "config_path": config_path.as_posix(),

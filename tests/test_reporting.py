@@ -143,6 +143,8 @@ def test_run_metadata_records_reproducible_artifact_context(tmp_path):
     assert metadata["project"] == "PyRiskLab"
     assert metadata["run_name"] == "demo_run"
     assert metadata["seed"] == 42
+    assert metadata["python_version"]
+    assert metadata["platform"]
     assert metadata["simulation_only"] is True
     expected_digest = hashlib.sha256(Path("configs/demo.yaml").read_bytes()).hexdigest()
     assert metadata["config_sha256"] == expected_digest

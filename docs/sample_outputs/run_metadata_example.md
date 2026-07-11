@@ -9,6 +9,8 @@ Representative shape:
   "schema_version": 1,
   "project": "PyRiskLab",
   "project_version": "0.1.0",
+  "python_version": "3.12.x",
+  "platform": "<local OS and architecture>",
   "run_name": "demo_run",
   "seed": 42,
   "config_path": "configs/demo.yaml",
