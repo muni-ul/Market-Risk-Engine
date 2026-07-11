@@ -89,6 +89,17 @@ def test_nonnumeric_pricing_history_price_fails_cleanly():
         build_portfolio_history(pd.DataFrame(), pricing, 10000)
 
 
+def test_non_dataframe_trades_fail_cleanly():
+    pricing = pd.DataFrame({"step": [0], "symbol": ["CALL_105"], "option_price": [5.0]})
+    with pytest.raises(PortfolioError, match="trades"):
+        build_portfolio_history([], pricing, 10000)
+
+
+def test_non_dataframe_pricing_history_fails_cleanly():
+    with pytest.raises(PortfolioError, match="pricing_history"):
+        build_portfolio_history(pd.DataFrame(), [{"step": 0}], 10000)
+
+
 def test_drawdown_updates_correctly():
     pricing = pd.DataFrame({"step": [0, 1], "symbol": ["CALL_105", "CALL_105"], "option_price": [5.0, 4.0]})
     trades = pd.DataFrame({"step": [0], "symbol": ["CALL_105"], "side": ["BUY"], "quantity": [1], "fill_price": [5.0], "commission": [0.0]})

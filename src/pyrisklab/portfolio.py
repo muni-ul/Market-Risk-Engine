@@ -91,6 +91,8 @@ class Portfolio:
 
 
 def build_portfolio_history(trades: pd.DataFrame, pricing_history: pd.DataFrame, starting_cash: float, contract_multiplier: int = 100) -> pd.DataFrame:
+    trades = _require_dataframe(trades, "trades")
+    pricing_history = _require_dataframe(pricing_history, "pricing_history")
     required = {"step", "symbol", "option_price"}
     missing = required - set(pricing_history.columns)
     if missing:
@@ -118,6 +120,14 @@ def _as_finite_float(value, field_name: str) -> float:
     if not math.isfinite(parsed):
         raise PortfolioError(f"{field_name} must be finite. Received {value!r}.")
     return parsed
+
+
+def _require_dataframe(value, name: str) -> pd.DataFrame:
+    if not isinstance(value, pd.DataFrame):
+        raise PortfolioError(
+            f"{name} must be a pandas DataFrame. Received {type(value).__name__}."
+        )
+    return value
 
 
 def _as_positive_integer(value, field_name: str) -> int:
