@@ -41,7 +41,11 @@ This is a local simulation only. It does not use live market data, place real tr
 
 ## Benchmark
 
-Vectorized NumPy pricing ran faster or slower than the Python loop on this machine. Benchmark results vary by hardware, Python version, and input size.
+Vectorized NumPy pricing ran `<generated speedup>`x faster than the Python loop on this machine. Benchmark results vary by hardware, Python version, and input size.
+
+If `benchmark.enabled` is false, the report says:
+
+Benchmark skipped because benchmark.enabled is false.
 
 ## Generated Artifacts
 

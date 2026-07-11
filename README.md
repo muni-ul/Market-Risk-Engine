@@ -178,7 +178,7 @@ results/demo_run/
 
 The `results/demo_run/` folder is created locally after running the demo. Generated outputs are not required before setup, and the repository keeps `results/` mostly empty so reviewers can reproduce the run themselves.
 
-`orders.csv` includes proposed simulated orders with risk approval status. `run_metadata.json` records deterministic run context, the config SHA-256 digest, row counts, expected artifact names, and generated artifact names. Empty `trades.csv` or `risk_events.csv` files are valid outcomes and still include headers.
+`orders.csv` includes proposed simulated orders with risk approval status. `run_metadata.json` records deterministic run context, the config SHA-256 digest, row counts, expected artifact names, and generated artifact names. Empty `trades.csv`, `risk_events.csv`, or disabled-benchmark `benchmark.csv` files are valid outcomes and still include headers.
 
 ## Benchmark
 
@@ -188,6 +188,8 @@ PyRiskLab benchmarks two Black-Scholes pricing approaches on the same determinis
 - `numpy_vectorized`
 
 The benchmark writes runtime, speedup, and numerical-equivalence checks to `benchmark.csv`. Results vary by machine and input size, so the benchmark demonstrates performance-aware engineering rather than guaranteeing a fixed speedup.
+
+If `benchmark.enabled` is false in a config, the report calls that out explicitly and writes an empty `benchmark.csv` with the same stable file contract.
 
 ## Screenshots Or Sample Output References
 

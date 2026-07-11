@@ -16,6 +16,7 @@ def test_readme_contains_required_demo_and_scope_language():
     assert "docs/PORTFOLIO_CASE_STUDY.md" in readme
     assert "results/demo_run/greeks.png" in readme
     assert "expected artifact names" in readme
+    assert "benchmark.enabled" in readme
     assert "Generated outputs are not required before setup" in readme
     assert "## Troubleshooting" in readme
     assert "pip install -e ." in readme
@@ -35,3 +36,8 @@ def test_sample_output_docs_are_linked_and_present():
         assert filename in sample_index
         with open(f"docs/sample_outputs/{filename}", encoding="utf-8") as sample_file:
             assert sample_file.read().strip()
+
+    with open("docs/sample_outputs/summary_report_excerpt.md", encoding="utf-8") as report_file:
+        assert "benchmark.enabled is false" in report_file.read()
+    with open("docs/sample_outputs/csv_contracts.md", encoding="utf-8") as contracts_file:
+        assert "`benchmark.enabled` is false" in contracts_file.read()

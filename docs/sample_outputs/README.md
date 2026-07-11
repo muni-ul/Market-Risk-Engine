@@ -8,7 +8,7 @@ The actual demo command is still the source of truth:
 python -m pyrisklab run --config configs/demo.yaml --overwrite
 ```
 
-Generated benchmark timings vary by machine, so these examples describe output shape instead of claiming fixed performance numbers.
+Generated benchmark timings vary by machine, so these examples describe output shape instead of claiming fixed performance numbers. When benchmark execution is disabled, PyRiskLab still writes the benchmark artifact with headers and calls out the disabled config in the summary report.
 
 ## Included References
 

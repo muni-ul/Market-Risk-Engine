@@ -24,6 +24,6 @@ Some files can be empty while still being correct:
 
 - `trades.csv` can have headers and zero rows if no simulated orders are approved.
 - `risk_events.csv` can have headers and zero rows if no risk limits are breached.
-- `benchmark.csv` can have headers and zero rows when benchmark execution is disabled.
+- `benchmark.csv` can have headers and zero rows when `benchmark.enabled` is false.
 
 These empty states are intentional because they keep the output contract stable across demo configurations.
