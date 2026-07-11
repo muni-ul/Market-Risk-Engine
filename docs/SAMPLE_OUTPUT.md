@@ -38,6 +38,8 @@ results/demo_run/
   summary_report.md
 ```
 
+`orders.csv` includes `status` and `risk_reason` audit columns. Status values are `APPROVED`, `BLOCKED`, or `SKIPPED`, and the same counts are summarized in `summary_report.md` and `run_metadata.json`.
+
 ## Example Summary Report Excerpt
 
 ```markdown

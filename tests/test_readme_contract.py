@@ -53,7 +53,9 @@ def test_sample_output_docs_are_linked_and_present():
         assert "blocked simulated order counts" in risk_demo
         assert "order_status_counts" in risk_demo
     with open("docs/SAMPLE_OUTPUT.md", encoding="utf-8") as sample_output_file:
-        assert "order status counts" in sample_output_file.read()
+        sample_output = sample_output_file.read()
+        assert "order status counts" in sample_output
+        assert "`status` and `risk_reason` audit columns" in sample_output
     with open("docs/sample_outputs/csv_contracts.md", encoding="utf-8") as contracts_file:
         csv_contracts = contracts_file.read()
         assert "`benchmark.enabled` is false" in csv_contracts
