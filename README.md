@@ -21,6 +21,14 @@ PyRiskLab is a local Python simulation engine for options pricing and portfolio 
 - pytest coverage for important formulas, state transitions, and outputs
 - A benchmark comparing Python-loop pricing with vectorized NumPy pricing
 
+## Reviewer Checklist
+
+- Run one command: `python -m pyrisklab run --config configs/demo.yaml --overwrite`
+- Inspect `results/demo_run/summary_report.md` for the simulation-only summary, risk/execution audit counts, benchmark evidence, metadata section, artifact list, and limitations
+- Inspect `results/demo_run/run_metadata.json` for config SHA-256, benchmark settings, row counts, order status counts, expected/generated artifacts, and artifact byte sizes
+- Inspect `orders.csv`, `risk_events.csv`, and `portfolio_history.csv` for stateful execution, risk validation, and portfolio accounting
+- Run `pytest` and `ruff check .` when you want to validate the code locally
+
 ## Software Engineering Positioning
 
 PyRiskLab uses options pricing as the domain, but the project is really about building a reliable local Python engineering tool. For software internships at AMD-like companies, the strongest signals are CLI automation, deterministic configs, numerical simulation, vectorized computation, tests, debugging-friendly errors, benchmark reporting, and technical documentation.

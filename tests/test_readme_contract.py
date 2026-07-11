@@ -16,6 +16,9 @@ def test_readme_contains_required_demo_and_scope_language():
     assert "docs/sample_outputs/risk_stress_demo.md" in readme
     assert "docs/REVIEWER_GUIDE.md" in readme
     assert "docs/PORTFOLIO_CASE_STUDY.md" in readme
+    assert "## Reviewer Checklist" in readme
+    assert "risk/execution audit counts" in readme
+    assert "config SHA-256" in readme
     assert "results/demo_run/greeks.png" in readme
     assert "expected artifact names" in readme
     assert "approved, blocked, and skipped simulated orders" in readme
