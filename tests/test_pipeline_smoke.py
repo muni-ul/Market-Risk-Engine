@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import json
+
 import pandas as pd
 import pytest
 import yaml
@@ -7,6 +9,7 @@ import yaml
 from pyrisklab.exceptions import RunError
 from pyrisklab.models import ORDER_AUDIT_COLUMNS, ORDER_STATUS_COLUMN, ORDER_STATUS_SKIPPED
 from pyrisklab.pipeline import _as_order_quantity, run_simulation
+from pyrisklab.reporting import EXPECTED_ARTIFACT_NAMES
 
 
 def test_pipeline_smoke_creates_core_artifacts(tmp_path):
@@ -23,11 +26,12 @@ def test_pipeline_smoke_creates_core_artifacts(tmp_path):
     result = run_simulation(path, overwrite=True)
 
     assert result.output_path.exists()
-    assert (result.output_path / "market_path.csv").exists()
-    assert (result.output_path / "pricing_history.csv").exists()
-    assert (result.output_path / "portfolio_history.csv").exists()
-    assert (result.output_path / "risk_events.csv").exists()
-    assert (result.output_path / "summary_report.md").exists()
+    generated_names = {artifact.name for artifact in result.output_path.iterdir() if artifact.is_file()}
+    assert EXPECTED_ARTIFACT_NAMES <= generated_names
+    metadata = json.loads((result.output_path / "run_metadata.json").read_text(encoding="utf-8"))
+    assert set(metadata["expected_artifacts"]) == EXPECTED_ARTIFACT_NAMES
+    assert metadata["benchmark_settings"]["num_prices"] == 10
+    assert metadata["generated_artifact_sizes_bytes"]["summary_report.md"] > 0
 
 
 def test_pipeline_respects_disabled_fake_execution(tmp_path):
