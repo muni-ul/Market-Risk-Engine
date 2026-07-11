@@ -126,6 +126,15 @@ def test_summary_report_mentions_empty_trades_and_risk_events(tmp_path):
     outputs = {
         "market_path.csv": pd.DataFrame({"underlying_price": [100.0, 101.0]}),
         "pricing_history.csv": pd.DataFrame({"option_price": [3.0, 4.0]}),
+        "greeks_history.csv": pd.DataFrame(
+            {
+                "delta": [0.50, 0.55],
+                "gamma": [0.010, 0.012],
+                "vega": [0.20, 0.22],
+                "theta": [-0.030, -0.028],
+                "rho": [0.10, 0.11],
+            }
+        ),
         "trades.csv": pd.DataFrame(columns=["step", "symbol"]),
         "portfolio_history.csv": pd.DataFrame({"total_value": [10000.0], "drawdown_pct": [0.0]}),
         "risk_events.csv": pd.DataFrame(columns=["step", "reason"]),
@@ -136,6 +145,25 @@ def test_summary_report_mentions_empty_trades_and_risk_events(tmp_path):
 
     assert "No simulated trades were executed" in report
     assert "No risk events were triggered" in report
+    assert "## Greeks" in report
+    assert "Final delta: 0.5500" in report
+
+
+def test_summary_report_validates_greeks_columns_when_present(tmp_path):
+    run_dir = prepare_output_dir(tmp_path, "demo")
+    config = load_config("configs/demo.yaml")
+    outputs = {
+        "market_path.csv": pd.DataFrame({"underlying_price": [100.0, 101.0]}),
+        "pricing_history.csv": pd.DataFrame({"option_price": [3.0, 4.0]}),
+        "greeks_history.csv": pd.DataFrame({"delta": [0.55]}),
+        "trades.csv": pd.DataFrame(columns=["step", "symbol"]),
+        "portfolio_history.csv": pd.DataFrame({"total_value": [10000.0], "drawdown_pct": [0.0]}),
+        "risk_events.csv": pd.DataFrame(columns=["step", "reason"]),
+        "benchmark.csv": pd.DataFrame(),
+    }
+
+    with pytest.raises(ReportingError, match="greeks_history"):
+        write_summary_report(run_dir, config, outputs)
 
 
 def test_summary_report_mentions_disabled_benchmark_config(tmp_path):

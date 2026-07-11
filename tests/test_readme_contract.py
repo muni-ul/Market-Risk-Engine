@@ -45,6 +45,7 @@ def test_sample_output_docs_are_linked_and_present():
         report_excerpt = report_file.read()
         assert "benchmark.enabled is false" in report_excerpt
         assert report_excerpt.index("## Strategy Signals") < report_excerpt.index("## Portfolio Results")
+        assert report_excerpt.index("## Greeks") < report_excerpt.index("## Strategy Signals")
         assert "## Fake Execution" in report_excerpt
         assert "## Risk Events" in report_excerpt
         assert "## Limitations" in report_excerpt

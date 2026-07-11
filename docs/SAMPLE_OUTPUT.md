@@ -59,6 +59,14 @@ This is a local simulation only. It does not use live market data, place real tr
 - Volatility assumption: 20.00%
 - Trading days per year: 252
 
+## Greeks
+
+- Final delta: generated from the final simulated option state
+- Final gamma: generated from the final simulated option state
+- Final vega: generated from the final simulated option state
+- Final theta: generated from the final simulated option state
+- Final rho: generated from the final simulated option state
+
 ## Benchmark
 
 Vectorized NumPy pricing ran faster than the Python loop on this machine. Benchmark results vary by hardware, Python version, and input size.

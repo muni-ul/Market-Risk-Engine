@@ -203,6 +203,7 @@ def write_summary_report(run_dir: Path, config: RunConfig, outputs: dict[str, pd
         pricing["option_price"].iloc[-1],
         "pricing_history.option_price",
     )
+    greeks_text = _greeks_summary_text(_optional_output(outputs, "greeks_history.csv"))
     signals = _optional_output(outputs, "signals.csv")
     orders = _optional_output(outputs, "orders.csv")
     order_status_counts = _order_status_counts(orders)
@@ -266,6 +267,10 @@ This is a local simulation only. It does not use live market data, place real tr
 - Initial days to expiry: {config.option.days_to_expiry}
 - Initial model price: ${initial_option_price:.2f}
 - Final model price: ${final_option_price:.2f}
+
+## Greeks
+
+{greeks_text}
 
 ## Strategy Signals
 
@@ -400,6 +405,27 @@ def _summary_float(value, field_name: str) -> float:
             f"{field_name} must be finite for summary_report.md. Received {value!r}."
         )
     return parsed
+
+
+def _greeks_summary_text(greeks_history: pd.DataFrame) -> str:
+    if greeks_history.empty:
+        return "No Greeks rows were available for the Markdown summary."
+    required_columns = {"delta", "gamma", "vega", "theta", "rho"}
+    _require(greeks_history, required_columns, "greeks_history")
+    final_row = greeks_history.iloc[-1]
+    final_greeks = {
+        greek: _summary_float(final_row[greek], f"greeks_history.{greek}")
+        for greek in ["delta", "gamma", "vega", "theta", "rho"]
+    }
+    return "\n".join(
+        [
+            "- Final delta: {delta:.4f}",
+            "- Final gamma: {gamma:.4f}",
+            "- Final vega: {vega:.4f}",
+            "- Final theta: {theta:.4f}",
+            "- Final rho: {rho:.4f}",
+        ]
+    ).format(**final_greeks)
 
 
 def _order_status_counts(orders: pd.DataFrame) -> dict[str, int]:
