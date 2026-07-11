@@ -152,6 +152,12 @@ def test_summary_report_mentions_empty_trades_and_risk_events(tmp_path):
     assert "Fill model: `deterministic_mid`" in report
     assert "Commission per contract: $0.00" in report
     assert "Contract multiplier: 100" in report
+    assert "## Risk Events" in report
+    assert "Max position quantity: 10" in report
+    assert "Max trade notional: $2,500.00" in report
+    assert "Max drawdown: 15.00%" in report
+    assert "Max loss: 10.00%" in report
+    assert "Stop trading on breach: true" in report
 
 
 def test_summary_report_validates_greeks_columns_when_present(tmp_path):

@@ -65,7 +65,12 @@ This is a local simulation only. It does not use live market data, place real tr
 
 ## Risk Events
 
-Generated from risk manager state; empty state says no risk events were triggered.
+- Max position quantity: generated from `risk.max_position_quantity`
+- Max trade notional: generated from `risk.max_trade_notional`
+- Max drawdown: generated from `risk.max_drawdown_pct`
+- Max loss: generated from `risk.max_loss_pct`
+- Stop trading on breach: generated from `risk.stop_trading_on_breach`
+- Result: generated from risk manager state; empty state says no risk events were triggered
 
 ## Benchmark
 

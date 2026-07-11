@@ -75,6 +75,15 @@ This is a local simulation only. It does not use live market data, place real tr
 - Contract multiplier: configured local assumption
 - Result: generated from fake execution state
 
+## Risk Events
+
+- Max position quantity: configured risk limit
+- Max trade notional: configured risk limit
+- Max drawdown: configured risk threshold
+- Max loss: configured risk threshold
+- Stop trading on breach: configured risk behavior
+- Result: generated from risk manager state
+
 ## Benchmark
 
 Vectorized NumPy pricing ran faster than the Python loop on this machine.

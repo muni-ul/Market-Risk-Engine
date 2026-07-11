@@ -219,7 +219,7 @@ def write_summary_report(run_dir: Path, config: RunConfig, outputs: dict[str, pd
     orders = _optional_output(outputs, "orders.csv")
     order_status_counts = _order_status_counts(orders)
     execution_text = _execution_summary_text(config, trades)
-    risk_note = "No risk events were triggered in this run." if risk_events.empty else f"{len(risk_events)} risk events were recorded."
+    risk_text = _risk_summary_text(config, risk_events)
     benchmark_text = _benchmark_summary_text(benchmark, config.benchmark.enabled)
     artifact_list = "\n".join(
         f"- `{name}`"
@@ -283,7 +283,7 @@ This is a local simulation only. It does not use live market data, place real tr
 
 ## Risk Events
 
-{risk_note}
+{risk_text}
 
 ## Benchmark
 
@@ -484,6 +484,23 @@ def _execution_summary_text(config: RunConfig, trades: pd.DataFrame) -> str:
             f"- Commission per contract: ${config.execution.commission_per_contract:.2f}",
             f"- Contract multiplier: {config.execution.contract_multiplier}",
             f"- Result: {trade_note}",
+        ]
+    )
+
+
+def _risk_summary_text(config: RunConfig, risk_events: pd.DataFrame) -> str:
+    if risk_events.empty:
+        risk_note = "No risk events were triggered in this run."
+    else:
+        risk_note = f"{len(risk_events)} risk events were recorded."
+    return "\n".join(
+        [
+            f"- Max position quantity: {config.risk.max_position_quantity}",
+            f"- Max trade notional: ${config.risk.max_trade_notional:,.2f}",
+            f"- Max drawdown: {config.risk.max_drawdown_pct:.2%}",
+            f"- Max loss: {config.risk.max_loss_pct:.2%}",
+            f"- Stop trading on breach: {str(config.risk.stop_trading_on_breach).lower()}",
+            f"- Result: {risk_note}",
         ]
     )
 

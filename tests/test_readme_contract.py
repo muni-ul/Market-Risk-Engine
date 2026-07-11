@@ -53,6 +53,8 @@ def test_sample_output_docs_are_linked_and_present():
         assert "Fill model" in report_excerpt
         assert "Contract multiplier" in report_excerpt
         assert "## Risk Events" in report_excerpt
+        assert "Max trade notional" in report_excerpt
+        assert "Stop trading on breach" in report_excerpt
         assert "## Limitations" in report_excerpt
         assert report_excerpt.index("## Fake Execution") < report_excerpt.index("## Risk Events")
         assert report_excerpt.index("## Risk Events") < report_excerpt.index("## Benchmark")
