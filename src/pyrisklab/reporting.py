@@ -51,6 +51,7 @@ def save_config_copy(config_path: Path, run_dir: Path) -> Path:
 def save_csv_outputs(run_dir: Path, outputs: dict[str, pd.DataFrame]) -> list[Path]:
     paths = []
     for filename, df in outputs.items():
+        df = _require_dataframe(df, filename)
         path = run_dir / filename
         try:
             df.to_csv(path, index=False)
@@ -81,9 +82,7 @@ def write_run_metadata(
         "execution_enabled": config.execution.enabled,
         "benchmark_enabled": config.benchmark.enabled,
         "simulation_only": True,
-        "csv_row_counts": {
-            filename: int(len(frame)) for filename, frame in sorted(outputs.items())
-        },
+        "csv_row_counts": _csv_row_counts(outputs),
         "generated_artifacts": _artifact_names(run_dir),
     }
     try:
@@ -311,9 +310,26 @@ def _require_summary_frame(df: pd.DataFrame, columns: set[str], name: str) -> No
 
 def _required_output(outputs: dict[str, pd.DataFrame], filename: str) -> pd.DataFrame:
     try:
-        return outputs[filename]
+        output = outputs[filename]
     except KeyError as exc:
         raise ReportingError(f"required pipeline output is missing: {filename}") from exc
+    return _require_dataframe(output, filename)
+
+
+def _csv_row_counts(outputs: dict[str, pd.DataFrame]) -> dict[str, int]:
+    return {
+        filename: int(len(_require_dataframe(frame, filename)))
+        for filename, frame in sorted(outputs.items())
+    }
+
+
+def _require_dataframe(value, filename: str) -> pd.DataFrame:
+    if not isinstance(value, pd.DataFrame):
+        raise ReportingError(
+            f"{filename} pipeline output must be a pandas DataFrame. "
+            f"Received {type(value).__name__}."
+        )
+    return value
 
 
 def _summary_float(value, field_name: str) -> float:

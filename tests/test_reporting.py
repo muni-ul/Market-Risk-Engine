@@ -69,6 +69,13 @@ def test_csv_write_failure_raises_readable_run_error(tmp_path, monkeypatch):
         save_csv_outputs(run_dir, {"market_path.csv": pd.DataFrame({"step": [0]})})
 
 
+def test_non_dataframe_csv_output_raises_reporting_error(tmp_path):
+    run_dir = prepare_output_dir(tmp_path, "demo")
+
+    with pytest.raises(ReportingError, match="market_path.csv"):
+        save_csv_outputs(run_dir, {"market_path.csv": [{"step": 0}]})
+
+
 def test_greeks_chart_write_failure_raises_readable_run_error(tmp_path, monkeypatch):
     run_dir = prepare_output_dir(tmp_path, "demo")
     greeks_history = pd.DataFrame(
@@ -151,6 +158,14 @@ def test_run_metadata_config_hash_failure_raises_run_error(tmp_path):
 
     with pytest.raises(RunError, match="could not read config file"):
         write_run_metadata(run_dir, config, tmp_path / "missing.yaml", outputs)
+
+
+def test_run_metadata_non_dataframe_output_raises_reporting_error(tmp_path):
+    run_dir = prepare_output_dir(tmp_path, "demo")
+    config = load_config("configs/demo.yaml")
+
+    with pytest.raises(ReportingError, match="market_path.csv"):
+        write_run_metadata(run_dir, config, Path("configs/demo.yaml"), {"market_path.csv": []})
 
 
 def test_summary_report_lists_metadata_artifact(tmp_path):
