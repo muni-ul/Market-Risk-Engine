@@ -56,6 +56,7 @@ def test_sample_output_docs_are_linked_and_present():
         metadata_doc = metadata_file.read()
         assert "order_status_counts" in metadata_doc
         assert "schema_version" in metadata_doc
+        assert '"schema_version": 2' in metadata_doc
         assert "config_sha256" in metadata_doc
         assert "generated_artifact_sizes_bytes" in metadata_doc
     with open("docs/sample_outputs/risk_stress_demo.md", encoding="utf-8") as risk_demo_file:

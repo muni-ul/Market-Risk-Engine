@@ -25,7 +25,7 @@ from pyrisklab.models import (
 )
 
 
-METADATA_SCHEMA_VERSION = 1
+METADATA_SCHEMA_VERSION = 2
 
 EXPECTED_ARTIFACT_NAMES = frozenset(
     {
