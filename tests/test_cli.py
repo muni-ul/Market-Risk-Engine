@@ -43,7 +43,22 @@ def test_main_returns_nonzero_for_project_error(monkeypatch, capsys):
     monkeypatch.setattr(cli, "run_simulation", fail_run)
 
     assert cli.main(["run", "--config", "missing.yaml"]) == 1
-    assert "ConfigError" in capsys.readouterr().out
+    captured = capsys.readouterr()
+    assert "ConfigError" in captured.out
+    assert "Traceback" not in captured.out
+    assert "Traceback" not in captured.err
+
+
+def test_debug_mode_prints_traceback_for_project_error(monkeypatch, capsys):
+    def fail_run(config_path, overwrite=False, progress=None):
+        raise ConfigError("config file not found: missing.yaml")
+
+    monkeypatch.setattr(cli, "run_simulation", fail_run)
+
+    assert cli.main(["run", "--config", "missing.yaml", "--debug"]) == 1
+    captured = capsys.readouterr()
+    assert "Traceback" in captured.err
+    assert "ConfigError: config file not found: missing.yaml" in captured.err
 
 
 def test_main_returns_zero_for_success(monkeypatch):
