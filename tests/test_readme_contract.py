@@ -346,6 +346,9 @@ def test_changelog_summarizes_version_one_mvp():
     assert "Version 1 MVP" in changelog
     assert "python -m pyrisklab run --config configs/demo.yaml --overwrite" in changelog
     assert "Loop-vs-vectorized NumPy" in changelog
+    assert "Requirement traceability" in changelog
+    assert "local verification helper" in changelog
+    assert "typed package marker" in changelog
     assert "Simulation only" in changelog
     assert "no live market data" in changelog
 

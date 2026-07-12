@@ -22,8 +22,9 @@ portfolio review.
 - Config-driven risk validation with approved, blocked, and skipped simulated-order audit statuses.
 - Loop-vs-vectorized NumPy pricing benchmark with numerical-equivalence checks.
 - CSV, PNG, copied-config, JSON metadata, and Markdown summary-report outputs under `results/<run_name>/`.
-- Reviewer-focused documentation, sample-output contracts, config reference, architecture notes, final checklist, and interview framing.
-- Packaging metadata, MIT license, repo hygiene rules, and pytest coverage for core behavior and documentation contracts.
+- Reviewer-focused documentation, sample-output contracts, config reference, architecture diagrams, final checklist, and interview framing.
+- Requirement traceability, validation notes, performance notes, debugging guide, demo walkthrough, and local verification helper.
+- Packaging metadata, MIT license, typed package marker, repo hygiene rules, and pytest coverage for core behavior and documentation contracts.
 
 ### Scope Boundaries
 
