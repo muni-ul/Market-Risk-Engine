@@ -1,5 +1,10 @@
 # PyRiskLab
 
+![Python 3.11+](https://img.shields.io/badge/python-3.11%2B-blue)
+![License: MIT](https://img.shields.io/badge/license-MIT-green)
+![Interface: CLI](https://img.shields.io/badge/interface-local%20CLI-informational)
+![Scope: Simulation Only](https://img.shields.io/badge/scope-simulation%20only-orange)
+
 PyRiskLab is a local Python simulation engine for options pricing and portfolio
 risk analysis. It uses simulated market paths, Black-Scholes pricing, Greeks,
 fake execution, risk controls, and reproducible reporting to demonstrate Python
