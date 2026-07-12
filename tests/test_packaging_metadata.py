@@ -23,9 +23,17 @@ def test_pyproject_declares_console_script_and_dependencies():
     assert project["urls"]["Documentation"].endswith("/tree/main/docs")
     assert project["urls"]["Issues"].endswith("/issues")
 
+    package_data = pyproject["tool"]["setuptools"]["package-data"]
+    assert "py.typed" in package_data["pyrisklab"]
+
 
 def test_runtime_version_matches_package_metadata():
     with open("pyproject.toml", "rb") as pyproject_file:
         pyproject = tomllib.load(pyproject_file)
 
     assert __version__ == runtime_version == pyproject["project"]["version"]
+
+
+def test_package_declares_pep561_typed_marker():
+    with open("src/pyrisklab/py.typed", encoding="utf-8") as typed_marker_file:
+        typed_marker_file.read()

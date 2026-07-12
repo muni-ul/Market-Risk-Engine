@@ -34,6 +34,9 @@ web API; the primary user interface is the local CLI.
 | `models.py` | `RunConfig`, `MarketConfig`, `OptionConfig`, `StrategyConfig`, `ExecutionConfig`, `RiskConfig`, `BenchmarkConfig`, `OptionContract`, `Signal`, `Order`, `Trade`, `Position`, `PortfolioSnapshot`, `RiskEvent`, `BenchmarkResult`, `RunResult` | Typed dataclasses for config, state, audit records, benchmark output, and run results. |
 | `exceptions.py` | `PyRiskLabError`, `ConfigError`, `PricingError`, `GreeksError`, `StrategyError`, `ExecutionError`, `MarketSimulationError`, `PortfolioError`, `RiskError`, `ReportingError`, `BenchmarkError`, `RunError` | Domain-specific exceptions for clean user-facing errors. |
 
+The package includes `py.typed` so type-aware tools can treat the distributed
+package as typed according to PEP 561.
+
 ## Intended Import Style
 
 Most reviewer interaction should happen through the CLI:

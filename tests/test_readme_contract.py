@@ -28,6 +28,7 @@ def test_readme_contains_required_demo_and_scope_language():
     assert "SECURITY.md" in readme
     assert "issue tracker" in readme
     assert "## Reviewer Checklist" in readme
+    assert "py.typed" in readme
     assert "risk/execution audit counts" in readme
     assert "config SHA-256" in readme
     assert "results/demo_run/greeks.png" in readme
@@ -257,6 +258,8 @@ def test_api_reference_documents_module_surface():
         api_reference = api_reference_file.read()
 
     assert "PyRiskLab Module Reference" in api_reference
+    assert "PEP 561" in api_reference
+    assert "py.typed" in api_reference
     for module_name in (
         "cli.py",
         "pipeline.py",
