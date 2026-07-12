@@ -12,15 +12,26 @@ license = "MIT"
 authors = [
     { name = "Muni Ul" },
 ]
-keywords = ["options", "risk", "simulation", "benchmark", "cli"]
+keywords = [
+    "options",
+    "risk",
+    "simulation",
+    "benchmark",
+    "cli",
+    "testing",
+    "automation",
+    "performance",
+]
 classifiers = [
-    "Development Status :: 3 - Alpha",
+    "Development Status :: 4 - Beta",
+    "Environment :: Console",
     "Intended Audience :: Developers",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "License :: OSI Approved :: MIT License",
     "Topic :: Scientific/Engineering",
+    "Topic :: Software Development :: Quality Assurance",
     "Topic :: Software Development :: Testing",
 ]
 dependencies = [
