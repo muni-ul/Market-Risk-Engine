@@ -74,6 +74,8 @@ For a documentation map, see `docs/README.md`.
 
 For a quick evaluator walkthrough, see `docs/REVIEWER_GUIDE.md`.
 
+For a module-level implementation reference, see `docs/API_REFERENCE.md`.
+
 For field-by-field YAML settings, see `docs/CONFIG_REFERENCE.md`.
 
 For a portfolio-style narrative of the problem, engineering decisions, tradeoffs, and interview story, see `docs/PORTFOLIO_CASE_STUDY.md`.

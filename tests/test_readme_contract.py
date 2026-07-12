@@ -19,6 +19,7 @@ def test_readme_contains_required_demo_and_scope_language():
     assert "docs/sample_outputs/risk_stress_demo.md" in readme
     assert "docs/README.md" in readme
     assert "docs/REVIEWER_GUIDE.md" in readme
+    assert "docs/API_REFERENCE.md" in readme
     assert "docs/CONFIG_REFERENCE.md" in readme
     assert "docs/PORTFOLIO_CASE_STUDY.md" in readme
     assert "docs/FINAL_REVIEW_CHECKLIST.md" in readme
@@ -140,6 +141,7 @@ def test_sample_output_docs_are_linked_and_present():
         assert "CHANGELOG.md" in checklist
         assert "CONTRIBUTING.md" in checklist
         assert "SECURITY.md" in checklist
+        assert "docs/API_REFERENCE.md" in checklist
         assert "docs/CONFIG_REFERENCE.md" in checklist
         assert "docs/sample_outputs/artifact_manifest.md" in checklist
         assert "Simulation-only language" in checklist
@@ -204,6 +206,7 @@ def test_docs_index_links_reviewer_and_engineering_docs():
         "SAMPLE_OUTPUT.md",
         "FINAL_REVIEW_CHECKLIST.md",
         "ARCHITECTURE.md",
+        "API_REFERENCE.md",
         "CONFIG_REFERENCE.md",
         "PORTFOLIO_CASE_STUDY.md",
         "INTERVIEW_NOTES.md",
@@ -247,3 +250,29 @@ def test_security_policy_documents_no_secrets_boundary():
     assert "0.1.x" in security
     assert "Keep real `.env` files" in security
     assert "Do not add live brokerage integrations" in security
+
+
+def test_api_reference_documents_module_surface():
+    with open("docs/API_REFERENCE.md", encoding="utf-8") as api_reference_file:
+        api_reference = api_reference_file.read()
+
+    assert "PyRiskLab Module Reference" in api_reference
+    for module_name in (
+        "cli.py",
+        "pipeline.py",
+        "config.py",
+        "pricing.py",
+        "greeks.py",
+        "portfolio.py",
+        "risk.py",
+        "reporting.py",
+    ):
+        assert module_name in api_reference
+    for public_name in (
+        "run_simulation",
+        "load_config",
+        "black_scholes_price",
+        "calculate_greeks",
+        "run_pricing_benchmark",
+    ):
+        assert public_name in api_reference
