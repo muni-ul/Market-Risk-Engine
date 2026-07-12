@@ -7,18 +7,30 @@ clear project errors.
 
 ## Validation Layers
 
-| Layer | What it protects |
-| --- | --- |
-| CLI | Catches expected `PyRiskLabError` exceptions and prints concise messages unless `--debug` is used. |
-| Config loader | Validates YAML shape, required fields, enum values, booleans, finite numbers, integer fields, output paths, and ranges before simulation starts. |
-| Market simulation | Rejects invalid drift, volatility, initial price, steps, paths, and generated non-finite or nonpositive prices. |
-| Pricing and Greeks | Reject invalid option types, non-finite inputs, nonpositive underlying prices, invalid strikes, invalid trading-day counts, and bad time-to-expiry values. |
-| Strategy | Validates required pricing/Greeks columns, finite numeric inputs, threshold ordering, supported strategy names, and integer trade quantities. |
-| Execution | Rejects invalid actions, missing pricing rows, bad fill models, invalid quantities, non-finite prices, invalid multipliers, and bad commissions. |
-| Portfolio | Protects cash, multiplier, position quantity, sell quantity, fill price, commission, market price, and drawdown state transitions. |
-| Risk manager | Blocks normal simulated orders through configured limits and raises `RiskError` for unsafe validation inputs. |
-| Benchmark | Ensures loop and vectorized paths use comparable finite inputs, verifies numerical equivalence, and raises `BenchmarkError` before reporting misleading speedup. |
-| Reporting | Validates expected columns and generated artifacts so CSV, PNG, Markdown, JSON, and copied-config outputs remain auditable. |
+- CLI: catches expected `PyRiskLabError` exceptions and prints concise messages
+  unless `--debug` is used.
+- Config loader: validates YAML shape, required fields, enum values, booleans,
+  finite numbers, integer fields, output paths, and ranges before simulation
+  starts.
+- Market simulation: rejects invalid drift, volatility, initial price, steps,
+  paths, and generated non-finite or nonpositive prices.
+- Pricing and Greeks: reject invalid option types, non-finite inputs,
+  nonpositive underlying prices, invalid strikes, invalid trading-day counts,
+  and bad time-to-expiry values.
+- Strategy: validates required pricing/Greeks columns, finite numeric inputs,
+  threshold ordering, supported strategy names, and integer trade quantities.
+- Execution: rejects invalid actions, missing pricing rows, bad fill models,
+  invalid quantities, non-finite prices, invalid multipliers, and bad
+  commissions.
+- Portfolio: protects cash, multiplier, position quantity, sell quantity, fill
+  price, commission, market price, and drawdown state transitions.
+- Risk manager: blocks normal simulated orders through configured limits and
+  raises `RiskError` for unsafe validation inputs.
+- Benchmark: ensures loop and vectorized paths use comparable finite inputs,
+  verifies numerical equivalence, and raises `BenchmarkError` before reporting
+  misleading speedup.
+- Reporting: validates expected columns and generated artifacts so CSV, PNG,
+  Markdown, JSON, and copied-config outputs remain auditable.
 
 ## Important Failure Paths
 
