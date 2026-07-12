@@ -120,11 +120,16 @@ See `docs/ARCHITECTURE.md` for the longer design explanation.
 
 For a documentation map, see `docs/README.md`.
 
-For a quick implemented-vs-user-verified status summary, see `docs/PROJECT_STATUS.md`.
+For a quick implemented-vs-user-verified status summary, see
+`docs/PROJECT_STATUS.md`.
 
 For a quick evaluator walkthrough, see `docs/REVIEWER_GUIDE.md`.
 
-For a requirement-by-requirement evidence map, see `docs/REQUIREMENTS_TRACEABILITY.md`.
+For the ordered feature plan mapped to implementation evidence, see
+`docs/features/README.md`.
+
+For a requirement-by-requirement evidence map, see
+`docs/REQUIREMENTS_TRACEABILITY.md`.
 
 For a short demo and screenshot-capture path, see `docs/DEMO_WALKTHROUGH.md`.
 
@@ -132,13 +137,16 @@ For a module-level implementation reference, see `docs/API_REFERENCE.md`.
 
 For field-by-field YAML settings, see `docs/CONFIG_REFERENCE.md`.
 
-For defensive validation, error types, and edge-case handling, see `docs/VALIDATION_NOTES.md`.
+For defensive validation, error types, and edge-case handling, see
+`docs/VALIDATION_NOTES.md`.
 
-For benchmark assumptions, output columns, and speedup caveats, see `docs/PERFORMANCE_NOTES.md`.
+For benchmark assumptions, output columns, and speedup caveats, see
+`docs/PERFORMANCE_NOTES.md`.
 
 For local failure triage and `--debug` usage, see `docs/DEBUGGING_GUIDE.md`.
 
-For a portfolio-style narrative of the problem, engineering decisions, tradeoffs, and interview story, see `docs/PORTFOLIO_CASE_STUDY.md`.
+For a portfolio-style narrative of the problem, engineering decisions,
+tradeoffs, and interview story, see `docs/PORTFOLIO_CASE_STUDY.md`.
 
 For resume-ready project wording and bullet options, see `docs/RESUME_SNIPPETS.md`.
 
@@ -148,7 +156,9 @@ For local development workflow and scope rules, see `CONTRIBUTING.md`.
 
 For no-secrets and local-only security boundaries, see `SECURITY.md`.
 
-Package metadata points to the repository, docs folder, and issue tracker for standard GitHub navigation, and classifies the project as a console-based testing, automation, quality, and performance-tooling portfolio project.
+Package metadata points to the repository, docs folder, and issue tracker for
+standard GitHub navigation, and classifies the project as a console-based
+testing, automation, quality, and performance-tooling portfolio project.
 
 ## Local Setup
 
@@ -161,7 +171,10 @@ python -m pip install --upgrade pip
 pip install -r requirements.txt
 ```
 
-The repo also includes a tiny root launcher so `python -m pyrisklab ...` works from the repository root without an editable install. If you prefer a standard editable package workflow, run `pip install -e .` after installing requirements; that also exposes the shorter `pyrisklab` console command.
+The repo also includes a tiny root launcher so `python -m pyrisklab ...` works
+from the repository root without an editable install. If you prefer a standard
+editable package workflow, run `pip install -e .` after installing requirements;
+that also exposes the shorter `pyrisklab` console command.
 
 For package-style development, you can install the project and dev tools in one step:
 
@@ -169,7 +182,9 @@ For package-style development, you can install the project and dev tools in one 
 pip install -e ".[dev]"
 ```
 
-No API keys, accounts, or local secrets are required. `.env.example` is included only to document that the Version 1 MVP runs without environment variables; real `.env` files stay ignored.
+No API keys, accounts, or local secrets are required. `.env.example` is included
+only to document that the Version 1 MVP runs without environment variables;
+real `.env` files stay ignored.
 
 macOS/Linux:
 
@@ -205,7 +220,8 @@ Quiet mode keeps progress output off while still printing the final result:
 python -m pyrisklab run --config configs/demo.yaml --overwrite --quiet
 ```
 
-Debug mode prints a traceback for expected project errors when you are developing or diagnosing a failure:
+Debug mode prints a traceback for expected project errors when you are
+developing or diagnosing a failure:
 
 ```bash
 python -m pyrisklab run --config configs/demo.yaml --debug
@@ -229,7 +245,9 @@ Optional risk-control demo:
 python -m pyrisklab run --config configs/risk_stress.yaml --overwrite
 ```
 
-This uses the same synthetic market and strategy settings as the main demo, but sets `risk.max_position_quantity: 0` and lowers `risk.max_trade_notional` so proposed orders are blocked and written to `risk_events.csv`.
+This uses the same synthetic market and strategy settings as the main demo, but
+sets `risk.max_position_quantity: 0` and lowers `risk.max_trade_notional` so
+proposed orders are blocked and written to `risk_events.csv`.
 
 For the expected blocked-order output shape, see `docs/sample_outputs/risk_stress_demo.md`.
 
@@ -253,7 +271,12 @@ Local verification helper:
 python scripts/local_verify.py
 ```
 
-That helper runs the reviewer validation sequence locally: pytest, ruff, the main demo, and the risk-stress demo. Use `python scripts/local_verify.py --list` to preview the selected commands without running them, or `python scripts/local_verify.py --only ruff --only demo` to target a smaller subset. The helper is optional; the individual commands above are still the source of truth.
+That helper runs the reviewer validation sequence locally: pytest, ruff, the
+main demo, and the risk-stress demo. Use
+`python scripts/local_verify.py --list` to preview the selected commands without
+running them, or `python scripts/local_verify.py --only ruff --only demo` to
+target a smaller subset. The helper is optional; the individual commands above
+are still the source of truth.
 
 Targeted examples:
 
@@ -288,30 +311,54 @@ results/demo_run/
   summary_report.md
 ```
 
-The `results/demo_run/` folder is created locally after running the demo. Generated outputs are not required before setup, and the repository keeps `results/` mostly empty so reviewers can reproduce the run themselves.
+The `results/demo_run/` folder is created locally after running the demo.
+Generated outputs are not required before setup, and the repository keeps
+`results/` mostly empty so reviewers can reproduce the run themselves.
 
-`orders.csv` includes proposed simulated orders with risk approval status. `summary_report.md` summarizes approved, blocked, and skipped simulated orders so the risk/execution audit trail is visible without opening every CSV. `run_metadata.json` records deterministic run context, the config SHA-256 digest, benchmark settings, row counts, order status counts, expected artifact names, generated artifact names, and generated artifact byte sizes. Empty `trades.csv`, `risk_events.csv`, or disabled-benchmark `benchmark.csv` files are valid outcomes and still include headers.
+`orders.csv` includes proposed simulated orders with risk approval status.
+`summary_report.md` summarizes approved, blocked, and skipped simulated orders
+so the risk/execution audit trail is visible without opening every CSV.
+`run_metadata.json` records deterministic run context, the config SHA-256
+digest, benchmark settings, row counts, order status counts, expected artifact
+names, generated artifact names, and generated artifact byte sizes. Empty
+`trades.csv`, `risk_events.csv`, or disabled-benchmark `benchmark.csv` files are
+valid outcomes and still include headers.
 
 ## Benchmark
 
-PyRiskLab benchmarks two Black-Scholes pricing approaches on the same deterministic generated inputs:
+PyRiskLab benchmarks two Black-Scholes pricing approaches on the same
+deterministic generated inputs:
 
 - `python_loop`
 - `numpy_vectorized`
 
-The benchmark writes pricing assumptions, runtime, speedup, and numerical-equivalence checks to `benchmark.csv`. Results vary by machine and input size, so the benchmark demonstrates performance-aware engineering rather than guaranteeing a fixed speedup.
+The benchmark writes pricing assumptions, runtime, speedup, and
+numerical-equivalence checks to `benchmark.csv`. Results vary by machine and
+input size, so the benchmark demonstrates performance-aware engineering rather
+than guaranteeing a fixed speedup.
 
-If `benchmark.enabled` is false in a config, the report calls that out explicitly and writes an empty `benchmark.csv` with the same stable file contract.
+If `benchmark.enabled` is false in a config, the report calls that out
+explicitly and writes an empty `benchmark.csv` with the same stable file
+contract.
 
 For the full benchmark interpretation guide, see `docs/PERFORMANCE_NOTES.md`.
 
 ## Screenshots Or Sample Output References
 
-For a committed example of the expected terminal and report shape, see `docs/SAMPLE_OUTPUT.md`. For a short demo and screenshot-capture path, see `docs/DEMO_WALKTHROUGH.md`. For more concrete output contracts, see `docs/sample_outputs/`, including `docs/sample_outputs/artifact_manifest.md` for the full generated file set, `docs/sample_outputs/chart_artifacts.md` for the generated PNG chart set, and `docs/sample_outputs/risk_stress_demo.md` for the risk-audit preset.
+For a committed example of the expected terminal and report shape, see
+`docs/SAMPLE_OUTPUT.md`. For a short demo and screenshot-capture path, see
+`docs/DEMO_WALKTHROUGH.md`. For more concrete output contracts, see
+`docs/sample_outputs/`, including `docs/sample_outputs/artifact_manifest.md` for
+the full generated file set, `docs/sample_outputs/chart_artifacts.md` for the
+generated PNG chart set, and `docs/sample_outputs/risk_stress_demo.md` for the
+risk-audit preset.
 
-For the project story and resume/interview framing, see `docs/REVIEWER_GUIDE.md`, `docs/PORTFOLIO_CASE_STUDY.md`, and `docs/INTERVIEW_NOTES.md`.
+For the project story and resume/interview framing, see
+`docs/REVIEWER_GUIDE.md`, `docs/PORTFOLIO_CASE_STUDY.md`, and
+`docs/INTERVIEW_NOTES.md`.
 
-For the final local verification pass before putting the project on a resume, use `docs/FINAL_REVIEW_CHECKLIST.md`.
+For the final local verification pass before putting the project on a resume,
+use `docs/FINAL_REVIEW_CHECKLIST.md`.
 
 After running the demo, open:
 
@@ -328,15 +375,24 @@ These generated files are the screenshot-ready project artifacts.
 
 Use PyRiskLab to describe a local Python engineering project, not a trading product:
 
-- Built a modular Python simulation engine with deterministic YAML configs, CLI automation, NumPy/SciPy numerical code, pandas pipelines, fake execution, risk validation, and reproducible CSV/PNG/Markdown reports.
-- Implemented performance-aware Black-Scholes benchmarking that compares Python-loop pricing against vectorized NumPy pricing, records pricing assumptions, and verifies numerical equivalence before reporting speedup.
-- Added pytest coverage for config validation, pricing formulas, Greeks, execution state, portfolio accounting, risk rules, benchmark behavior, reporting contracts, packaging metadata, and repository hygiene.
+- Built a modular Python simulation engine with deterministic YAML configs, CLI
+  automation, NumPy/SciPy numerical code, pandas pipelines, fake execution, risk
+  validation, and reproducible CSV/PNG/Markdown reports.
+- Implemented performance-aware Black-Scholes benchmarking that compares
+  Python-loop pricing against vectorized NumPy pricing, records pricing
+  assumptions, and verifies numerical equivalence before reporting speedup.
+- Added pytest coverage for config validation, pricing formulas, Greeks,
+  execution state, portfolio accounting, risk rules, benchmark behavior,
+  reporting contracts, packaging metadata, and repository hygiene.
 
 ## Troubleshooting
 
-If `python -m pyrisklab` cannot import the package, run the command from the repository root after installing dependencies, or use `pip install -e .` for an editable install.
+If `python -m pyrisklab` cannot import the package, run the command from the
+repository root after installing dependencies, or use `pip install -e .` for an
+editable install.
 
-If `results/demo_run/` already exists, rerun with `--overwrite` or change `run_name` in `configs/demo.yaml`.
+If `results/demo_run/` already exists, rerun with `--overwrite` or change
+`run_name` in `configs/demo.yaml`.
 
 Config mistakes are reported as clean project errors, for example:
 
@@ -345,9 +401,12 @@ ConfigError: market.volatility must be >= 0. Received -0.20.
 RunError: results/demo_run already exists. Use --overwrite or choose a different run_name.
 ```
 
-For normal reviewer runs, PyRiskLab prints concise project errors without a traceback. Add `--debug` when you want the traceback while developing.
+For normal reviewer runs, PyRiskLab prints concise project errors without a
+traceback. Add `--debug` when you want the traceback while developing.
 
-If matplotlib behaves differently on a local machine, the project forces a non-interactive PNG backend for report generation, so no desktop plotting window is required.
+If matplotlib behaves differently on a local machine, the project forces a
+non-interactive PNG backend for report generation, so no desktop plotting window
+is required.
 
 ## Project Structure
 
@@ -359,7 +418,8 @@ tests/
 results/
 ```
 
-The core implementation lives in `src/pyrisklab/`, while `tests/` contains focused pytest coverage for the main modules.
+The core implementation lives in `src/pyrisklab/`, while `tests/` contains
+focused pytest coverage for the main modules.
 
 ## License
 
@@ -367,19 +427,30 @@ MIT License. See `LICENSE`.
 
 ## Limitations
 
-PyRiskLab uses one configured option contract and a simplified deterministic fill model. It does not model order books, spreads, slippage, margin, assignment, taxes, liquidity, real market microstructure, or real financial risk.
+PyRiskLab uses one configured option contract and a simplified deterministic
+fill model. It does not model order books, spreads, slippage, margin,
+assignment, taxes, liquidity, real market microstructure, or real financial
+risk.
 
 ## Future Improvements
 
 - Add a curated `docs/assets/` screenshot set generated from a final local demo run.
-- Extend the pipeline from one configured option contract to a small portfolio of contracts while preserving the same deterministic CLI workflow.
-- Add optional Numba or multiprocessing benchmark variants only after the baseline loop-vs-NumPy comparison remains documented and reproducible.
-- Add richer Markdown report styling and comparison tables while keeping the project local, dependency-light, and simulation-only.
+- Extend the pipeline from one configured option contract to a small portfolio
+  of contracts while preserving the same deterministic CLI workflow.
+- Add optional Numba or multiprocessing benchmark variants only after the
+  baseline loop-vs-NumPy comparison remains documented and reproducible.
+- Add richer Markdown report styling and comparison tables while keeping the
+  project local, dependency-light, and simulation-only.
 
 ## Resume Bullet
 
-Built PyRiskLab, a modular local Python simulation engine using NumPy, pandas, SciPy, matplotlib, and pytest to simulate market paths, price options, calculate Greeks, execute fake trades, enforce risk controls, benchmark vectorized computation, and export reproducible portfolio reports.
+Built PyRiskLab, a modular local Python simulation engine using NumPy, pandas,
+SciPy, matplotlib, and pytest to simulate market paths, price options, calculate
+Greeks, execute fake trades, enforce risk controls, benchmark vectorized
+computation, and export reproducible portfolio reports.
 
 Performance/tooling version:
 
-Developed a performance-aware Python simulation and analytics tool with deterministic YAML configs, CLI automation, vectorized numerical computation, pytest coverage, benchmark reporting, and reproducible local artifacts.
+Developed a performance-aware Python simulation and analytics tool with
+deterministic YAML configs, CLI automation, vectorized numerical computation,
+pytest coverage, benchmark reporting, and reproducible local artifacts.
