@@ -71,6 +71,23 @@ def test_github_issue_template_keeps_scope_local():
     assert "brokerage integration" in bug_template
 
 
+def test_github_feature_template_keeps_scope_engineering_focused():
+    with open(".github/ISSUE_TEMPLATE/feature_request.md", encoding="utf-8") as template_file:
+        feature_template = template_file.read()
+
+    assert "Feature request" in feature_template
+    assert "Software Engineering Signal" in feature_template
+    assert "CLI automation" in feature_template
+    assert "Config validation or reproducibility" in feature_template
+    assert "Benchmark or performance reporting" in feature_template
+    assert "python -m pyrisklab run --config configs/demo.yaml --overwrite" in feature_template
+    assert "python -m pyrisklab run --config configs/risk_stress.yaml --overwrite" in feature_template
+    assert "generated artifact names" in feature_template
+    assert "simulation-only" in feature_template
+    assert "brokerage integration" in feature_template
+    assert "investment advice" in feature_template
+
+
 def test_github_pull_request_template_keeps_review_reproducible():
     with open(".github/PULL_REQUEST_TEMPLATE.md", encoding="utf-8") as template_file:
         pr_template = template_file.read()
