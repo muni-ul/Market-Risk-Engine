@@ -21,6 +21,13 @@ python -m pyrisklab run --config configs/demo.yaml --overwrite
 python -m pyrisklab run --config configs/risk_stress.yaml --overwrite
 ```
 
+Optional helper flow:
+
+```bash
+python scripts/local_verify.py --list
+python scripts/local_verify.py --only ruff --only demo
+```
+
 ## Reviewer Artifacts
 
 If the pipeline output changed, inspect:
@@ -33,6 +40,9 @@ If the pipeline output changed, inspect:
 
 Also update `docs/REVIEWER_GUIDE.md`, `docs/FINAL_REVIEW_CHECKLIST.md`, or
 `docs/sample_outputs/` if reviewer workflow or output contracts changed.
+Update `docs/INTERVIEW_NOTES.md`, `docs/RESUME_SNIPPETS.md`, or
+`docs/GITHUB_PROFILE_SETUP.md` if the change affects resume, interview, or
+public GitHub presentation wording.
 
 ## Scope Check
 

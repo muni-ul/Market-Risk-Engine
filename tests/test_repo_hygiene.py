@@ -121,7 +121,12 @@ def test_github_pull_request_template_keeps_review_reproducible():
     assert "ruff check ." in pr_template
     assert "python -m pyrisklab run --config configs/demo.yaml --overwrite" in pr_template
     assert "python -m pyrisklab run --config configs/risk_stress.yaml --overwrite" in pr_template
+    assert "python scripts/local_verify.py --list" in pr_template
+    assert "python scripts/local_verify.py --only ruff --only demo" in pr_template
     assert "results/demo_run/run_metadata.json" in pr_template
+    assert "docs/INTERVIEW_NOTES.md" in pr_template
+    assert "docs/RESUME_SNIPPETS.md" in pr_template
+    assert "docs/GITHUB_PROFILE_SETUP.md" in pr_template
     assert "simulation-only" in pr_template
 
 
