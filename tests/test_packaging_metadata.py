@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import tomllib
 
+import pyrisklab
 from pyrisklab import __version__
 from pyrisklab._version import __version__ as runtime_version
 
@@ -39,6 +40,11 @@ def test_runtime_version_matches_package_metadata():
         pyproject = tomllib.load(pyproject_file)
 
     assert __version__ == runtime_version == pyproject["project"]["version"]
+
+
+def test_package_root_exposes_stable_reviewer_surface():
+    assert "run_simulation" in pyrisklab.__all__
+    assert callable(pyrisklab.run_simulation)
 
 
 def test_package_declares_pep561_typed_marker():

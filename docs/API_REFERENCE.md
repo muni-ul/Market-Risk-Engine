@@ -47,6 +47,7 @@ python -m pyrisklab run --config configs/demo.yaml --overwrite
 
 For targeted inspection or extension, start with:
 
+- `pyrisklab.run_simulation(...)`
 - `pyrisklab.config.load_config(...)`
 - `pyrisklab.pipeline.run_simulation(...)`
 - `pyrisklab.pricing.black_scholes_price(...)`
