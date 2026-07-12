@@ -84,6 +84,7 @@ deployment, ML trading prediction, or investment advice.
 ## Best Reviewer Starting Points
 
 - `README.md`
+- `docs/RECRUITER_BRIEF.md`
 - `docs/REVIEWER_GUIDE.md`
 - `docs/features/README.md`
 - `docs/REQUIREMENTS_TRACEABILITY.md`
