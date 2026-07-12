@@ -247,9 +247,10 @@ python -m pyrisklab run --config configs/risk_stress.yaml --overwrite
 
 This uses the same synthetic market and strategy settings as the main demo, but
 sets `risk.max_position_quantity: 0` and lowers `risk.max_trade_notional` so
-proposed orders are blocked and written to `risk_events.csv`.
+proposed orders are blocked and written to `results/risk_stress_run/`.
 
-For the expected blocked-order output shape, see `docs/sample_outputs/risk_stress_demo.md`.
+For the expected blocked-order output shape, see
+`docs/sample_outputs/risk_stress_demo.md`.
 
 ## Testing
 
