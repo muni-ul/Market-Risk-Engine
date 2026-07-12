@@ -53,6 +53,8 @@ Use `docs/DEBUGGING_GUIDE.md` if config, artifact, benchmark, or risk-audit
 behavior needs triage.
 Use `docs/VALIDATION_NOTES.md` to review defensive checks, domain-specific
 errors, and edge-case coverage.
+Use `docs/IMPLEMENTATION_AUDIT.md` for static placeholder-scan guidance before
+the runtime validation pass.
 Use `docs/PERFORMANCE_NOTES.md` to interpret benchmark columns, equivalence
 checks, and machine-dependent speedup.
 Use `docs/DEMO_WALKTHROUGH.md` to choose screenshot targets and keep the

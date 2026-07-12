@@ -12,6 +12,7 @@ notebook.
 | One command runs the project | `python -m pyrisklab run --config configs/demo.yaml --overwrite` is documented in `README.md`, `docs/REVIEWER_GUIDE.md`, and `docs/FINAL_REVIEW_CHECKLIST.md`. |
 | Real package layout | Runtime code lives under `src/pyrisklab/`; the root `pyrisklab/` package is a launcher shim that mirrors the small public API for repo-root CLI/import use. |
 | Clean module split | `docs/ARCHITECTURE.md` and `docs/API_REFERENCE.md` describe the CLI, config, market, pricing, Greeks, strategy, execution, portfolio, risk, benchmark, reporting, and pipeline modules. |
+| No placeholder implementation | `docs/IMPLEMENTATION_AUDIT.md` documents the static source/test placeholder scan and explains why historical feature specs may still mention early placeholder steps. |
 | Config-driven reproducibility | `configs/demo.yaml`, `configs/risk_stress.yaml`, copied `config_used.yaml`, config SHA-256 metadata, and `docs/CONFIG_REFERENCE.md`. |
 | NumPy, pandas, SciPy, matplotlib stack | Declared in `requirements.txt` and `pyproject.toml`; summarized in `README.md`. |
 | SciPy Black-Scholes pricing | `src/pyrisklab/pricing.py`, `tests/test_pricing.py`, and `docs/API_REFERENCE.md`. |
