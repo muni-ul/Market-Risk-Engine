@@ -32,6 +32,9 @@ def test_readme_contains_required_demo_and_scope_language():
     assert "SECURITY.md" in readme
     assert "issue tracker" in readme
     assert "## Reviewer Checklist" in readme
+    assert "```mermaid" in readme
+    assert "Simulation pipeline" in readme
+    assert "Loop-vs-NumPy benchmark" in readme
     assert "py.typed" in readme
     assert "risk/execution audit counts" in readme
     assert "config SHA-256" in readme
@@ -229,6 +232,24 @@ def test_docs_index_links_reviewer_and_engineering_docs():
     ):
         assert doc_name in docs_index
     assert "results/.gitkeep" in docs_index
+
+
+def test_architecture_doc_contains_reviewable_data_flow_diagram():
+    with open("docs/ARCHITECTURE.md", encoding="utf-8") as architecture_file:
+        architecture = architecture_file.read()
+
+    assert "PyRiskLab Architecture" in architecture
+    assert "```mermaid" in architecture
+    assert "flowchart TD" in architecture
+    assert "configs/demo.yaml" in architecture
+    assert "config.py validates YAML" in architecture
+    assert "market.py synthetic path" in architecture
+    assert "pricing.py Black-Scholes" in architecture
+    assert "greeks.py sensitivities" in architecture
+    assert "risk.py validation" in architecture
+    assert "benchmark.py loop vs NumPy" in architecture
+    assert "reporting.py CSV, PNG, Markdown, JSON" in architecture
+    assert "results/<run_name>/" in architecture
 
 
 def test_demo_walkthrough_documents_screenshot_and_scope_path():

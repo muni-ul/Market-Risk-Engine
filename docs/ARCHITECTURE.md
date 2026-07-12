@@ -30,6 +30,25 @@ Config validation happens before simulation work begins. Numeric, finite-value, 
 
 ## Data Flow
 
+```mermaid
+flowchart TD
+    A["configs/demo.yaml"] --> B["cli.py"]
+    B --> C["config.py validates YAML"]
+    C --> D["RunConfig dataclass"]
+    D --> E["market.py synthetic path"]
+    E --> F["pricing.py Black-Scholes"]
+    F --> G["greeks.py sensitivities"]
+    G --> H["strategy.py fake signals"]
+    H --> I["execution.py proposed orders"]
+    I --> J["risk.py validation"]
+    J --> K["execution.py fake fills"]
+    K --> L["portfolio.py state history"]
+    D --> M["benchmark.py loop vs NumPy"]
+    L --> N["reporting.py CSV, PNG, Markdown, JSON"]
+    M --> N
+    N --> O["results/<run_name>/"]
+```
+
 ```text
 configs/demo.yaml
   -> config.load_config()

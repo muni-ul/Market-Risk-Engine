@@ -54,6 +54,18 @@ Python 3.11+, NumPy, pandas, SciPy, matplotlib, PyYAML, pytest, and ruff.
 
 ## Architecture
 
+```mermaid
+flowchart LR
+    A["YAML config"] --> B["CLI"]
+    B --> C["Simulation pipeline"]
+    C --> D["Pricing and Greeks"]
+    D --> E["Fake strategy, risk, execution"]
+    E --> F["Portfolio state"]
+    F --> G["CSV, PNG, Markdown, JSON reports"]
+    C --> H["Loop-vs-NumPy benchmark"]
+    H --> G
+```
+
 ```text
 configs/demo.yaml
   -> CLI / config loader
