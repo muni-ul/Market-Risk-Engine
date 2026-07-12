@@ -194,8 +194,13 @@ def test_sample_output_docs_are_linked_and_present():
         assert "docs/PERFORMANCE_NOTES.md" in checklist
         assert "docs/DEBUGGING_GUIDE.md" in checklist
         assert "docs/TESTING_STRATEGY.md" in checklist
+        assert "docs/INTERVIEW_NOTES.md" in checklist
         assert "docs/RESUME_SNIPPETS.md" in checklist
+        assert "docs/GITHUB_PROFILE_SETUP.md" in checklist
         assert "docs/sample_outputs/artifact_manifest.md" in checklist
+        assert "live code" in checklist
+        assert "GitHub About panel" in checklist
+        assert "README as the first reviewer path" in checklist
         assert "Simulation-only language" in checklist
         assert "config_used.yaml" in checklist
         assert "pricing_history.csv" in checklist

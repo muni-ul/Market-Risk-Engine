@@ -71,8 +71,12 @@ Use `docs/PLATFORM_NOTES.md` to understand platform-specific artifact and
 benchmark differences.
 Use `docs/DEMO_WALKTHROUGH.md` to choose screenshot targets and keep the
 presentation focused on software engineering.
+Use `docs/INTERVIEW_NOTES.md` to rehearse the one-minute pitch and live code
+walkthrough path.
 Use `docs/RESUME_SNIPPETS.md` to keep resume wording aligned with the
 implemented project.
+Use `docs/GITHUB_PROFILE_SETUP.md` to align the repository About panel, topics,
+and pinned-repo wording before sharing the project.
 
 ## Demo Output Inspection
 
@@ -153,6 +157,8 @@ to have a repo that is easy to run, easy to audit, and honest about its scope.
   changelog, contributing guide, security notes, and this checklist.
 - GitHub About description, topics, and pinned-repo wording follow
   `docs/GITHUB_PROFILE_SETUP.md`.
+- GitHub About panel avoids linking generated local `results/` folders and
+  uses the README as the first reviewer path.
 - Resume bullets match what the project actually implements.
 
 ## Resume Readiness
