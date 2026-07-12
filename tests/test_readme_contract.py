@@ -244,7 +244,9 @@ def test_docs_index_links_reviewer_and_engineering_docs():
     for doc_name in (
         "../CHANGELOG.md",
         "../CONTRIBUTING.md",
+        "../SUPPORT.md",
         "../SECURITY.md",
+        "../.github/CODEOWNERS",
         "../.github/ISSUE_TEMPLATE/config.yml",
         "../.github/ISSUE_TEMPLATE/bug_report.md",
         "../.github/ISSUE_TEMPLATE/feature_request.md",
@@ -266,6 +268,7 @@ def test_docs_index_links_reviewer_and_engineering_docs():
         "PORTFOLIO_CASE_STUDY.md",
         "INTERVIEW_NOTES.md",
         "RESUME_SNIPPETS.md",
+        "GITHUB_PROFILE_SETUP.md",
         "sample_outputs/artifact_manifest.md",
     ):
         assert doc_name in docs_index
