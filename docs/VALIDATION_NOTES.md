@@ -52,6 +52,9 @@ Useful examples to inspect in tests:
   speedup number.
 - Existing output folders require `--overwrite` or a different `run_name`.
 
+For field-level config rules, see `docs/CONFIG_REFERENCE.md`. For local triage
+steps, helper commands, and `--debug` usage, see `docs/DEBUGGING_GUIDE.md`.
+
 ## Error-Type Contract
 
 All expected project errors inherit from `PyRiskLabError`, which lets the CLI

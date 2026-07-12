@@ -383,6 +383,8 @@ def test_validation_notes_explain_defensive_error_contracts():
     assert "Selling more contracts" in validation_notes
     assert "Blocked simulated orders" in validation_notes
     assert "--debug" in validation_notes
+    assert "docs/CONFIG_REFERENCE.md" in validation_notes
+    assert "docs/DEBUGGING_GUIDE.md" in validation_notes
 
 
 def test_architecture_doc_contains_reviewable_data_flow_diagram():
