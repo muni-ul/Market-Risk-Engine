@@ -49,6 +49,7 @@ performance tooling rather than a trading product.
 | `../CONTRIBUTING.md` | Local setup, checks, scope rules, and doc-update expectations. |
 | `../SUPPORT.md` | Bug, enhancement, and security support routing. |
 | `../SECURITY.md` | No-secrets policy and local-only security boundaries. |
+| `../.github/CODEOWNERS` | Repository ownership metadata for GitHub review surfaces. |
 | `../.github/ISSUE_TEMPLATE/bug_report.md` | Bug checklist for local simulation issues. |
 | `../.github/ISSUE_TEMPLATE/feature_request.md` | Enhancement template for engineering signal. |
 | `../.github/PULL_REQUEST_TEMPLATE.md` | Review checklist for reproducible local changes. |

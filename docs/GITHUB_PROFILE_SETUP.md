@@ -49,6 +49,7 @@ Suggested pinned-repo caption:
 
 - Keep the repository public only after your final local validation pass.
 - Pin the repository near the top of your GitHub profile when applying.
+- Keep `.github/CODEOWNERS` aligned with the GitHub account that owns the repo.
 - Do not describe the project as live trading, brokerage-connected,
   investment advice, or a profitability model.
 - Use `docs/RECRUITER_BRIEF.md` for a one-page quick-skim summary.
