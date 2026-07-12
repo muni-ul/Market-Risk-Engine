@@ -29,6 +29,7 @@ performance tooling rather than a trading product.
 | Doc | Use it for |
 | --- | --- |
 | `ARCHITECTURE.md` | Module responsibilities, data flow, and scope boundaries. |
+| `DESIGN_DECISIONS.md` | Concise ADR-style summary of major engineering tradeoffs. |
 | `API_REFERENCE.md` | Main modules, public functions/classes, and intended import surface. |
 | `CONFIG_REFERENCE.md` | Field-by-field explanation of both committed YAML configs. |
 | `ASSUMPTIONS.md` | Model assumptions, simplifications, and Version 1 limitations. |

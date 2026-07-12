@@ -46,6 +46,8 @@ or performance work:
   the run is auditable.
 - `docs/DEMO_WALKTHROUGH.md` gives a short screenshot and talk-track path for
   GitHub or interview review.
+- `docs/DESIGN_DECISIONS.md` summarizes the major tradeoffs behind the local
+  CLI, package layout, config-driven runs, artifacts, and benchmarking.
 - `docs/RESUME_SNIPPETS.md` gives resume-ready bullet options and wording
   boundaries.
 - `docs/FINAL_REVIEW_CHECKLIST.md` gives the final local validation path before

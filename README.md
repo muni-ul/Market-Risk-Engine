@@ -123,6 +123,9 @@ configs/demo.yaml
 
 See `docs/ARCHITECTURE.md` for the longer design explanation.
 
+For a compact summary of major engineering tradeoffs, see
+`docs/DESIGN_DECISIONS.md`.
+
 For a documentation map, see `docs/README.md`.
 
 For a quick implemented-vs-user-verified status summary, see
