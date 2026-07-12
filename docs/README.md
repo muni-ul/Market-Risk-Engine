@@ -54,6 +54,7 @@ performance tooling rather than a trading product.
 | `PROJECT_SELECTION_BRIEF.md` | Original project-selection rationale. |
 | `PROJECT_MASTER_BLUEPRINT.md` | Full source blueprint used to build the project. |
 | `TECH_STACK_AND_ARCHITECTURE.md` | Original stack and architecture planning notes. |
+| `features/README.md` | Ordered feature map from build plan to implementation evidence. |
 | `features/` | Feature-by-feature planning documents for the Version 1 build. |
 
 The generated `results/` folder is intentionally not committed beyond

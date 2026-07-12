@@ -45,6 +45,8 @@ orders and readable risk events without making trading or profitability claims.
 Use `docs/TESTING_STRATEGY.md` to map pytest files to the behavior they protect.
 Use `docs/PROJECT_STATUS.md` to review implemented scope and user-run
 verification commands.
+Use `docs/features/README.md` to map the ordered feature plan to implemented
+files and reviewer evidence.
 Use `docs/REQUIREMENTS_TRACEABILITY.md` to compare the original Version 1
 requirements against current repo evidence.
 Use `docs/DEBUGGING_GUIDE.md` if config, artifact, benchmark, or risk-audit
