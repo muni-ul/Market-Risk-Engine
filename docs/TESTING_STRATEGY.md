@@ -29,6 +29,9 @@ pytest tests/test_risk.py
 Use the full suite for the final local verification pass. Use targeted files
 when discussing one subsystem in an interview.
 
+For the complete resume-ready gate, including demo runs and artifact inspection,
+use `docs/FINAL_REVIEW_CHECKLIST.md`.
+
 The optional `scripts/local_verify.py` helper is covered at the command-planning
 level by `tests/test_local_verify.py`; those tests validate selected command
 construction without invoking pytest, ruff, or demo subprocesses.
