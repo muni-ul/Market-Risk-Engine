@@ -26,7 +26,10 @@ def test_pyproject_declares_console_script_and_dependencies():
     assert "Programming Language :: Python :: 3.12" in project["classifiers"]
     assert "Topic :: Software Development :: Quality Assurance" in project["classifiers"]
     assert "Topic :: Software Development :: Testing" in project["classifiers"]
+    assert "Topic :: Software Development :: Libraries :: Python Modules" in project["classifiers"]
     assert "Topic :: Scientific/Engineering" in project["classifiers"]
+    assert "Topic :: Scientific/Engineering :: Mathematics" in project["classifiers"]
+    assert "Typing :: Typed" in project["classifiers"]
     assert {"numpy", "pandas", "scipy", "matplotlib", "PyYAML"}.issubset(project["dependencies"])
     assert {"pytest", "ruff"}.issubset(project["optional-dependencies"]["dev"])
     assert project["urls"]["Repository"] == "https://github.com/muni-ul/Market-Risk-Engine"
