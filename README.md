@@ -85,6 +85,8 @@ See `docs/ARCHITECTURE.md` for the longer design explanation.
 
 For a documentation map, see `docs/README.md`.
 
+For a quick implemented-vs-user-verified status summary, see `docs/PROJECT_STATUS.md`.
+
 For a quick evaluator walkthrough, see `docs/REVIEWER_GUIDE.md`.
 
 For a requirement-by-requirement evidence map, see `docs/REQUIREMENTS_TRACEABILITY.md`.

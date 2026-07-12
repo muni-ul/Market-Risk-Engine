@@ -8,6 +8,7 @@ navigation, implementation architecture, reproducibility, and interview framing.
 
 | Doc | Use it for |
 | --- | --- |
+| `PROJECT_STATUS.md` | Implemented scope, user-run verification commands, and best reviewer starting points. |
 | `REVIEWER_GUIDE.md` | Five-minute evaluation path, demo command, and the strongest files to inspect. |
 | `REQUIREMENTS_TRACEABILITY.md` | Original Version 1 requirements mapped to current repo evidence. |
 | `DEMO_WALKTHROUGH.md` | Short demo path, screenshot targets, and interview talk track. |

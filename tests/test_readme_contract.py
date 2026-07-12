@@ -20,6 +20,7 @@ def test_readme_contains_required_demo_and_scope_language():
     assert "docs/sample_outputs/chart_artifacts.md" in readme
     assert "docs/sample_outputs/risk_stress_demo.md" in readme
     assert "docs/README.md" in readme
+    assert "docs/PROJECT_STATUS.md" in readme
     assert "docs/REVIEWER_GUIDE.md" in readme
     assert "docs/REQUIREMENTS_TRACEABILITY.md" in readme
     assert "docs/DEMO_WALKTHROUGH.md" in readme
@@ -159,6 +160,7 @@ def test_sample_output_docs_are_linked_and_present():
         assert "CONTRIBUTING.md" in checklist
         assert "SECURITY.md" in checklist
         assert "docs/API_REFERENCE.md" in checklist
+        assert "docs/PROJECT_STATUS.md" in checklist
         assert "docs/REQUIREMENTS_TRACEABILITY.md" in checklist
         assert "docs/DEMO_WALKTHROUGH.md" in checklist
         assert "docs/CONFIG_REFERENCE.md" in checklist
@@ -193,6 +195,7 @@ def test_reviewer_guide_contains_demo_and_scope_contracts():
     assert "python -m pyrisklab run --config configs/risk_stress.yaml --overwrite" in reviewer_guide
     assert "summary_report.md" in reviewer_guide
     assert "run_metadata.json" in reviewer_guide
+    assert "docs/PROJECT_STATUS.md" in reviewer_guide
     assert "docs/REQUIREMENTS_TRACEABILITY.md" in reviewer_guide
     assert "docs/CONFIG_REFERENCE.md" in reviewer_guide
     assert "docs/VALIDATION_NOTES.md" in reviewer_guide
@@ -229,6 +232,7 @@ def test_docs_index_links_reviewer_and_engineering_docs():
         "../CHANGELOG.md",
         "../CONTRIBUTING.md",
         "../SECURITY.md",
+        "PROJECT_STATUS.md",
         "REVIEWER_GUIDE.md",
         "REQUIREMENTS_TRACEABILITY.md",
         "DEMO_WALKTHROUGH.md",
@@ -249,6 +253,21 @@ def test_docs_index_links_reviewer_and_engineering_docs():
     ):
         assert doc_name in docs_index
     assert "results/.gitkeep" in docs_index
+
+
+def test_project_status_summarizes_implemented_scope_without_overclaiming():
+    with open("docs/PROJECT_STATUS.md", encoding="utf-8") as status_file:
+        project_status = status_file.read()
+
+    assert "PyRiskLab Project Status" in project_status
+    assert "Implemented" in project_status
+    assert "User-Run Verification" in project_status
+    assert "python -m pyrisklab run --config configs/demo.yaml --overwrite" in project_status
+    assert "python scripts/local_verify.py --list" in project_status
+    assert "Generated run outputs are intentionally not committed" in project_status
+    assert "Not Included" in project_status
+    assert "live market data" in project_status
+    assert "brokerage" in project_status
 
 
 def test_requirements_traceability_maps_original_requirements_to_evidence():
