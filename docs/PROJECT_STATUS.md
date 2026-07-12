@@ -18,6 +18,8 @@ future maintainers.
   repo hygiene
 - Reviewer docs for architecture, config, validation, performance, debugging,
   demo walkthrough, traceability, resume wording, and final verification
+- GitHub bug report, feature request, and pull request templates that keep
+  issues and changes scoped to local simulation engineering
 
 ## User-Run Verification
 
