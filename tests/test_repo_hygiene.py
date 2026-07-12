@@ -114,6 +114,8 @@ def test_local_verification_helper_documents_reviewer_commands():
     assert "--skip-risk-demo" in helper
     assert "--keep-going" in helper
     assert "--list" in helper
+    assert "--only" in helper
+    assert "risk-demo" in helper
     assert "print_commands" in helper
 
     with open("CONTRIBUTING.md", encoding="utf-8") as contributing_file:
@@ -121,3 +123,4 @@ def test_local_verification_helper_documents_reviewer_commands():
 
     assert "python scripts/local_verify.py" in contributing
     assert "python scripts/local_verify.py --list" in contributing
+    assert "python scripts/local_verify.py --only ruff --only demo" in contributing

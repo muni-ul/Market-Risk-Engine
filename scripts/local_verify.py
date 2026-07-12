@@ -43,16 +43,26 @@ def build_parser() -> argparse.ArgumentParser:
         action="store_true",
         help="Print selected commands without running them.",
     )
+    parser.add_argument(
+        "--only",
+        choices=("pytest", "ruff", "demo", "risk-demo"),
+        action="append",
+        help=(
+            "Run only the named check. May be passed more than once; skip flags "
+            "still apply."
+        ),
+    )
     return parser
 
 
 def planned_commands(args: argparse.Namespace) -> list[Command]:
+    selected = set(args.only or ())
     commands: list[Command] = []
-    if not args.skip_tests:
+    if not args.skip_tests and (not selected or "pytest" in selected):
         commands.append(("pytest", [sys.executable, "-m", "pytest"]))
-    if not args.skip_lint:
+    if not args.skip_lint and (not selected or "ruff" in selected):
         commands.append(("ruff", [sys.executable, "-m", "ruff", "check", "."]))
-    if not args.skip_demo:
+    if not args.skip_demo and (not selected or "demo" in selected):
         commands.append(
             (
                 "demo run",
@@ -67,7 +77,7 @@ def planned_commands(args: argparse.Namespace) -> list[Command]:
                 ],
             )
         )
-    if not args.skip_risk_demo:
+    if not args.skip_risk_demo and (not selected or "risk-demo" in selected):
         commands.append(
             (
                 "risk-stress demo",

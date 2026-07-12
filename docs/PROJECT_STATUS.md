@@ -39,6 +39,12 @@ To preview the helper command list without running anything:
 python scripts/local_verify.py --list
 ```
 
+To run only selected checks:
+
+```bash
+python scripts/local_verify.py --only ruff --only demo
+```
+
 To run the helper:
 
 ```bash

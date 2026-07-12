@@ -11,6 +11,7 @@ def test_readme_contains_required_demo_and_scope_language():
     assert "ruff check ." in readme
     assert "python scripts/local_verify.py" in readme
     assert "python scripts/local_verify.py --list" in readme
+    assert "python scripts/local_verify.py --only ruff --only demo" in readme
     assert "not a trading bot" in readme
     assert "does not connect to real brokerage accounts" in readme
     assert "results/demo_run/" in readme
@@ -154,6 +155,7 @@ def test_sample_output_docs_are_linked_and_present():
         assert "ruff check ." in checklist
         assert "python scripts/local_verify.py" in checklist
         assert "--list" in checklist
+        assert "--only ruff --only demo" in checklist
         assert "python -m pyrisklab run --config configs/demo.yaml --overwrite" in checklist
         assert "docs/README.md" in checklist
         assert "CHANGELOG.md" in checklist
@@ -268,6 +270,7 @@ def test_project_status_summarizes_implemented_scope_without_overclaiming():
     assert "bug report, feature request, and pull request templates" in project_status
     assert "python -m pyrisklab run --config configs/demo.yaml --overwrite" in project_status
     assert "python scripts/local_verify.py --list" in project_status
+    assert "python scripts/local_verify.py --only ruff --only demo" in project_status
     assert "Generated run outputs are intentionally not committed" in project_status
     assert "Not Included" in project_status
     assert "live market data" in project_status

@@ -40,6 +40,12 @@ Preview the selected helper commands without running them:
 python scripts/local_verify.py --list
 ```
 
+Run a targeted subset when you only need one or two checks:
+
+```bash
+python scripts/local_verify.py --only ruff --only demo
+```
+
 The main demo should create `results/demo_run/`; the risk-stress demo should
 create blocked simulated orders and readable risk events.
 
