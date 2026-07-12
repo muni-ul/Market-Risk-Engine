@@ -1,6 +1,8 @@
 # PyRiskLab Sample Output
 
-This page shows what a successful local demo run is designed to produce. The actual numbers may differ by machine for benchmark timing, but the artifact names and report shape should match.
+This page shows what a successful local demo run is designed to produce. The
+actual numbers may differ by machine for benchmark timing, but the artifact
+names and report shape should match.
 
 ## Terminal Output
 
@@ -38,7 +40,9 @@ results/demo_run/
   summary_report.md
 ```
 
-`orders.csv` includes `status` and `risk_reason` audit columns. Status values are `APPROVED`, `BLOCKED`, or `SKIPPED`, and the same counts are summarized in `summary_report.md` and `run_metadata.json`.
+`orders.csv` includes `status` and `risk_reason` audit columns. Status values
+are `APPROVED`, `BLOCKED`, or `SKIPPED`, and the same counts are summarized in
+`summary_report.md` and `run_metadata.json`.
 
 ## Example Summary Report Excerpt
 
@@ -50,7 +54,9 @@ Seed: `42`
 
 ## Simulation Only
 
-This is a local simulation only. It does not use live market data, place real trades, connect to a brokerage, provide investment advice, or make profitability claims.
+This is a local simulation only. It does not use live market data, place real
+trades, connect to a brokerage, provide investment advice, or make
+profitability claims.
 
 ## Market Simulation
 
@@ -132,9 +138,20 @@ Benchmark results vary by hardware, Python version, and input size.
 - Benchmark prices: generated from the benchmark config
 - Benchmark seed: generated from the benchmark config
 - Benchmark tolerance: generated from the benchmark config
-- Artifact audit: expected artifacts, generated artifacts, and byte sizes are recorded in metadata
+- Artifact audit: expected artifacts, generated artifacts, and byte sizes are
+  recorded in metadata
 ```
 
 ## Why This Matters
 
-The generated output is meant to make the project easy to evaluate quickly: one command creates CSV tables, PNG charts, the copied config, deterministic run metadata, benchmark results, risk/trade logs, and a Markdown report. The metadata records the config path, config SHA-256 digest, benchmark settings, row counts, order status counts, expected artifact set, generated artifact set, and generated artifact byte sizes; the summary report also enumerates the generated artifacts. The report is intentionally local and file-based so it can be inspected without a dashboard, database, account, or cloud deployment.
+The generated output is meant to make the project easy to evaluate quickly: one
+command creates CSV tables, PNG charts, the copied config, deterministic run
+metadata, benchmark results, risk/trade logs, and a Markdown report.
+
+The metadata records the config path, config SHA-256 digest, benchmark settings,
+row counts, order status counts, expected artifact set, generated artifact set,
+and generated artifact byte sizes. The summary report also enumerates the
+generated artifacts.
+
+The report is intentionally local and file-based so it can be inspected without
+a dashboard, database, account, or cloud deployment.
