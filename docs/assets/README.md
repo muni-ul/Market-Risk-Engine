@@ -5,6 +5,10 @@ copy the whole `results/` folder into the repo; keep generated run folders local
 and only commit a small set of hand-picked images if you want GitHub or resume
 reviewers to see visual evidence immediately.
 
+Before committing any curated screenshots, complete the resume-ready validation
+path in `docs/FINAL_REVIEW_CHECKLIST.md` so the images match the current configs,
+artifact names, and documentation.
+
 ## Recommended Captures
 
 After running:

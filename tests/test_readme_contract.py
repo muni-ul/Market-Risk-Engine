@@ -418,6 +418,18 @@ def test_demo_walkthrough_documents_screenshot_and_scope_path():
     assert "no brokerage integration" in demo_walkthrough
 
 
+def test_screenshot_asset_guide_points_to_final_validation_gate():
+    with open("docs/assets/README.md", encoding="utf-8") as assets_file:
+        assets_guide = assets_file.read()
+
+    assert "Screenshot Asset Guide" in assets_guide
+    assert "docs/FINAL_REVIEW_CHECKLIST.md" in assets_guide
+    assert "results/demo_run/summary_report.md" in assets_guide
+    assert "results/risk_stress_run/risk_events.csv" in assets_guide
+    assert "software-engineering evidence" in assets_guide
+    assert "final local validation pass" in assets_guide
+
+
 def test_performance_notes_explain_benchmark_contract():
     with open("docs/PERFORMANCE_NOTES.md", encoding="utf-8") as performance_file:
         performance_notes = performance_file.read()
