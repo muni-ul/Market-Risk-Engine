@@ -1,10 +1,12 @@
 from __future__ import annotations
 
 import tomllib
+from pathlib import Path
 
 import pyrisklab
-from pyrisklab import __version__
+from pyrisklab import __version__, pipeline
 from pyrisklab._version import __version__ as runtime_version
+from pyrisklab.models import RunResult
 
 
 def test_pyproject_declares_console_script_and_dependencies():
@@ -47,6 +49,27 @@ def test_package_root_exposes_stable_reviewer_surface():
     assert "run_simulation" in pyrisklab.__all__
     assert callable(pyrisklab.run_simulation)
     assert pyrisklab.ProgressCallback is not None
+
+
+def test_package_root_run_simulation_delegates_to_pipeline(monkeypatch):
+    calls = []
+
+    def fake_run_simulation(config_path, *, overwrite=False, progress=None):
+        calls.append((config_path, overwrite, progress))
+        return RunResult("delegated", Path("results/delegated"), Path(config_path), "completed")
+
+    monkeypatch.setattr(pipeline, "run_simulation", fake_run_simulation)
+    progress_messages = []
+    progress = progress_messages.append
+
+    result = pyrisklab.run_simulation(
+        "configs/demo.yaml",
+        overwrite=True,
+        progress=progress,
+    )
+
+    assert result.run_name == "delegated"
+    assert calls == [("configs/demo.yaml", True, progress)]
 
 
 def test_package_declares_pep561_typed_marker():
