@@ -23,6 +23,8 @@ PyRiskLab is a local Python simulation engine that uses options pricing as the d
 - Reporting uses CSV, PNG, and Markdown so reviewers can inspect outputs without a dashboard.
 - The benchmark verifies numerical equivalence before reporting speedup.
 - Benchmark input validation keeps performance numbers tied to comparable, finite input arrays.
+- `run_metadata.json` records config SHA-256, benchmark settings, row counts, order status counts, expected/generated artifacts, and artifact byte sizes so the run is auditable.
+- `docs/FINAL_REVIEW_CHECKLIST.md` gives the final local validation path before using the project on a resume.
 
 ## Resume Bullets
 
@@ -37,3 +39,7 @@ Performance/tooling:
 ## Scope Boundaries
 
 PyRiskLab is simulation only. It does not use live market data, connect to brokerages, place real trades, make investment recommendations, or claim profitability.
+
+## Final Verification Story
+
+Before presenting the project, run the checklist in `docs/FINAL_REVIEW_CHECKLIST.md`: execute `pytest`, `ruff check .`, the main demo config, and the risk-stress config; then inspect `summary_report.md`, `run_metadata.json`, benchmark evidence, risk events, and generated charts. That final pass is what turns the repository from "implemented" into "ready to discuss."

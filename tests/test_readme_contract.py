@@ -97,6 +97,11 @@ def test_sample_output_docs_are_linked_and_present():
     with open("docs/PORTFOLIO_CASE_STUDY.md", encoding="utf-8") as case_study_file:
         case_study = case_study_file.read()
         assert "artifact byte sizes" in case_study
+    with open("docs/INTERVIEW_NOTES.md", encoding="utf-8") as interview_file:
+        interview_notes = interview_file.read()
+        assert "config SHA-256" in interview_notes
+        assert "docs/FINAL_REVIEW_CHECKLIST.md" in interview_notes
+        assert "ready to discuss" in interview_notes
     with open("docs/FINAL_REVIEW_CHECKLIST.md", encoding="utf-8") as checklist_file:
         checklist = checklist_file.read()
         assert "pytest" in checklist
