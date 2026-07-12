@@ -17,6 +17,7 @@ performance tooling rather than a trading product.
 | `REVIEWER_GUIDE.md` | Five-minute path, demo command, and strongest files to inspect. |
 | `REQUIREMENTS_TRACEABILITY.md` | Version 1 requirements mapped to current repo evidence. |
 | `DEMO_WALKTHROUGH.md` | Short demo path, screenshot targets, and interview talk track. |
+| `assets/README.md` | Optional screenshot naming and curation guide after local validation. |
 | `SAMPLE_OUTPUT.md` | Expected terminal output and summary-report shape. |
 | `sample_outputs/artifact_manifest.md` | Generated files and their reviewer signal. |
 | `FINAL_REVIEW_CHECKLIST.md` | Final local validation checklist and resume-ready gate. |

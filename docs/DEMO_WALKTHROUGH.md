@@ -67,6 +67,9 @@ After running the demo locally, the most useful screenshot-ready artifacts are:
 - `results/demo_run/run_metadata.json`: reproducibility metadata and artifact
   completeness evidence.
 
+Use `docs/assets/README.md` for the recommended screenshot names if you decide
+to commit a small curated image set after your final local validation pass.
+
 Avoid screenshots that imply real trading performance, live market data, or
 brokerage connectivity.
 
