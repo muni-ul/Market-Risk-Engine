@@ -46,3 +46,15 @@ def test_github_issue_template_keeps_scope_local():
     assert "run_metadata.json" in bug_template
     assert "simulation-only" in bug_template
     assert "brokerage integration" in bug_template
+
+
+def test_github_pull_request_template_keeps_review_reproducible():
+    with open(".github/PULL_REQUEST_TEMPLATE.md", encoding="utf-8") as template_file:
+        pr_template = template_file.read()
+
+    assert "pytest" in pr_template
+    assert "ruff check ." in pr_template
+    assert "python -m pyrisklab run --config configs/demo.yaml --overwrite" in pr_template
+    assert "python -m pyrisklab run --config configs/risk_stress.yaml --overwrite" in pr_template
+    assert "results/demo_run/run_metadata.json" in pr_template
+    assert "simulation-only" in pr_template

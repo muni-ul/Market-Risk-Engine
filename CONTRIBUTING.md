@@ -51,3 +51,4 @@ When behavior changes, update the relevant docs:
 - `docs/sample_outputs/` for output contracts.
 - `CHANGELOG.md` for version-level project changes.
 - `.github/ISSUE_TEMPLATE/bug_report.md` if issue-report expectations change.
+- `.github/PULL_REQUEST_TEMPLATE.md` if review expectations change.
