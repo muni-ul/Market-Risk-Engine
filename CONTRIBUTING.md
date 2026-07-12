@@ -39,6 +39,8 @@ create blocked simulated orders and readable risk events.
   advice.
 - Prefer deterministic configs, seeded simulation, focused modules, readable
   errors, and inspectable CSV/PNG/JSON/Markdown outputs.
+- Keep formatting consistent with `.editorconfig`, `.gitattributes`, and the
+  Ruff settings in `pyproject.toml`.
 - Keep generated run outputs out of git; `results/.gitkeep` is the only tracked
   file expected under `results/`.
 

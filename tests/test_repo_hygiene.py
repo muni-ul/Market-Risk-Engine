@@ -21,6 +21,17 @@ def test_gitignore_protects_generated_and_local_artifacts():
         assert pattern in gitignore
 
 
+def test_editorconfig_documents_basic_formatting_contract():
+    with open(".editorconfig", encoding="utf-8") as editorconfig_file:
+        editorconfig = editorconfig_file.read()
+
+    assert "root = true" in editorconfig
+    assert "charset = utf-8" in editorconfig
+    assert "end_of_line = lf" in editorconfig
+    assert "insert_final_newline = true" in editorconfig
+    assert "indent_style = space" in editorconfig
+
+
 def test_env_example_documents_no_required_secrets():
     with open(".env.example", encoding="utf-8") as env_example_file:
         env_example = env_example_file.read()
