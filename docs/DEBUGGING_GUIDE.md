@@ -55,6 +55,9 @@ If a run completes, inspect these files first:
 - If benchmark timing looks surprising, remember that speedup is machine
   dependent; the equivalence flag and max absolute error are the correctness
   signals.
+- If benchmark execution fails, the project error names the failing benchmark
+  method, such as `price_loop` or `price_vectorized`, before the traceback shown
+  in `--debug` mode.
 
 ## Scope Boundary
 
