@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from collections.abc import Callable
 import math
 from numbers import Real
 from pathlib import Path
@@ -28,7 +29,14 @@ from pyrisklab.risk import RiskManager, risk_events_frame
 from pyrisklab.strategy import generate_signals
 
 
-def run_simulation(config_path: str | Path, overwrite: bool = False, progress=None) -> RunResult:
+ProgressCallback = Callable[[str], None]
+
+
+def run_simulation(
+    config_path: str | Path,
+    overwrite: bool = False,
+    progress: ProgressCallback | None = None,
+) -> RunResult:
     _emit(progress, "[1/7] Loading config...")
     path = Path(config_path)
     config = load_config(path)
@@ -89,7 +97,7 @@ def run_simulation(config_path: str | Path, overwrite: bool = False, progress=No
     return RunResult(config.run_name, run_dir, path, "completed")
 
 
-def _emit(progress, message: str) -> None:
+def _emit(progress: ProgressCallback | None, message: str) -> None:
     if progress is not None:
         progress(message)
 

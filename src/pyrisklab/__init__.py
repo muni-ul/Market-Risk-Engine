@@ -8,13 +8,15 @@ from pathlib import Path
 from ._version import __version__
 from .models import RunResult
 
-__all__ = ["__version__", "run_simulation"]
+ProgressCallback = Callable[[str], None]
+
+__all__ = ["__version__", "ProgressCallback", "run_simulation"]
 
 
 def run_simulation(
     config_path: str | Path,
     overwrite: bool = False,
-    progress: Callable[[str], None] | None = None,
+    progress: ProgressCallback | None = None,
 ) -> RunResult:
     """Run the local simulation pipeline from a config path.
 

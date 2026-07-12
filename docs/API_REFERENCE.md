@@ -9,7 +9,7 @@ web API; the primary user interface is the local CLI.
 | Module | Key functions/classes | Responsibility |
 | --- | --- | --- |
 | `cli.py` | `build_parser`, `main` | Parse CLI flags, show clean project errors, and delegate to the pipeline. |
-| `pipeline.py` | `run_simulation` | Orchestrate the complete config-to-results workflow. |
+| `pipeline.py` | `ProgressCallback`, `run_simulation` | Orchestrate the complete config-to-results workflow. |
 | `__main__.py` | `main` | Support `python -m pyrisklab ...` execution. |
 
 ## Core Engine

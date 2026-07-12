@@ -43,8 +43,10 @@ def test_runtime_version_matches_package_metadata():
 
 
 def test_package_root_exposes_stable_reviewer_surface():
+    assert "ProgressCallback" in pyrisklab.__all__
     assert "run_simulation" in pyrisklab.__all__
     assert callable(pyrisklab.run_simulation)
+    assert pyrisklab.ProgressCallback is not None
 
 
 def test_package_declares_pep561_typed_marker():
