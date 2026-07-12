@@ -49,7 +49,7 @@ If a run completes, inspect these files first:
   `run_name` in the config.
 - If config validation fails, compare the field against `docs/CONFIG_REFERENCE.md`.
 - If risk behavior is unclear, run `configs/risk_stress.yaml` and inspect
-  `risk_events.csv`.
+  `results/risk_stress_run/risk_events.csv`.
 - If a report artifact is missing or empty, inspect `run_metadata.json` and the
   generated artifact list in `summary_report.md`.
 - If benchmark timing looks surprising, remember that speedup is machine

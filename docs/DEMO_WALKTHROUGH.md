@@ -20,6 +20,9 @@ For the risk-audit variant:
 python -m pyrisklab run --config configs/risk_stress.yaml --overwrite
 ```
 
+That command writes `results/risk_stress_run/`, where blocked-order artifacts
+make the risk audit easy to inspect.
+
 Run `pytest` and `ruff check .` during your own final validation pass. The demo
 walkthrough itself should focus on the project story and generated artifacts,
 not on live trading or market prediction.
