@@ -290,6 +290,7 @@ def test_requirements_traceability_maps_original_requirements_to_evidence():
     assert "docs/PERFORMANCE_NOTES.md" in traceability
     assert "docs/FINAL_REVIEW_CHECKLIST.md" in traceability
     assert "python scripts/local_verify.py --list" in traceability
+    assert "python scripts/local_verify.py --only ruff --only demo" in traceability
     assert "benchmark.csv" in traceability
     assert "no live data" in traceability
     assert "no brokerage integration" in traceability
@@ -361,6 +362,7 @@ def test_demo_walkthrough_documents_screenshot_and_scope_path():
     assert "python -m pyrisklab run --config configs/risk_stress.yaml --overwrite" in demo_walkthrough
     assert "python scripts/local_verify.py" in demo_walkthrough
     assert "python scripts/local_verify.py --list" in demo_walkthrough
+    assert "python scripts/local_verify.py --only ruff --only demo" in demo_walkthrough
     assert "Screenshot Targets" in demo_walkthrough
     assert "summary_report.md" in demo_walkthrough
     assert "portfolio_value.png" in demo_walkthrough

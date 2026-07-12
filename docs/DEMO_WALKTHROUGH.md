@@ -33,6 +33,12 @@ python scripts/local_verify.py
 Use `python scripts/local_verify.py --list` to preview the commands before
 running them.
 
+For a shorter pre-recording check, target only the commands you need:
+
+```bash
+python scripts/local_verify.py --only ruff --only demo
+```
+
 ## Thirty-Second Demo Path
 
 1. Show the top of `README.md` and the simulation-only disclaimer.

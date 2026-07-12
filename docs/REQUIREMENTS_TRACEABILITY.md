@@ -46,6 +46,9 @@ python scripts/local_verify.py
 Use `python scripts/local_verify.py --list` to preview the helper command list
 without running tests or demos.
 
+Use `python scripts/local_verify.py --only ruff --only demo` when you want a
+targeted local check instead of the full validation sequence.
+
 The generated `results/` folders are intentionally not committed, so the final
 evidence comes from running the commands locally and inspecting the generated
 artifacts listed in `docs/FINAL_REVIEW_CHECKLIST.md`.
