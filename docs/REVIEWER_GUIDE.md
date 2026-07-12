@@ -10,9 +10,10 @@ PyRiskLab uses options pricing as the simulation domain, but the project signal 
 2. Skim `docs/ARCHITECTURE.md` for the module responsibilities and data flow.
 3. Skim `docs/CONFIG_REFERENCE.md` for the YAML inputs that drive the run.
 4. Open `docs/SAMPLE_OUTPUT.md` for the expected terminal output and report shape.
-5. Inspect `docs/sample_outputs/artifact_manifest.md`, `docs/sample_outputs/csv_contracts.md`, and `docs/sample_outputs/chart_artifacts.md` for the generated artifact contracts.
-6. Read `docs/PORTFOLIO_CASE_STUDY.md` for the engineering decisions and interview story.
-7. Use `docs/FINAL_REVIEW_CHECKLIST.md` for the final local validation pass before resume use.
+5. Open `docs/DEMO_WALKTHROUGH.md` for the screenshot targets and short talk track.
+6. Inspect `docs/sample_outputs/artifact_manifest.md`, `docs/sample_outputs/csv_contracts.md`, and `docs/sample_outputs/chart_artifacts.md` for the generated artifact contracts.
+7. Read `docs/PORTFOLIO_CASE_STUDY.md` for the engineering decisions and interview story.
+8. Use `docs/FINAL_REVIEW_CHECKLIST.md` for the final local validation pass before resume use.
 
 ## Main Demo Command
 

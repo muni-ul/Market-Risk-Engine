@@ -24,6 +24,7 @@ PyRiskLab is a local Python simulation engine that uses options pricing as the d
 - The benchmark verifies numerical equivalence before reporting speedup.
 - Benchmark input validation keeps performance numbers tied to comparable, finite input arrays.
 - `run_metadata.json` records config SHA-256, benchmark settings, row counts, order status counts, expected/generated artifacts, and artifact byte sizes so the run is auditable.
+- `docs/DEMO_WALKTHROUGH.md` gives a short screenshot and talk-track path for GitHub or interview review.
 - `docs/FINAL_REVIEW_CHECKLIST.md` gives the final local validation path before using the project on a resume.
 
 ## Resume Bullets

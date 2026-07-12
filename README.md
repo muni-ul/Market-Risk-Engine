@@ -75,6 +75,8 @@ For a documentation map, see `docs/README.md`.
 
 For a quick evaluator walkthrough, see `docs/REVIEWER_GUIDE.md`.
 
+For a short demo and screenshot-capture path, see `docs/DEMO_WALKTHROUGH.md`.
+
 For a module-level implementation reference, see `docs/API_REFERENCE.md`.
 
 For field-by-field YAML settings, see `docs/CONFIG_REFERENCE.md`.
@@ -242,7 +244,7 @@ For the full benchmark interpretation guide, see `docs/PERFORMANCE_NOTES.md`.
 
 ## Screenshots Or Sample Output References
 
-For a committed example of the expected terminal and report shape, see `docs/SAMPLE_OUTPUT.md`. For more concrete output contracts, see `docs/sample_outputs/`, including `docs/sample_outputs/artifact_manifest.md` for the full generated file set, `docs/sample_outputs/chart_artifacts.md` for the generated PNG chart set, and `docs/sample_outputs/risk_stress_demo.md` for the risk-audit preset.
+For a committed example of the expected terminal and report shape, see `docs/SAMPLE_OUTPUT.md`. For a short demo and screenshot-capture path, see `docs/DEMO_WALKTHROUGH.md`. For more concrete output contracts, see `docs/sample_outputs/`, including `docs/sample_outputs/artifact_manifest.md` for the full generated file set, `docs/sample_outputs/chart_artifacts.md` for the generated PNG chart set, and `docs/sample_outputs/risk_stress_demo.md` for the risk-audit preset.
 
 For the project story and resume/interview framing, see `docs/REVIEWER_GUIDE.md`, `docs/PORTFOLIO_CASE_STUDY.md`, and `docs/INTERVIEW_NOTES.md`.
 
