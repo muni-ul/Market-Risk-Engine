@@ -88,6 +88,9 @@ Open `results/demo_run/` and confirm these files exist:
 - `summary_report.md`
 - `trades.csv`
 
+For a quick artifact-completeness audit order, use
+`docs/sample_outputs/artifact_manifest.md` after the demo run finishes.
+
 In `summary_report.md`, check that the report includes:
 
 - Simulation-only language

@@ -35,3 +35,20 @@ This manifest explains why each file exists and what a reviewer should inspect.
 The stable artifact set is part of the project contract. `run_metadata.json`
 records both the expected artifact names and the generated artifact names, while
 the summary report lists the generated files for quick review.
+
+## Quick Audit Order
+
+After running the demo locally, use this order when you want to confirm the run
+is complete without opening every artifact first:
+
+1. Open `summary_report.md` and confirm the generated artifact list is present.
+2. Open `run_metadata.json` and compare `expected_artifacts` with
+   `generated_artifacts`.
+3. Check `generated_artifact_sizes_bytes` for zero-byte files. Expected empty
+   CSV states are still valid when they include headers.
+4. Compare `csv_row_counts` with the run settings. For the default demo,
+   `market.steps: 252` produces `253` market, pricing, and Greeks rows because
+   the initial step is included.
+5. Inspect `orders.csv` and `risk_events.csv` when reviewing risk behavior.
+
+The full resume-ready validation path remains `docs/FINAL_REVIEW_CHECKLIST.md`.
