@@ -10,6 +10,7 @@ def test_readme_contains_required_demo_and_scope_language():
     assert "pytest" in readme
     assert "ruff check ." in readme
     assert "python scripts/local_verify.py" in readme
+    assert "python scripts/local_verify.py --list" in readme
     assert "not a trading bot" in readme
     assert "does not connect to real brokerage accounts" in readme
     assert "results/demo_run/" in readme
@@ -149,6 +150,7 @@ def test_sample_output_docs_are_linked_and_present():
         assert "pytest" in checklist
         assert "ruff check ." in checklist
         assert "python scripts/local_verify.py" in checklist
+        assert "--list" in checklist
         assert "python -m pyrisklab run --config configs/demo.yaml --overwrite" in checklist
         assert "docs/README.md" in checklist
         assert "CHANGELOG.md" in checklist
@@ -257,6 +259,7 @@ def test_requirements_traceability_maps_original_requirements_to_evidence():
     assert "docs/TESTING_STRATEGY.md" in traceability
     assert "docs/PERFORMANCE_NOTES.md" in traceability
     assert "docs/FINAL_REVIEW_CHECKLIST.md" in traceability
+    assert "python scripts/local_verify.py --list" in traceability
     assert "benchmark.csv" in traceability
     assert "no live data" in traceability
     assert "no brokerage integration" in traceability
@@ -311,6 +314,7 @@ def test_demo_walkthrough_documents_screenshot_and_scope_path():
     assert "python -m pyrisklab run --config configs/demo.yaml --overwrite" in demo_walkthrough
     assert "python -m pyrisklab run --config configs/risk_stress.yaml --overwrite" in demo_walkthrough
     assert "python scripts/local_verify.py" in demo_walkthrough
+    assert "python scripts/local_verify.py --list" in demo_walkthrough
     assert "Screenshot Targets" in demo_walkthrough
     assert "summary_report.md" in demo_walkthrough
     assert "portfolio_value.png" in demo_walkthrough

@@ -214,7 +214,7 @@ Local verification helper:
 python scripts/local_verify.py
 ```
 
-That helper runs the reviewer validation sequence locally: pytest, ruff, the main demo, and the risk-stress demo. It is optional; the individual commands above are still the source of truth.
+That helper runs the reviewer validation sequence locally: pytest, ruff, the main demo, and the risk-stress demo. Use `python scripts/local_verify.py --list` to preview the selected commands without running them. The helper is optional; the individual commands above are still the source of truth.
 
 Targeted examples:
 

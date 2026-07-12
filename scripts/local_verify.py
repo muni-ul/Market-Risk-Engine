@@ -38,6 +38,11 @@ def build_parser() -> argparse.ArgumentParser:
         action="store_true",
         help="Continue running later checks after a command fails.",
     )
+    parser.add_argument(
+        "--list",
+        action="store_true",
+        help="Print selected commands without running them.",
+    )
     return parser
 
 
@@ -99,12 +104,20 @@ def run_commands(commands: Sequence[Command], *, keep_going: bool) -> int:
     return 0
 
 
+def print_commands(commands: Sequence[Command]) -> None:
+    for index, (label, command) in enumerate(commands, start=1):
+        print(f"[{index}/{len(commands)}] {label}: {' '.join(command)}")
+
+
 def main(argv: Sequence[str] | None = None) -> int:
     parser = build_parser()
     args = parser.parse_args(argv)
     commands = planned_commands(args)
     if not commands:
         print("No checks selected.")
+        return 0
+    if args.list:
+        print_commands(commands)
         return 0
     return run_commands(commands, keep_going=args.keep_going)
 

@@ -34,6 +34,12 @@ You can also run the local helper, which wraps the same reviewer validation sequ
 python scripts/local_verify.py
 ```
 
+Preview the selected helper commands without running them:
+
+```bash
+python scripts/local_verify.py --list
+```
+
 The main demo should create `results/demo_run/`; the risk-stress demo should
 create blocked simulated orders and readable risk events.
 

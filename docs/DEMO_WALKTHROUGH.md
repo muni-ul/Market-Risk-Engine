@@ -30,6 +30,9 @@ If you want the full local validation sequence in one command, run:
 python scripts/local_verify.py
 ```
 
+Use `python scripts/local_verify.py --list` to preview the commands before
+running them.
+
 ## Thirty-Second Demo Path
 
 1. Show the top of `README.md` and the simulation-only disclaimer.

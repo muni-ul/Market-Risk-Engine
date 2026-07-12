@@ -25,7 +25,7 @@ Optional helper:
 python scripts/local_verify.py
 ```
 
-The helper runs the same local validation sequence and supports skip flags for targeted checks.
+The helper runs the same local validation sequence, supports skip flags for targeted checks, and supports `--list` to preview commands without running them.
 
 The main demo should print the seven progress steps and create `results/demo_run/`. The risk-stress demo should create blocked simulated orders and readable risk events without making trading or profitability claims.
 
