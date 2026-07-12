@@ -172,3 +172,6 @@ def test_github_profile_setup_keeps_topics_software_focused():
 
     assert "live trading" in profile_setup
     assert "investment advice" in profile_setup
+    assert "docs/FINAL_REVIEW_CHECKLIST.md" in profile_setup
+    assert "docs/RECRUITER_BRIEF.md" in profile_setup
+    assert "docs/RESUME_SNIPPETS.md" in profile_setup

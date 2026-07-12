@@ -55,6 +55,8 @@ Suggested pinned-repo caption:
 - Keep `.github/CODEOWNERS` aligned with the GitHub account that owns the repo.
 - Do not describe the project as live trading, brokerage-connected,
   investment advice, or a profitability model.
+- Use `docs/FINAL_REVIEW_CHECKLIST.md` before making the repository public or
+  adding it to a resume.
 - Use `docs/RECRUITER_BRIEF.md` for a one-page quick-skim summary.
 - Use `docs/RESUME_SNIPPETS.md` for resume bullets that match the implemented
   project.
