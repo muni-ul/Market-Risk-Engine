@@ -16,6 +16,7 @@ def test_readme_contains_required_demo_and_scope_language():
     assert "docs/sample_outputs/risk_stress_demo.md" in readme
     assert "docs/REVIEWER_GUIDE.md" in readme
     assert "docs/PORTFOLIO_CASE_STUDY.md" in readme
+    assert "docs/FINAL_REVIEW_CHECKLIST.md" in readme
     assert "## Reviewer Checklist" in readme
     assert "risk/execution audit counts" in readme
     assert "config SHA-256" in readme
@@ -96,6 +97,13 @@ def test_sample_output_docs_are_linked_and_present():
     with open("docs/PORTFOLIO_CASE_STUDY.md", encoding="utf-8") as case_study_file:
         case_study = case_study_file.read()
         assert "artifact byte sizes" in case_study
+    with open("docs/FINAL_REVIEW_CHECKLIST.md", encoding="utf-8") as checklist_file:
+        checklist = checklist_file.read()
+        assert "pytest" in checklist
+        assert "ruff check ." in checklist
+        assert "python -m pyrisklab run --config configs/demo.yaml --overwrite" in checklist
+        assert "Simulation-only language" in checklist
+        assert "generated_artifact_sizes_bytes" in checklist
     with open("docs/sample_outputs/csv_contracts.md", encoding="utf-8") as contracts_file:
         csv_contracts = contracts_file.read()
         assert "`benchmark.enabled` is false" in csv_contracts
@@ -114,6 +122,7 @@ def test_reviewer_guide_contains_demo_and_scope_contracts():
     assert "python -m pyrisklab run --config configs/risk_stress.yaml --overwrite" in reviewer_guide
     assert "summary_report.md" in reviewer_guide
     assert "run_metadata.json" in reviewer_guide
+    assert "docs/FINAL_REVIEW_CHECKLIST.md" in reviewer_guide
     assert "benchmark settings" in reviewer_guide
     assert "generated artifact byte sizes" in reviewer_guide
     assert "benchmark.csv" in reviewer_guide

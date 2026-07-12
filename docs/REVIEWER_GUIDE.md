@@ -11,6 +11,7 @@ PyRiskLab uses options pricing as the simulation domain, but the project signal 
 3. Open `docs/SAMPLE_OUTPUT.md` for the expected terminal output and report shape.
 4. Inspect `docs/sample_outputs/csv_contracts.md` and `docs/sample_outputs/chart_artifacts.md` for the generated artifact contracts.
 5. Read `docs/PORTFOLIO_CASE_STUDY.md` for the engineering decisions and interview story.
+6. Use `docs/FINAL_REVIEW_CHECKLIST.md` for the final local validation pass before resume use.
 
 ## Main Demo Command
 
