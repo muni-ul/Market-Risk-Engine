@@ -558,3 +558,6 @@ def test_debugging_guide_documents_error_triage():
     assert "risk_events.csv" in debugging_guide
     assert "benchmark.csv" in debugging_guide
     assert "docs/CONFIG_REFERENCE.md" in debugging_guide
+    assert "python scripts/local_verify.py --list" in debugging_guide
+    assert "python scripts/local_verify.py --only demo" in debugging_guide
+    assert "python scripts/local_verify.py --only risk-demo" in debugging_guide

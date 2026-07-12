@@ -45,6 +45,11 @@ If a run completes, inspect these files first:
 
 ## Common Checks
 
+- To preview the full local validation sequence without running it, use
+  `python scripts/local_verify.py --list`.
+- To narrow investigation to one path, use targeted helper commands such as
+  `python scripts/local_verify.py --only demo` or
+  `python scripts/local_verify.py --only risk-demo`.
 - If the output folder already exists, rerun with `--overwrite` or change
   `run_name` in the config.
 - If config validation fails, compare the field against `docs/CONFIG_REFERENCE.md`.
