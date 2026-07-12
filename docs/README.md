@@ -15,6 +15,7 @@ performance tooling rather than a trading product.
 | --- | --- |
 | `PROJECT_STATUS.md` | Implemented scope, checks, and reviewer starting points. |
 | `RECRUITER_BRIEF.md` | One-page SWE-intern recruiter framing and quick-skim evidence. |
+| `FAQ.md` | Common reviewer and interview questions with concise answers. |
 | `REVIEWER_GUIDE.md` | Five-minute path, demo command, and strongest files to inspect. |
 | `REQUIREMENTS_TRACEABILITY.md` | Version 1 requirements mapped to current repo evidence. |
 | `DEMO_WALKTHROUGH.md` | Short demo path, screenshot targets, and interview talk track. |

@@ -50,6 +50,8 @@ or performance work:
   boundaries.
 - `docs/FINAL_REVIEW_CHECKLIST.md` gives the final local validation path before
   using the project on a resume.
+- `docs/FAQ.md` gives concise answers to common reviewer and interview
+  questions.
 
 ## Resume Bullets
 

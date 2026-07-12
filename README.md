@@ -132,6 +132,8 @@ For a quick evaluator walkthrough, see `docs/REVIEWER_GUIDE.md`.
 
 For a one-page recruiter summary, see `docs/RECRUITER_BRIEF.md`.
 
+For common reviewer and interview questions, see `docs/FAQ.md`.
+
 For the ordered feature plan mapped to implementation evidence, see
 `docs/features/README.md`.
 
