@@ -69,3 +69,23 @@ def test_github_pull_request_template_keeps_review_reproducible():
     assert "python -m pyrisklab run --config configs/risk_stress.yaml --overwrite" in pr_template
     assert "results/demo_run/run_metadata.json" in pr_template
     assert "simulation-only" in pr_template
+
+
+def test_local_verification_helper_documents_reviewer_commands():
+    with open("scripts/local_verify.py", encoding="utf-8") as helper_file:
+        helper = helper_file.read()
+
+    assert "pytest" in helper
+    assert "ruff" in helper
+    assert "configs/demo.yaml" in helper
+    assert "configs/risk_stress.yaml" in helper
+    assert "--skip-tests" in helper
+    assert "--skip-lint" in helper
+    assert "--skip-demo" in helper
+    assert "--skip-risk-demo" in helper
+    assert "--keep-going" in helper
+
+    with open("CONTRIBUTING.md", encoding="utf-8") as contributing_file:
+        contributing = contributing_file.read()
+
+    assert "python scripts/local_verify.py" in contributing

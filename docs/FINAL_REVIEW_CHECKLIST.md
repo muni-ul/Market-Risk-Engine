@@ -19,6 +19,14 @@ python -m pyrisklab run --config configs/demo.yaml --overwrite
 python -m pyrisklab run --config configs/risk_stress.yaml --overwrite
 ```
 
+Optional helper:
+
+```bash
+python scripts/local_verify.py
+```
+
+The helper runs the same local validation sequence and supports skip flags for targeted checks.
+
 The main demo should print the seven progress steps and create `results/demo_run/`. The risk-stress demo should create blocked simulated orders and readable risk events without making trading or profitability claims.
 
 Use `docs/TESTING_STRATEGY.md` to map pytest files to the behavior they protect.

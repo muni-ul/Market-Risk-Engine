@@ -204,6 +204,14 @@ Code quality check:
 ruff check .
 ```
 
+Local verification helper:
+
+```bash
+python scripts/local_verify.py
+```
+
+That helper runs the reviewer validation sequence locally: pytest, ruff, the main demo, and the risk-stress demo. It is optional; the individual commands above are still the source of truth.
+
 Targeted examples:
 
 ```bash

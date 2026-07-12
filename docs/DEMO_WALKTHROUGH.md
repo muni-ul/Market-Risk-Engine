@@ -24,6 +24,12 @@ Run `pytest` and `ruff check .` during your own final validation pass. The demo
 walkthrough itself should focus on the project story and generated artifacts,
 not on live trading or market prediction.
 
+If you want the full local validation sequence in one command, run:
+
+```bash
+python scripts/local_verify.py
+```
+
 ## Thirty-Second Demo Path
 
 1. Show the top of `README.md` and the simulation-only disclaimer.

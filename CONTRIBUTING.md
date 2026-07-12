@@ -28,6 +28,12 @@ python -m pyrisklab run --config configs/demo.yaml --overwrite
 python -m pyrisklab run --config configs/risk_stress.yaml --overwrite
 ```
 
+You can also run the local helper, which wraps the same reviewer validation sequence:
+
+```bash
+python scripts/local_verify.py
+```
+
 The main demo should create `results/demo_run/`; the risk-stress demo should
 create blocked simulated orders and readable risk events.
 

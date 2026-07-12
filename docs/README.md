@@ -24,6 +24,7 @@ navigation, implementation architecture, reproducibility, and interview framing.
 | `PERFORMANCE_NOTES.md` | Loop-vs-vectorized benchmark assumptions, output columns, and speedup caveats. |
 | `DEBUGGING_GUIDE.md` | Clean errors, `--debug`, metadata triage, and common local checks. |
 | `TESTING_STRATEGY.md` | Test-suite organization, reviewer commands, and validation philosophy. |
+| `../scripts/local_verify.py` | Optional local helper that runs pytest, ruff, demo, and risk-stress checks. |
 | `sample_outputs/csv_contracts.md` | CSV output contracts and stable column expectations. |
 | `sample_outputs/chart_artifacts.md` | PNG chart artifacts and what each chart communicates. |
 | `sample_outputs/run_metadata_example.md` | Shape of the reproducibility metadata written with each run. |

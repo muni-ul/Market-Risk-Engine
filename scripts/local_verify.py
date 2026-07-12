@@ -1,0 +1,113 @@
+from __future__ import annotations
+
+import argparse
+import subprocess
+import sys
+from collections.abc import Sequence
+
+
+Command = tuple[str, list[str]]
+
+
+def build_parser() -> argparse.ArgumentParser:
+    parser = argparse.ArgumentParser(
+        description="Run PyRiskLab's local reviewer validation commands."
+    )
+    parser.add_argument(
+        "--skip-tests",
+        action="store_true",
+        help="Skip the pytest suite.",
+    )
+    parser.add_argument(
+        "--skip-lint",
+        action="store_true",
+        help="Skip ruff linting.",
+    )
+    parser.add_argument(
+        "--skip-demo",
+        action="store_true",
+        help="Skip the main demo run.",
+    )
+    parser.add_argument(
+        "--skip-risk-demo",
+        action="store_true",
+        help="Skip the risk-stress demo run.",
+    )
+    parser.add_argument(
+        "--keep-going",
+        action="store_true",
+        help="Continue running later checks after a command fails.",
+    )
+    return parser
+
+
+def planned_commands(args: argparse.Namespace) -> list[Command]:
+    commands: list[Command] = []
+    if not args.skip_tests:
+        commands.append(("pytest", [sys.executable, "-m", "pytest"]))
+    if not args.skip_lint:
+        commands.append(("ruff", [sys.executable, "-m", "ruff", "check", "."]))
+    if not args.skip_demo:
+        commands.append(
+            (
+                "demo run",
+                [
+                    sys.executable,
+                    "-m",
+                    "pyrisklab",
+                    "run",
+                    "--config",
+                    "configs/demo.yaml",
+                    "--overwrite",
+                ],
+            )
+        )
+    if not args.skip_risk_demo:
+        commands.append(
+            (
+                "risk-stress demo",
+                [
+                    sys.executable,
+                    "-m",
+                    "pyrisklab",
+                    "run",
+                    "--config",
+                    "configs/risk_stress.yaml",
+                    "--overwrite",
+                ],
+            )
+        )
+    return commands
+
+
+def run_commands(commands: Sequence[Command], *, keep_going: bool) -> int:
+    failures: list[str] = []
+    for index, (label, command) in enumerate(commands, start=1):
+        print(f"[{index}/{len(commands)}] Running {label}: {' '.join(command)}")
+        result = subprocess.run(command, check=False)
+        if result.returncode != 0:
+            failures.append(label)
+            print(f"{label} failed with exit code {result.returncode}.")
+            if not keep_going:
+                return result.returncode
+
+    if failures:
+        print("Failed checks: " + ", ".join(failures))
+        return 1
+
+    print("All selected local verification commands completed successfully.")
+    return 0
+
+
+def main(argv: Sequence[str] | None = None) -> int:
+    parser = build_parser()
+    args = parser.parse_args(argv)
+    commands = planned_commands(args)
+    if not commands:
+        print("No checks selected.")
+        return 0
+    return run_commands(commands, keep_going=args.keep_going)
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
