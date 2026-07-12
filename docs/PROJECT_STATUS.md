@@ -30,8 +30,9 @@ For AMD-like software internship applications, the best framing is:
 - CSV, PNG, JSON, copied-config, and Markdown report artifact contracts
 - pytest suite covering core modules, output contracts, packaging metadata, and
   repo hygiene
-- Reviewer docs for architecture, config, validation, performance, debugging,
-  demo walkthrough, traceability, resume wording, and final verification
+- Reviewer docs for architecture, design decisions, config, assumptions,
+  validation, performance, debugging, platform notes, FAQ, demo walkthrough,
+  traceability, resume wording, and final verification
 - Feature build index mapping the original ordered feature plan to current
   implementation evidence
 - GitHub bug report, feature request, and pull request templates that keep
@@ -86,6 +87,8 @@ deployment, ML trading prediction, or investment advice.
 - `README.md`
 - `docs/RECRUITER_BRIEF.md`
 - `docs/REVIEWER_GUIDE.md`
+- `docs/DESIGN_DECISIONS.md`
+- `docs/FAQ.md`
 - `docs/features/README.md`
 - `docs/REQUIREMENTS_TRACEABILITY.md`
 - `docs/FINAL_REVIEW_CHECKLIST.md`
