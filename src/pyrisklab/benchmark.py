@@ -140,7 +140,10 @@ def _time(
     except BenchmarkError:
         raise
     except Exception as exc:
-        raise BenchmarkError("pricing benchmark could not be completed.") from exc
+        method_name = getattr(fn, "__name__", "benchmark method")
+        raise BenchmarkError(
+            f"pricing benchmark method {method_name!r} could not be completed."
+        ) from exc
     return result, time.perf_counter() - start
 
 
