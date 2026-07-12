@@ -46,6 +46,7 @@ performance tooling rather than a trading product.
 | --- | --- |
 | `../CHANGELOG.md` | Version 1 MVP release summary and scope boundaries. |
 | `../CONTRIBUTING.md` | Local setup, checks, scope rules, and doc-update expectations. |
+| `../SUPPORT.md` | Bug, enhancement, and security support routing. |
 | `../SECURITY.md` | No-secrets policy and local-only security boundaries. |
 | `../.github/ISSUE_TEMPLATE/bug_report.md` | Bug checklist for local simulation issues. |
 | `../.github/ISSUE_TEMPLATE/feature_request.md` | Enhancement template for engineering signal. |
