@@ -4,6 +4,13 @@ PyRiskLab includes a small local benchmark to demonstrate performance-aware
 engineering. It is designed to show why vectorized numerical code matters, not
 to promise a universal speedup.
 
+## Reviewer Signal
+
+The important signal is the benchmark workflow, not a specific number:
+PyRiskLab generates deterministic inputs, runs scalar and vectorized pricing
+paths, verifies numerical equivalence, records assumptions, and writes the
+result to a reproducible CSV artifact.
+
 ## What Is Compared
 
 The benchmark compares two Black-Scholes pricing paths over the same
@@ -50,7 +57,8 @@ Read the benchmark in this order:
 3. Compare `runtime_seconds` and `speedup_vs_loop`.
 
 Runtime is machine-dependent. Results can vary with CPU, operating system,
-Python version, NumPy/SciPy versions, background load, and `benchmark.num_prices`.
+Python version, NumPy/SciPy versions, background load, and
+`benchmark.num_prices`.
 The repository therefore documents the benchmark shape and assumptions instead
 of claiming a fixed speedup.
 
