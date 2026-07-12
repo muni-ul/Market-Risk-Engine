@@ -40,6 +40,9 @@ portfolio review.
   framing.
 - Requirement traceability, project status, resume snippets, and portfolio case
   study docs for recruiter and technical-interview review.
+- Recruiter brief, FAQ, assumptions ledger, implementation audit notes,
+  dependency policy, platform notes, versioning guidance, GitHub profile setup,
+  and support routing for final portfolio presentation.
 - Feature build index mapping the original ordered feature specs to current
   implementation evidence.
 - Final review checklist with a resume-ready gate for user-run validation before
