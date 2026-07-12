@@ -28,7 +28,10 @@ def simulate_gbm_path(config: MarketConfig, seed: int) -> pd.DataFrame:
     increments = (drift - 0.5 * volatility**2) * dt
     increments += volatility * np.sqrt(dt) * shocks
     prices = np.vstack(
-        [np.full(paths, initial_price), initial_price * np.exp(np.cumsum(increments, axis=0))]
+        [
+            np.full(paths, initial_price),
+            initial_price * np.exp(np.cumsum(increments, axis=0)),
+        ]
     )
 
     rows = []
@@ -66,13 +69,17 @@ def _as_positive_integer(value, field_name: str) -> int:
     if isinstance(value, Real):
         numeric = float(value)
         if not math.isfinite(numeric):
-            raise MarketSimulationError(f"{field_name} must be a finite integer. Received {value!r}.")
+            raise MarketSimulationError(
+                f"{field_name} must be a finite integer. Received {value!r}."
+            )
         if not numeric.is_integer():
             raise MarketSimulationError(f"{field_name} must be an integer. Received {value!r}.")
     try:
         parsed = int(value)
     except (OverflowError, TypeError, ValueError) as exc:
-        raise MarketSimulationError(f"{field_name} must be an integer. Received {value!r}.") from exc
+        raise MarketSimulationError(
+            f"{field_name} must be an integer. Received {value!r}."
+        ) from exc
     if parsed <= 0:
         raise MarketSimulationError(f"{field_name} must be > 0. Received {parsed}.")
     return parsed
