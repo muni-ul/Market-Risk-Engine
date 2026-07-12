@@ -50,3 +50,4 @@ When behavior changes, update the relevant docs:
 - `docs/CONFIG_REFERENCE.md` for config fields.
 - `docs/sample_outputs/` for output contracts.
 - `CHANGELOG.md` for version-level project changes.
+- `.github/ISSUE_TEMPLATE/bug_report.md` if issue-report expectations change.

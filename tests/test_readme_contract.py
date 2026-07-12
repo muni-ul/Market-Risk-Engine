@@ -239,6 +239,7 @@ def test_contributing_documents_local_workflow_and_scope():
     assert "configs/risk_stress.yaml" in contributing
     assert "Do not add live market data" in contributing
     assert "results/.gitkeep" in contributing
+    assert ".github/ISSUE_TEMPLATE/bug_report.md" in contributing
 
 
 def test_security_policy_documents_no_secrets_boundary():

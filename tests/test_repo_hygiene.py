@@ -36,3 +36,13 @@ def test_repo_declares_license():
 
     assert "MIT License" in license_text
     assert "Muni Ul" in license_text
+
+
+def test_github_issue_template_keeps_scope_local():
+    with open(".github/ISSUE_TEMPLATE/bug_report.md", encoding="utf-8") as template_file:
+        bug_template = template_file.read()
+
+    assert "python -m pyrisklab run --config configs/demo.yaml --overwrite" in bug_template
+    assert "run_metadata.json" in bug_template
+    assert "simulation-only" in bug_template
+    assert "brokerage integration" in bug_template

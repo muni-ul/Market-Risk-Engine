@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: PyRiskLab reviewer guide
+    url: https://github.com/muni-ul/Market-Risk-Engine/blob/main/docs/REVIEWER_GUIDE.md
+    about: Start here for the intended demo and review path.
+  - name: Security policy
+    url: https://github.com/muni-ul/Market-Risk-Engine/blob/main/SECURITY.md
+    about: Read the no-secrets and local-only project boundary.
