@@ -17,21 +17,29 @@ benchmark evidence, and reviewer documentation.
 
 ## Five-Minute Review Path
 
-1. Read the top of `README.md` to confirm the project scope and simulation-only disclaimer.
-2. Skim `docs/PROJECT_STATUS.md` for implemented scope and local verification commands.
-3. Skim `docs/REQUIREMENTS_TRACEABILITY.md` for the original requirements
+1. Read the top of `README.md` to confirm the project scope and simulation-only
+   disclaimer.
+2. Skim `docs/PROJECT_STATUS.md` for implemented scope and local verification
+   commands.
+3. Skim `docs/features/README.md` for the ordered feature plan mapped to
+   implementation evidence.
+4. Skim `docs/REQUIREMENTS_TRACEABILITY.md` for the original requirements
    mapped to current repo evidence.
-4. Skim `docs/ARCHITECTURE.md` for the module responsibilities and data flow.
-5. Skim `docs/CONFIG_REFERENCE.md` for the YAML inputs that drive the run.
-6. Skim `docs/VALIDATION_NOTES.md` for defensive checks and edge-case coverage.
-7. Open `docs/SAMPLE_OUTPUT.md` for the expected terminal output and report shape.
-8. Open `docs/DEMO_WALKTHROUGH.md` for the screenshot targets and short talk track.
-9. Inspect `docs/sample_outputs/artifact_manifest.md`,
+5. Skim `docs/ARCHITECTURE.md` for the module responsibilities and data flow.
+6. Skim `docs/CONFIG_REFERENCE.md` for the YAML inputs that drive the run.
+7. Skim `docs/VALIDATION_NOTES.md` for defensive checks and edge-case coverage.
+8. Open `docs/SAMPLE_OUTPUT.md` for the expected terminal output and report
+   shape.
+9. Open `docs/DEMO_WALKTHROUGH.md` for the screenshot targets and short talk
+   track.
+10. Inspect `docs/sample_outputs/artifact_manifest.md`,
    `docs/sample_outputs/csv_contracts.md`, and
    `docs/sample_outputs/chart_artifacts.md` for the generated artifact
    contracts.
-10. Read `docs/PORTFOLIO_CASE_STUDY.md` for the engineering decisions and interview story.
-11. Use `docs/FINAL_REVIEW_CHECKLIST.md` for the final local validation pass before resume use.
+11. Read `docs/PORTFOLIO_CASE_STUDY.md` for the engineering decisions and
+    interview story.
+12. Use `docs/FINAL_REVIEW_CHECKLIST.md` for the final local validation pass
+    before resume use.
 
 ## Main Demo Command
 
