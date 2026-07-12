@@ -11,7 +11,14 @@ from pyrisklab.exceptions import GreeksError
 from pyrisklab.models import OptionContract
 
 
-def calculate_greeks(spot, strike: float, time_to_expiry, risk_free_rate: float, volatility: float, option_type: str) -> dict[str, object]:
+def calculate_greeks(
+    spot,
+    strike: float,
+    time_to_expiry,
+    risk_free_rate: float,
+    volatility: float,
+    option_type: str,
+) -> dict[str, object]:
     if option_type not in {"call", "put"}:
         raise GreeksError(f"option_type must be 'call' or 'put'. Received {option_type!r}.")
     _reject_bool_scalar(spot, "underlying_price")
@@ -44,30 +51,78 @@ def calculate_greeks(spot, strike: float, time_to_expiry, risk_free_rate: float,
     if boundary.any():
         fwd_strike = strike * np.exp(-risk_free_rate * t[boundary])
         if option_type == "call":
-            delta[boundary] = np.where(s[boundary] > fwd_strike, 1.0, np.where(s[boundary] < fwd_strike, 0.0, 0.5))
+            delta[boundary] = np.where(
+                s[boundary] > fwd_strike,
+                1.0,
+                np.where(s[boundary] < fwd_strike, 0.0, 0.5),
+            )
         else:
-            delta[boundary] = np.where(s[boundary] < fwd_strike, -1.0, np.where(s[boundary] > fwd_strike, 0.0, -0.5))
+            delta[boundary] = np.where(
+                s[boundary] < fwd_strike,
+                -1.0,
+                np.where(s[boundary] > fwd_strike, 0.0, -0.5),
+            )
 
     active = ~boundary
     if active.any():
         sqrt_t = np.sqrt(t[active])
-        d1 = (np.log(s[active] / strike) + (risk_free_rate + 0.5 * volatility**2) * t[active]) / (volatility * sqrt_t)
+        d1 = (
+            np.log(s[active] / strike)
+            + (risk_free_rate + 0.5 * volatility**2) * t[active]
+        ) / (volatility * sqrt_t)
         d2 = d1 - volatility * sqrt_t
         pdf = norm.pdf(d1)
         gamma[active] = pdf / (s[active] * volatility * sqrt_t)
         vega[active] = s[active] * pdf * sqrt_t / 100.0
         if option_type == "call":
             delta[active] = norm.cdf(d1)
-            theta[active] = (-(s[active] * pdf * volatility) / (2 * sqrt_t) - risk_free_rate * strike * np.exp(-risk_free_rate * t[active]) * norm.cdf(d2)) / 365.0
-            rho[active] = strike * t[active] * np.exp(-risk_free_rate * t[active]) * norm.cdf(d2) / 100.0
+            theta[active] = (
+                -(s[active] * pdf * volatility) / (2 * sqrt_t)
+                - risk_free_rate
+                * strike
+                * np.exp(-risk_free_rate * t[active])
+                * norm.cdf(d2)
+            ) / 365.0
+            rho[active] = (
+                strike
+                * t[active]
+                * np.exp(-risk_free_rate * t[active])
+                * norm.cdf(d2)
+                / 100.0
+            )
         else:
             delta[active] = norm.cdf(d1) - 1
-            theta[active] = (-(s[active] * pdf * volatility) / (2 * sqrt_t) + risk_free_rate * strike * np.exp(-risk_free_rate * t[active]) * norm.cdf(-d2)) / 365.0
-            rho[active] = -strike * t[active] * np.exp(-risk_free_rate * t[active]) * norm.cdf(-d2) / 100.0
-    return {key: _scalar_if_scalar(value) for key, value in {"delta": delta, "gamma": gamma, "vega": vega, "theta": theta, "rho": rho}.items()}
+            theta[active] = (
+                -(s[active] * pdf * volatility) / (2 * sqrt_t)
+                + risk_free_rate
+                * strike
+                * np.exp(-risk_free_rate * t[active])
+                * norm.cdf(-d2)
+            ) / 365.0
+            rho[active] = (
+                -strike
+                * t[active]
+                * np.exp(-risk_free_rate * t[active])
+                * norm.cdf(-d2)
+                / 100.0
+            )
+    return {
+        key: _scalar_if_scalar(value)
+        for key, value in {
+            "delta": delta,
+            "gamma": gamma,
+            "vega": vega,
+            "theta": theta,
+            "rho": rho,
+        }.items()
+    }
 
 
-def calculate_greeks_for_market_path(market_path: pd.DataFrame, option: OptionContract, trading_days: int) -> pd.DataFrame:
+def calculate_greeks_for_market_path(
+    market_path: pd.DataFrame,
+    option: OptionContract,
+    trading_days: int,
+) -> pd.DataFrame:
     market_path = _require_dataframe(market_path, "market path")
     required = {"step", "time_years", "underlying_price"}
     missing = required - set(market_path.columns)
@@ -76,7 +131,11 @@ def calculate_greeks_for_market_path(market_path: pd.DataFrame, option: OptionCo
     if market_path.empty:
         raise GreeksError("market path is empty. Run market simulation before calculating Greeks.")
     trading_days = _as_positive_integer(trading_days, "trading_days")
-    time_to_expiry = np.maximum((option.initial_days_to_expiry - market_path["step"].to_numpy()) / trading_days, 0.0)
+    time_to_expiry = np.maximum(
+        (option.initial_days_to_expiry - market_path["step"].to_numpy())
+        / trading_days,
+        0.0,
+    )
     greeks = calculate_greeks(
         market_path["underlying_price"].to_numpy(),
         option.strike,
@@ -128,7 +187,9 @@ def _as_positive_integer(value, field_name: str) -> int:
     if isinstance(value, Real):
         numeric = float(value)
         if not math.isfinite(numeric):
-            raise GreeksError(f"{field_name} must be a finite integer. Received {value!r}.")
+            raise GreeksError(
+                f"{field_name} must be a finite integer. Received {value!r}."
+            )
         if not numeric.is_integer():
             raise GreeksError(f"{field_name} must be an integer. Received {value!r}.")
     try:
