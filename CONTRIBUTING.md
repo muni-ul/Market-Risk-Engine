@@ -64,5 +64,6 @@ When behavior changes, update the relevant docs:
 - `docs/CONFIG_REFERENCE.md` for config fields.
 - `docs/sample_outputs/` for output contracts.
 - `CHANGELOG.md` for version-level project changes.
-- `.github/ISSUE_TEMPLATE/bug_report.md` if issue-report expectations change.
+- `.github/ISSUE_TEMPLATE/bug_report.md` if bug-report expectations change.
+- `.github/ISSUE_TEMPLATE/feature_request.md` if enhancement proposal expectations change.
 - `.github/PULL_REQUEST_TEMPLATE.md` if review expectations change.
