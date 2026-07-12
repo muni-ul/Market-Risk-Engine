@@ -40,7 +40,14 @@ def intrinsic_value(spot, strike: float, option_type: str):
     return _scalar_if_scalar(result)
 
 
-def black_scholes_price(spot, strike: float, time_to_expiry, risk_free_rate: float, volatility: float, option_type: str):
+def black_scholes_price(
+    spot,
+    strike: float,
+    time_to_expiry,
+    risk_free_rate: float,
+    volatility: float,
+    option_type: str,
+):
     if option_type not in {"call", "put"}:
         raise PricingError(f"option_type must be 'call' or 'put'. Received {option_type!r}.")
     _reject_bool_scalar(spot, "underlying_price")
@@ -78,22 +85,38 @@ def black_scholes_price(spot, strike: float, time_to_expiry, risk_free_rate: flo
                 prices[active] = np.maximum(discounted_strike - s[active], 0.0)
         else:
             sqrt_t = np.sqrt(t[active])
-            d1 = (np.log(s[active] / strike) + (risk_free_rate + 0.5 * volatility**2) * t[active]) / (volatility * sqrt_t)
+            d1 = (
+                np.log(s[active] / strike)
+                + (risk_free_rate + 0.5 * volatility**2) * t[active]
+            ) / (volatility * sqrt_t)
             d2 = d1 - volatility * sqrt_t
             if option_type == "call":
-                prices[active] = s[active] * norm.cdf(d1) - strike * np.exp(-risk_free_rate * t[active]) * norm.cdf(d2)
+                prices[active] = (
+                    s[active] * norm.cdf(d1)
+                    - strike * np.exp(-risk_free_rate * t[active]) * norm.cdf(d2)
+                )
             else:
-                prices[active] = strike * np.exp(-risk_free_rate * t[active]) * norm.cdf(-d2) - s[active] * norm.cdf(-d1)
+                prices[active] = (
+                    strike * np.exp(-risk_free_rate * t[active]) * norm.cdf(-d2)
+                    - s[active] * norm.cdf(-d1)
+                )
     return _scalar_if_scalar(prices)
 
 
-def price_market_path(market_path: pd.DataFrame, option: OptionContract, trading_days: int) -> pd.DataFrame:
+def price_market_path(
+    market_path: pd.DataFrame,
+    option: OptionContract,
+    trading_days: int,
+) -> pd.DataFrame:
     market_path = _require_dataframe(market_path, "market path")
     _require_columns(market_path, {"step", "time_years", "underlying_price"}, "market path")
     if market_path.empty:
         raise PricingError("market path is empty. Run market simulation before pricing options.")
     trading_days = _as_positive_integer(trading_days, "trading_days")
-    time_to_expiry = np.maximum((option.initial_days_to_expiry - market_path["step"].to_numpy()) / trading_days, 0.0)
+    time_to_expiry = np.maximum(
+        (option.initial_days_to_expiry - market_path["step"].to_numpy()) / trading_days,
+        0.0,
+    )
     option_price = black_scholes_price(
         market_path["underlying_price"].to_numpy(),
         option.strike,
@@ -139,13 +162,17 @@ def _as_positive_integer(value, field_name: str) -> int:
     if isinstance(value, Real):
         numeric = float(value)
         if not math.isfinite(numeric):
-            raise PricingError(f"{field_name} must be a finite integer. Received {value!r}.")
+            raise PricingError(
+                f"{field_name} must be a finite integer. Received {value!r}."
+            )
         if not numeric.is_integer():
             raise PricingError(f"{field_name} must be an integer. Received {value!r}.")
     try:
         parsed = int(value)
     except (OverflowError, TypeError, ValueError) as exc:
-        raise PricingError(f"{field_name} must be an integer. Received {value!r}.") from exc
+        raise PricingError(
+            f"{field_name} must be an integer. Received {value!r}."
+        ) from exc
     if parsed <= 0:
         raise PricingError(f"{field_name} must be > 0. Received {parsed}.")
     return parsed
