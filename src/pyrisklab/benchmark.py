@@ -130,7 +130,10 @@ def run_pricing_benchmark(config: BenchmarkConfig) -> pd.DataFrame:
     )
 
 
-def _time(fn: Callable[[dict[str, np.ndarray]], np.ndarray], inputs: dict[str, np.ndarray]) -> tuple[np.ndarray, float]:
+def _time(
+    fn: Callable[[dict[str, np.ndarray]], np.ndarray],
+    inputs: dict[str, np.ndarray],
+) -> tuple[np.ndarray, float]:
     start = time.perf_counter()
     try:
         result = fn(inputs)
@@ -155,7 +158,9 @@ def _require_price_vector(value, method_name: str) -> np.ndarray:
 
 def _validate_inputs(inputs: dict[str, np.ndarray]) -> None:
     if not isinstance(inputs, Mapping):
-        raise BenchmarkError(f"benchmark inputs must be a mapping. Received {type(inputs).__name__}.")
+        raise BenchmarkError(
+            f"benchmark inputs must be a mapping. Received {type(inputs).__name__}."
+        )
     required = {"spot", "time_to_expiry"}
     missing = required - set(inputs)
     if missing:
