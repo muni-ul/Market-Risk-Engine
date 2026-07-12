@@ -35,7 +35,8 @@ construction without invoking pytest, ruff, or demo subprocesses.
 
 The package-root `pyrisklab.run_simulation(...)` wrapper is covered with a
 monkeypatched delegation test so the public import surface is validated without
-running the full pipeline.
+running the full pipeline. The root launcher shim mirrors that small API for
+repo-root usage before an editable install.
 
 For a reviewer-facing map of defensive checks and failure paths, see
 `docs/VALIDATION_NOTES.md`.
