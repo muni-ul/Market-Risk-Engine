@@ -156,6 +156,8 @@ For benchmark assumptions, output columns, and speedup caveats, see
 
 For local failure triage and `--debug` usage, see `docs/DEBUGGING_GUIDE.md`.
 
+For cross-platform local-run notes, see `docs/PLATFORM_NOTES.md`.
+
 For a portfolio-style narrative of the problem, engineering decisions,
 tradeoffs, and interview story, see `docs/PORTFOLIO_CASE_STUDY.md`.
 

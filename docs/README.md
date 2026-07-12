@@ -37,6 +37,7 @@ performance tooling rather than a trading product.
 | `PERFORMANCE_NOTES.md` | Benchmark assumptions, output columns, and speedup caveats. |
 | `VERSIONING.md` | Version sources, changelog alignment, and release boundary. |
 | `DEBUGGING_GUIDE.md` | Clean errors, `--debug`, metadata triage, and local checks. |
+| `PLATFORM_NOTES.md` | Cross-platform local-run expectations and artifact differences. |
 | `TESTING_STRATEGY.md` | Test organization, reviewer commands, and validation philosophy. |
 | `../scripts/local_verify.py` | Optional helper for pytest, ruff, demo, and risk-stress. |
 | `sample_outputs/csv_contracts.md` | CSV output contracts and stable column expectations. |

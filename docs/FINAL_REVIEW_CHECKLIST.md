@@ -59,6 +59,8 @@ Use `docs/IMPLEMENTATION_AUDIT.md` for static placeholder-scan guidance before
 the runtime validation pass.
 Use `docs/PERFORMANCE_NOTES.md` to interpret benchmark columns, equivalence
 checks, and machine-dependent speedup.
+Use `docs/PLATFORM_NOTES.md` to understand platform-specific artifact and
+benchmark differences.
 Use `docs/DEMO_WALKTHROUGH.md` to choose screenshot targets and keep the
 presentation focused on software engineering.
 Use `docs/RESUME_SNIPPETS.md` to keep resume wording aligned with the
