@@ -8,7 +8,7 @@ Both configs are local, deterministic, and simulation-only.
 
 | Field | Meaning |
 | --- | --- |
-| `run_name` | Folder name created under `output_dir`. Uses letters, numbers, underscores, or hyphens. |
+| `run_name` | Safe folder name created under `output_dir`. |
 | `seed` | Integer seed used for deterministic market simulation and benchmark inputs. |
 | `output_dir` | Parent folder for generated run outputs. Defaults to `results` when omitted. |
 
@@ -63,7 +63,7 @@ Both configs are local, deterministic, and simulation-only.
 | `max_trade_notional` | Maximum allowed notional for one proposed simulated order. |
 | `max_drawdown_pct` | Drawdown threshold for blocking future orders. |
 | `max_loss_pct` | Loss threshold for risk validation. |
-| `stop_trading_on_breach` | Whether breached drawdown or loss limits stop future simulated orders. |
+| `stop_trading_on_breach` | Whether breached loss limits stop future simulated orders. |
 
 ## `benchmark`
 
@@ -78,7 +78,8 @@ Both configs are local, deterministic, and simulation-only.
 
 - `configs/demo.yaml`: standard end-to-end run with normal risk limits.
 - `configs/risk_stress.yaml`: same pipeline, but with tighter position and
-  notional limits so blocked simulated orders and risk events are easy to inspect.
+  notional limits so blocked simulated orders and risk events are easy to
+  inspect in `results/risk_stress_run/`.
 
 Config mistakes are reported as clean `ConfigError` messages instead of normal
 stack traces. Use `--debug` only when you want traceback details while developing.
