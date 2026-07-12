@@ -181,9 +181,10 @@ For bug/feature/security support routing, see `SUPPORT.md`.
 
 For no-secrets and local-only security boundaries, see `SECURITY.md`.
 
-Package metadata points to the repository, docs folder, and issue tracker for
-standard GitHub navigation, and classifies the project as a console-based
-testing, automation, quality, and performance-tooling portfolio project.
+Package metadata points to the repository, docs, reviewer guide, changelog,
+support guide, and issue tracker for standard GitHub navigation, and classifies
+the project as a console-based testing, automation, quality, and
+performance-tooling portfolio project.
 
 ## Local Setup
 
