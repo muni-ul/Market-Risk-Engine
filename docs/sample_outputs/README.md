@@ -21,3 +21,5 @@ Generated benchmark timings vary by machine, so these examples describe output s
 ## Why These Are Docs Instead Of Generated Results
 
 PyRiskLab is designed to produce deterministic local artifacts, but benchmark timing and chart image metadata can vary by machine. Keeping compact sample-output docs gives GitHub reviewers a stable preview while leaving the real `results/` folder generated locally.
+
+For the final local verification path, use `docs/FINAL_REVIEW_CHECKLIST.md` after running the demo. It lists the full expected artifact set and the metadata fields to inspect before presenting the project.

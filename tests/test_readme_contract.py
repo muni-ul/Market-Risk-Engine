@@ -44,6 +44,8 @@ def test_readme_contains_required_demo_and_scope_language():
 def test_sample_output_docs_are_linked_and_present():
     with open("docs/sample_outputs/README.md", encoding="utf-8") as sample_index_file:
         sample_index = sample_index_file.read()
+        assert "docs/FINAL_REVIEW_CHECKLIST.md" in sample_index
+        assert "full expected artifact set" in sample_index
 
     for filename in (
         "summary_report_excerpt.md",
