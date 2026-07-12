@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "pyrisklab"
 version = "0.1.0"
-description = "Local Python options-pricing and risk-simulation engine."
+description = "Local Python simulation, risk validation, and reporting engine."
 readme = "README.md"
 requires-python = ">=3.11"
 license = "MIT"
@@ -21,6 +21,9 @@ keywords = [
     "testing",
     "automation",
     "performance",
+    "validation",
+    "reporting",
+    "reproducibility",
 ]
 classifiers = [
     "Development Status :: 4 - Beta",
