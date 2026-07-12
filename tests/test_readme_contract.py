@@ -224,6 +224,10 @@ def test_reviewer_guide_contains_demo_and_scope_contracts():
     assert "benchmark.csv" in reviewer_guide
     assert "pytest" in reviewer_guide
     assert "ruff check ." in reviewer_guide
+    assert "python scripts/local_verify.py" in reviewer_guide
+    assert "python scripts/local_verify.py --list" in reviewer_guide
+    assert "python scripts/local_verify.py --only ruff --only demo" in reviewer_guide
+    assert "docs/DEBUGGING_GUIDE.md" in reviewer_guide
     assert "not a trading bot" in reviewer_guide
 
 

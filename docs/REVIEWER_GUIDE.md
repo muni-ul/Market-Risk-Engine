@@ -113,6 +113,17 @@ Tests are organized by feature area under `tests/`, including config validation,
 market simulation, pricing, Greeks, strategy, execution, portfolio accounting,
 risk validation, reporting, benchmark behavior, and pipeline smoke coverage.
 
+For the full local verification sequence, reviewers can also use the helper:
+
+```bash
+python scripts/local_verify.py
+python scripts/local_verify.py --list
+python scripts/local_verify.py --only ruff --only demo
+```
+
+Use `docs/FINAL_REVIEW_CHECKLIST.md` for the final resume-ready gate and
+`docs/DEBUGGING_GUIDE.md` for targeted triage if any local command fails.
+
 ## What The Project Is Not
 
 PyRiskLab is not a trading bot, brokerage integration, live market-data client,
