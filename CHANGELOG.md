@@ -16,8 +16,9 @@ portfolio review.
 - Real `src/pyrisklab/` package layout with CLI, config loading,
   orchestration, pricing, Greeks, strategy, fake execution, portfolio, risk,
   reporting, and benchmark modules.
-- Root `pyrisklab.run_simulation(...)` entry point with typed progress callback
-  support for package-style reuse.
+- Package-root `pyrisklab.run_simulation(...)` entry point with typed progress
+  callback support for package-style reuse, mirrored by the repo-root launcher
+  shim before editable installs.
 - Deterministic YAML configs, including `configs/demo.yaml` and
   `configs/risk_stress.yaml`.
 - Synthetic geometric Brownian motion market simulation with seeded
