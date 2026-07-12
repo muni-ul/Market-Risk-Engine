@@ -84,6 +84,9 @@ When behavior changes, update the relevant docs:
 - `docs/sample_outputs/` for output contracts.
 - `docs/REVIEWER_GUIDE.md` and `docs/FINAL_REVIEW_CHECKLIST.md` for reviewer
   workflow changes.
+- `docs/INTERVIEW_NOTES.md`, `docs/RESUME_SNIPPETS.md`, and
+  `docs/GITHUB_PROFILE_SETUP.md` for resume, interview, and public GitHub
+  presentation wording.
 - `CHANGELOG.md` for version-level project changes.
 - `SUPPORT.md` and `.github/ISSUE_TEMPLATE/config.yml` if issue routing,
   support links, or blank-issue policy changes.

@@ -149,6 +149,9 @@ def test_local_verification_helper_documents_reviewer_commands():
     assert "python scripts/local_verify.py" in contributing
     assert "python scripts/local_verify.py --list" in contributing
     assert "python scripts/local_verify.py --only ruff --only demo" in contributing
+    assert "docs/INTERVIEW_NOTES.md" in contributing
+    assert "docs/RESUME_SNIPPETS.md" in contributing
+    assert "docs/GITHUB_PROFILE_SETUP.md" in contributing
 
 
 def test_github_profile_setup_keeps_topics_software_focused():
