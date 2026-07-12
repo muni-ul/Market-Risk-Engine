@@ -128,6 +128,8 @@ def test_sample_output_docs_are_linked_and_present():
         risk_demo = risk_demo_file.read()
         assert "blocked simulated order counts" in risk_demo
         assert "order_status_counts" in risk_demo
+        assert "docs/sample_outputs/csv_contracts.md" in risk_demo
+        assert "docs/FINAL_REVIEW_CHECKLIST.md" in risk_demo
     with open("docs/SAMPLE_OUTPUT.md", encoding="utf-8") as sample_output_file:
         sample_output = sample_output_file.read()
         assert "order status counts" in sample_output

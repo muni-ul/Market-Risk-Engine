@@ -35,6 +35,11 @@ risk:
 - `run_metadata.json` records `order_status_counts` for machine-readable audit
   checks.
 
+For the stable column expectations behind `orders.csv`, `risk_events.csv`, and
+`trades.csv`, see `docs/sample_outputs/csv_contracts.md`. For the final
+resume-ready inspection path after running both demos, see
+`docs/FINAL_REVIEW_CHECKLIST.md`.
+
 ## Representative Risk Event Shape
 
 ```text
