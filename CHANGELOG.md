@@ -40,9 +40,10 @@ portfolio review.
   framing.
 - Requirement traceability, project status, resume snippets, and portfolio case
   study docs for recruiter and technical-interview review.
-- Recruiter brief, FAQ, assumptions ledger, implementation audit notes,
-  dependency policy, platform notes, versioning guidance, GitHub profile setup,
-  and support routing for final portfolio presentation.
+- Recruiter brief, FAQ, design-decisions summary, assumptions ledger,
+  implementation audit notes, dependency policy, platform notes, versioning
+  guidance, GitHub profile setup, and support routing for final portfolio
+  presentation.
 - Feature build index mapping the original ordered feature specs to current
   implementation evidence.
 - Final review checklist with a resume-ready gate for user-run validation before
@@ -50,7 +51,7 @@ portfolio review.
 - Local verification helper with preview, skip, keep-going, and targeted
   `--only` modes.
 - Console-focused package metadata with testing, automation, quality-assurance,
-  and performance-tooling classifiers.
+  performance-tooling classifiers, and direct reviewer/changelog/support links.
 - MIT license, typed package marker, repo hygiene rules, scoped GitHub issue/PR
   templates, and pytest coverage for core behavior, helper command planning,
   and documentation contracts.
