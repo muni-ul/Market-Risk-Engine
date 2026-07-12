@@ -37,6 +37,10 @@ portfolio review.
   framing.
 - Requirement traceability, project status, resume snippets, and portfolio case
   study docs for recruiter and technical-interview review.
+- Feature build index mapping the original ordered feature specs to current
+  implementation evidence.
+- Final review checklist with a resume-ready gate for user-run validation before
+  public portfolio use.
 - Local verification helper with preview, skip, keep-going, and targeted
   `--only` modes.
 - Console-focused package metadata with testing, automation, quality-assurance,
@@ -49,4 +53,5 @@ portfolio review.
 
 - Simulation only: no live market data, broker integrations, real trades,
   dashboards, SaaS features, databases, cloud deployment, or investment advice.
-- Generated run outputs stay local and are intentionally ignored except for `results/.gitkeep`.
+- Generated run outputs stay local and are intentionally ignored except for
+  `results/.gitkeep`.
