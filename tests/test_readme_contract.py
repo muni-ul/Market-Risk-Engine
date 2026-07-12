@@ -168,6 +168,8 @@ def test_sample_output_docs_are_linked_and_present():
         assert "SECURITY.md" in checklist
         assert "docs/API_REFERENCE.md" in checklist
         assert "docs/PROJECT_STATUS.md" in checklist
+        assert "docs/RECRUITER_BRIEF.md" in checklist
+        assert "docs/FAQ.md" in checklist
         assert "docs/REQUIREMENTS_TRACEABILITY.md" in checklist
         assert "docs/DEMO_WALKTHROUGH.md" in checklist
         assert "docs/CONFIG_REFERENCE.md" in checklist
