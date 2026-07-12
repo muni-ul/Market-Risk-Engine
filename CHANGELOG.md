@@ -42,8 +42,8 @@ portfolio review.
   study docs for recruiter and technical-interview review.
 - Recruiter brief, FAQ, design-decisions summary, assumptions ledger,
   implementation audit notes, dependency policy, platform notes, versioning
-  guidance, GitHub profile setup, and support routing for final portfolio
-  presentation.
+  guidance, GitHub profile setup, support routing, and reviewer hand-off docs
+  for final portfolio presentation.
 - Feature build index mapping the original ordered feature specs to current
   implementation evidence.
 - Final review checklist with a resume-ready gate for user-run validation before
@@ -53,8 +53,9 @@ portfolio review.
 - Console-focused package metadata with testing, automation, quality-assurance,
   performance-tooling classifiers, and direct reviewer/changelog/support links.
 - MIT license, typed package marker, repo hygiene rules, scoped GitHub issue/PR
-  templates, and pytest coverage for core behavior, helper command planning,
-  and documentation contracts.
+  templates, disabled blank issues, and pytest coverage for core behavior,
+  helper command planning, GitHub presentation metadata, and documentation
+  contracts.
 
 ### Scope Boundaries
 

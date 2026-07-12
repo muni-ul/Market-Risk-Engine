@@ -449,6 +449,9 @@ def test_changelog_summarizes_version_one_mvp():
     assert "project status summary" in changelog
     assert "resume snippets" in changelog
     assert "scoped GitHub issue/PR templates" in changelog
+    assert "disabled blank issues" in changelog
+    assert "GitHub presentation metadata" in changelog
+    assert "reviewer hand-off docs" in changelog
     assert "typed package marker" in changelog
     assert "Simulation only" in changelog
     assert "no live market data" in changelog
