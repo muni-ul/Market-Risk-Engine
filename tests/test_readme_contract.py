@@ -22,6 +22,7 @@ def test_readme_contains_required_demo_and_scope_language():
     assert "docs/CONFIG_REFERENCE.md" in readme
     assert "docs/PORTFOLIO_CASE_STUDY.md" in readme
     assert "docs/FINAL_REVIEW_CHECKLIST.md" in readme
+    assert "CHANGELOG.md" in readme
     assert "issue tracker" in readme
     assert "## Reviewer Checklist" in readme
     assert "risk/execution audit counts" in readme
@@ -134,6 +135,7 @@ def test_sample_output_docs_are_linked_and_present():
         assert "ruff check ." in checklist
         assert "python -m pyrisklab run --config configs/demo.yaml --overwrite" in checklist
         assert "docs/README.md" in checklist
+        assert "CHANGELOG.md" in checklist
         assert "docs/CONFIG_REFERENCE.md" in checklist
         assert "docs/sample_outputs/artifact_manifest.md" in checklist
         assert "Simulation-only language" in checklist
@@ -191,6 +193,7 @@ def test_docs_index_links_reviewer_and_engineering_docs():
 
     assert "PyRiskLab Documentation Index" in docs_index
     for doc_name in (
+        "../CHANGELOG.md",
         "REVIEWER_GUIDE.md",
         "SAMPLE_OUTPUT.md",
         "FINAL_REVIEW_CHECKLIST.md",
@@ -202,3 +205,15 @@ def test_docs_index_links_reviewer_and_engineering_docs():
     ):
         assert doc_name in docs_index
     assert "results/.gitkeep" in docs_index
+
+
+def test_changelog_summarizes_version_one_mvp():
+    with open("CHANGELOG.md", encoding="utf-8") as changelog_file:
+        changelog = changelog_file.read()
+
+    assert "0.1.0" in changelog
+    assert "Version 1 MVP" in changelog
+    assert "python -m pyrisklab run --config configs/demo.yaml --overwrite" in changelog
+    assert "Loop-vs-vectorized NumPy" in changelog
+    assert "Simulation only" in changelog
+    assert "no live market data" in changelog

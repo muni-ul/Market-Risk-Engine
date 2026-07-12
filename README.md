@@ -78,6 +78,8 @@ For field-by-field YAML settings, see `docs/CONFIG_REFERENCE.md`.
 
 For a portfolio-style narrative of the problem, engineering decisions, tradeoffs, and interview story, see `docs/PORTFOLIO_CASE_STUDY.md`.
 
+For the Version 1 release summary, see `CHANGELOG.md`.
+
 Package metadata also points to the repository, docs folder, and issue tracker for standard GitHub navigation.
 
 ## Local Setup
