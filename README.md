@@ -74,6 +74,8 @@ For a quick evaluator walkthrough, see `docs/REVIEWER_GUIDE.md`.
 
 For a portfolio-style narrative of the problem, engineering decisions, tradeoffs, and interview story, see `docs/PORTFOLIO_CASE_STUDY.md`.
 
+Package metadata also points to the repository, docs folder, and issue tracker for standard GitHub navigation.
+
 ## Local Setup
 
 Windows PowerShell:

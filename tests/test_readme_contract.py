@@ -19,6 +19,7 @@ def test_readme_contains_required_demo_and_scope_language():
     assert "docs/REVIEWER_GUIDE.md" in readme
     assert "docs/PORTFOLIO_CASE_STUDY.md" in readme
     assert "docs/FINAL_REVIEW_CHECKLIST.md" in readme
+    assert "issue tracker" in readme
     assert "## Reviewer Checklist" in readme
     assert "risk/execution audit counts" in readme
     assert "config SHA-256" in readme

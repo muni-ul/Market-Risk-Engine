@@ -12,10 +12,14 @@ def test_pyproject_declares_console_script_and_dependencies():
 
     project = pyproject["project"]
     assert project["scripts"]["pyrisklab"] == "pyrisklab.cli:main"
+    assert {"simulation", "benchmark", "cli"}.issubset(project["keywords"])
+    assert "Topic :: Software Development :: Testing" in project["classifiers"]
+    assert "Topic :: Scientific/Engineering" in project["classifiers"]
     assert {"numpy", "pandas", "scipy", "matplotlib", "PyYAML"}.issubset(project["dependencies"])
     assert {"pytest", "ruff"}.issubset(project["optional-dependencies"]["dev"])
     assert project["urls"]["Repository"] == "https://github.com/muni-ul/Market-Risk-Engine"
     assert project["urls"]["Documentation"].endswith("/tree/main/docs")
+    assert project["urls"]["Issues"].endswith("/issues")
 
 
 def test_runtime_version_matches_package_metadata():
