@@ -38,6 +38,12 @@ them. For a narrower local check, target named commands with `--only`:
 python scripts/local_verify.py --only ruff --only demo
 ```
 
+To focus only on the blocked-order risk-audit path:
+
+```bash
+python scripts/local_verify.py --only risk-demo
+```
+
 The main demo should print the seven progress steps and create
 `results/demo_run/`. The risk-stress demo should create blocked simulated
 orders and readable risk events without making trading or profitability claims.

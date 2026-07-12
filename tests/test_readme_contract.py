@@ -168,6 +168,7 @@ def test_sample_output_docs_are_linked_and_present():
         assert "python scripts/local_verify.py" in checklist
         assert "--list" in checklist
         assert "--only ruff --only demo" in checklist
+        assert "python scripts/local_verify.py --only risk-demo" in checklist
         assert "python -m pyrisklab run --config configs/demo.yaml --overwrite" in checklist
         assert "docs/README.md" in checklist
         assert "CHANGELOG.md" in checklist
