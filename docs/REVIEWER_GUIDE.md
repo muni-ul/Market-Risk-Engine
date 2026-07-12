@@ -95,10 +95,10 @@ The strongest files to open first are:
 python -m pyrisklab run --config configs/risk_stress.yaml --overwrite
 ```
 
-This preset tightens risk limits so proposed orders are blocked. It is useful
-for checking that risk validation, blocked-order reasons, `risk_events.csv`,
-order status counts, and summary-report audit sections are visible without
-editing the main demo config.
+This preset writes `results/risk_stress_run/` and tightens risk limits so
+proposed orders are blocked. It is useful for checking that risk validation,
+blocked-order reasons, `risk_events.csv`, order status counts, and
+summary-report audit sections are visible without editing the main demo config.
 
 ## Testing And Lint Commands
 
