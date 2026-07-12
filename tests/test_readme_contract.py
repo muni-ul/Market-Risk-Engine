@@ -400,6 +400,8 @@ def test_changelog_summarizes_version_one_mvp():
     assert "Loop-vs-vectorized NumPy" in changelog
     assert "Requirement traceability" in changelog
     assert "local verification helper" in changelog
+    assert "targeted `--only` modes" in changelog
+    assert "helper command planning" in changelog
     assert "project status summary" in changelog
     assert "resume snippets" in changelog
     assert "scoped GitHub issue/PR templates" in changelog

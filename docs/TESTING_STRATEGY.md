@@ -15,7 +15,7 @@ transitions, risk decisions, output contracts, and repo hygiene.
 | Portfolio and risk | `test_portfolio.py`, `test_risk.py` | Cash, positions, P&L, drawdown, blocked orders, and readable risk events. |
 | Benchmarking | `test_benchmark.py` | Loop-vs-vectorized input validation, equivalence checks, and stable CSV columns. |
 | Reporting and pipeline | `test_reporting.py`, `test_pipeline_smoke.py` | CSV/PNG/Markdown/metadata artifacts, empty-output states, and end-to-end wiring. |
-| Repo contracts | `test_packaging_metadata.py`, `test_readme_contract.py`, `test_repo_hygiene.py`, `test_exceptions.py` | Packaging metadata, documentation links, ignored artifacts, typed package marker, and exception hierarchy. |
+| Repo contracts | `test_packaging_metadata.py`, `test_readme_contract.py`, `test_repo_hygiene.py`, `test_exceptions.py`, `test_local_verify.py` | Packaging metadata, documentation links, ignored artifacts, typed package marker, local verification helper command planning, and exception hierarchy. |
 
 ## Reviewer Commands
 
@@ -28,6 +28,10 @@ pytest tests/test_risk.py
 
 Use the full suite for the final local verification pass. Use targeted files
 when discussing one subsystem in an interview.
+
+The optional `scripts/local_verify.py` helper is covered at the command-planning
+level by `tests/test_local_verify.py`; those tests validate selected command
+construction without invoking pytest, ruff, or demo subprocesses.
 
 For a reviewer-facing map of defensive checks and failure paths, see
 `docs/VALIDATION_NOTES.md`.

@@ -23,8 +23,8 @@ portfolio review.
 - Loop-vs-vectorized NumPy pricing benchmark with numerical-equivalence checks.
 - CSV, PNG, copied-config, JSON metadata, and Markdown summary-report outputs under `results/<run_name>/`.
 - Reviewer-focused documentation, sample-output contracts, config reference, architecture diagrams, final checklist, and interview framing.
-- Requirement traceability, validation notes, performance notes, debugging guide, demo walkthrough, project status summary, resume snippets, and local verification helper.
-- Packaging metadata, MIT license, typed package marker, repo hygiene rules, scoped GitHub issue/PR templates, and pytest coverage for core behavior and documentation contracts.
+- Requirement traceability, validation notes, performance notes, debugging guide, demo walkthrough, project status summary, resume snippets, and a local verification helper with preview, skip, and targeted `--only` modes.
+- Packaging metadata, MIT license, typed package marker, repo hygiene rules, scoped GitHub issue/PR templates, and pytest coverage for core behavior, helper command planning, and documentation contracts.
 
 ### Scope Boundaries
 
