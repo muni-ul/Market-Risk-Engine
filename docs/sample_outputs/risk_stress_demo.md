@@ -10,6 +10,8 @@ Run it locally with:
 python -m pyrisklab run --config configs/risk_stress.yaml --overwrite
 ```
 
+The generated folder is `results/risk_stress_run/`.
+
 This preset keeps the synthetic market, option contract, strategy, fake
 execution model, benchmark, and report flow local and deterministic. It changes
 the risk limits so proposed orders are rejected before fake execution:
