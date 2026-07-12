@@ -9,13 +9,29 @@ import pandas as pd
 from pyrisklab.exceptions import RiskError
 from pyrisklab.models import RiskCheckResult, RiskConfig, RiskEvent
 
-RISK_EVENT_COLUMNS = ["step", "event_type", "severity", "symbol", "proposed_side", "proposed_quantity", "proposed_notional", "portfolio_value", "limit_name", "limit_value", "observed_value", "reason"]
+RISK_EVENT_COLUMNS = [
+    "step",
+    "event_type",
+    "severity",
+    "symbol",
+    "proposed_side",
+    "proposed_quantity",
+    "proposed_notional",
+    "portfolio_value",
+    "limit_name",
+    "limit_value",
+    "observed_value",
+    "reason",
+]
 
 
 class RiskManager:
     def __init__(self, config: RiskConfig, contract_multiplier: int = 100) -> None:
         self.config = config
-        self.contract_multiplier = _as_positive_integer(contract_multiplier, "contract_multiplier")
+        self.contract_multiplier = _as_positive_integer(
+            contract_multiplier,
+            "contract_multiplier",
+        )
         self.trading_stopped = False
         self.events: list[RiskEvent] = []
 
@@ -48,34 +64,111 @@ class RiskManager:
 
         proposed_notional = price * quantity * self.contract_multiplier
         if self.trading_stopped:
-            return self._block(order_row, proposed_notional, portfolio_value, "trading_stopped", 1.0, 1.0, "Trading has stopped after a prior risk breach.")
+            return self._block(
+                order_row,
+                proposed_notional,
+                portfolio_value,
+                "trading_stopped",
+                1.0,
+                1.0,
+                "Trading has stopped after a prior risk breach.",
+            )
 
         if side == "BUY":
             resulting_quantity = current_position_quantity + quantity
         elif side == "SELL":
             resulting_quantity = current_position_quantity - quantity
             if resulting_quantity < 0:
-                return self._block(order_row, proposed_notional, portfolio_value, "short_position", 0.0, abs(resulting_quantity), f"Blocked SELL {quantity} {order_row.symbol} at step {order_row.step}: short selling is disabled.")
+                return self._block(
+                    order_row,
+                    proposed_notional,
+                    portfolio_value,
+                    "short_position",
+                    0.0,
+                    abs(resulting_quantity),
+                    f"Blocked SELL {quantity} {order_row.symbol} "
+                    f"at step {order_row.step}: short selling is disabled.",
+                )
         else:
             raise RiskError(f"order side must be BUY or SELL. Received {side!r}.")
 
         if abs(resulting_quantity) > self.config.max_position_quantity:
-            return self._block(order_row, proposed_notional, portfolio_value, "max_position_quantity", self.config.max_position_quantity, abs(resulting_quantity), f"Blocked {side} {quantity} {order_row.symbol} at step {order_row.step}: resulting quantity {resulting_quantity} exceeds max_position_quantity {self.config.max_position_quantity}.")
+            return self._block(
+                order_row,
+                proposed_notional,
+                portfolio_value,
+                "max_position_quantity",
+                self.config.max_position_quantity,
+                abs(resulting_quantity),
+                f"Blocked {side} {quantity} {order_row.symbol} "
+                f"at step {order_row.step}: resulting quantity {resulting_quantity} "
+                f"exceeds max_position_quantity {self.config.max_position_quantity}.",
+            )
         if proposed_notional > self.config.max_trade_notional:
-            return self._block(order_row, proposed_notional, portfolio_value, "max_trade_notional", self.config.max_trade_notional, proposed_notional, f"Blocked {side} {quantity} {order_row.symbol} at step {order_row.step}: trade notional {proposed_notional:.2f} exceeds max_trade_notional {self.config.max_trade_notional:.2f}.")
+            return self._block(
+                order_row,
+                proposed_notional,
+                portfolio_value,
+                "max_trade_notional",
+                self.config.max_trade_notional,
+                proposed_notional,
+                f"Blocked {side} {quantity} {order_row.symbol} "
+                f"at step {order_row.step}: trade notional {proposed_notional:.2f} "
+                f"exceeds max_trade_notional {self.config.max_trade_notional:.2f}.",
+            )
         cash_required = proposed_notional + estimated_commission
         if side == "BUY" and available_cash is not None and cash_required > available_cash:
-            return self._block(order_row, proposed_notional, portfolio_value, "available_cash", available_cash, cash_required, f"Blocked BUY {quantity} {order_row.symbol} at step {order_row.step}: required cash {cash_required:.2f} exceeds available cash {available_cash:.2f}.")
+            return self._block(
+                order_row,
+                proposed_notional,
+                portfolio_value,
+                "available_cash",
+                available_cash,
+                cash_required,
+                f"Blocked BUY {quantity} {order_row.symbol} "
+                f"at step {order_row.step}: required cash {cash_required:.2f} "
+                f"exceeds available cash {available_cash:.2f}.",
+            )
         if self.config.stop_trading_on_breach and drawdown_pct >= self.config.max_drawdown_pct:
             self.trading_stopped = True
-            return self._block(order_row, proposed_notional, portfolio_value, "max_drawdown_pct", self.config.max_drawdown_pct, drawdown_pct, f"Trading stopped because drawdown_pct {drawdown_pct:.4f} exceeded max_drawdown_pct {self.config.max_drawdown_pct:.4f}.")
-        loss_pct = max(0.0, (self.config.starting_cash - portfolio_value) / self.config.starting_cash)
+            return self._block(
+                order_row,
+                proposed_notional,
+                portfolio_value,
+                "max_drawdown_pct",
+                self.config.max_drawdown_pct,
+                drawdown_pct,
+                f"Trading stopped because drawdown_pct {drawdown_pct:.4f} "
+                f"exceeded max_drawdown_pct {self.config.max_drawdown_pct:.4f}.",
+            )
+        loss_pct = max(
+            0.0,
+            (self.config.starting_cash - portfolio_value) / self.config.starting_cash,
+        )
         if self.config.stop_trading_on_breach and loss_pct >= self.config.max_loss_pct:
             self.trading_stopped = True
-            return self._block(order_row, proposed_notional, portfolio_value, "max_loss_pct", self.config.max_loss_pct, loss_pct, f"Trading stopped because loss_pct {loss_pct:.4f} exceeded max_loss_pct {self.config.max_loss_pct:.4f}.")
+            return self._block(
+                order_row,
+                proposed_notional,
+                portfolio_value,
+                "max_loss_pct",
+                self.config.max_loss_pct,
+                loss_pct,
+                f"Trading stopped because loss_pct {loss_pct:.4f} "
+                f"exceeded max_loss_pct {self.config.max_loss_pct:.4f}.",
+            )
         return RiskCheckResult(True, [])
 
-    def _block(self, order_row, proposed_notional: float, portfolio_value: float, limit_name: str, limit_value: float, observed_value: float, reason: str) -> RiskCheckResult:
+    def _block(
+        self,
+        order_row,
+        proposed_notional: float,
+        portfolio_value: float,
+        limit_name: str,
+        limit_value: float,
+        observed_value: float,
+        reason: str,
+    ) -> RiskCheckResult:
         quantity = _as_contract_quantity(order_row.quantity)
         event = RiskEvent(
             step=int(order_row.step),
