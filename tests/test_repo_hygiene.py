@@ -101,6 +101,18 @@ def test_github_issue_chooser_routes_to_scoped_support_docs():
     assert "SECURITY.md" in issue_config
 
 
+def test_support_guide_documents_scoped_issue_routing():
+    with open("SUPPORT.md", encoding="utf-8") as support_file:
+        support = support_file.read()
+
+    assert "Issue Routing" in support
+    assert "Blank GitHub issues are disabled" in support
+    assert "bug report template" in support
+    assert "feature request template" in support
+    assert "contact links" in support
+    assert "reproducible local simulation behavior" in support
+
+
 def test_github_pull_request_template_keeps_review_reproducible():
     with open(".github/PULL_REQUEST_TEMPLATE.md", encoding="utf-8") as template_file:
         pr_template = template_file.read()

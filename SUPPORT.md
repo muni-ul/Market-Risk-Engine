@@ -25,6 +25,14 @@ Use the GitHub bug report template for reproducible local issues. Include:
 Generated `results/` folders should stay local. Share only the details needed
 to reproduce or inspect the issue.
 
+## Issue Routing
+
+Blank GitHub issues are disabled so reports stay focused on reproducible local
+simulation behavior. Use the bug report template for run failures or output
+contract issues, the feature request template for scoped engineering
+improvements, and the contact links for reviewer, support, or security
+questions.
+
 ## Requesting Enhancements
 
 Use the feature request template for scoped improvements that strengthen the
