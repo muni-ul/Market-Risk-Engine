@@ -4,6 +4,12 @@ This reference summarizes the main `src/pyrisklab/` modules for reviewers who
 want to inspect the implementation quickly. PyRiskLab does not expose a public
 web API; the primary user interface is the local CLI.
 
+`src/pyrisklab/` is the canonical package. The root-level `pyrisklab/` directory
+is a lightweight launcher shim so `python -m pyrisklab ...` and
+`import pyrisklab` both work from the repository root before an editable install.
+It mirrors the small public package surface: `__version__`, `ProgressCallback`,
+and `run_simulation(...)`.
+
 ## Entry Points
 
 | Module | Key functions/classes | Responsibility |
