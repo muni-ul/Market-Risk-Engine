@@ -58,3 +58,10 @@ order status counts, expected/generated artifacts, and artifact byte sizes.
 PyRiskLab demonstrates package structure, CLI automation, deterministic configs,
 defensive validation, pandas output contracts, pytest coverage, benchmark
 reporting, debugging docs, and clean scope control.
+
+## How should I describe it on a resume or in an interview?
+
+Use `docs/RESUME_SNIPPETS.md` for concise resume wording and
+`docs/INTERVIEW_NOTES.md` for the one-minute pitch, talking points, and
+scope boundaries. Keep the framing on local Python tooling, testing,
+validation, reproducibility, and performance-aware engineering.

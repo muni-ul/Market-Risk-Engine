@@ -320,6 +320,19 @@ def test_resume_snippets_keep_project_positioning_software_focused():
     assert "trading bot" in resume_snippets
 
 
+def test_faq_points_reviewers_to_resume_and_interview_framing():
+    with open("docs/FAQ.md", encoding="utf-8") as faq_file:
+        faq = faq_file.read()
+
+    assert "PyRiskLab FAQ" in faq
+    assert "What makes this relevant for SWE internships?" in faq
+    assert "How should I describe it on a resume or in an interview?" in faq
+    assert "docs/RESUME_SNIPPETS.md" in faq
+    assert "docs/INTERVIEW_NOTES.md" in faq
+    assert "local Python tooling" in faq
+    assert "performance-aware engineering" in faq
+
+
 def test_validation_notes_explain_defensive_error_contracts():
     with open("docs/VALIDATION_NOTES.md", encoding="utf-8") as validation_file:
         validation_notes = validation_file.read()
