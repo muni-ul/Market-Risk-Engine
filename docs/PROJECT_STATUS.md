@@ -32,7 +32,7 @@ For AMD-like software internship applications, the best framing is:
   repo hygiene
 - Reviewer docs for architecture, design decisions, config, assumptions,
   validation, performance, debugging, platform notes, FAQ, demo walkthrough,
-  traceability, resume wording, and final verification
+  screenshot curation, traceability, resume wording, and final verification
 - Feature build index mapping the original ordered feature plan to current
   implementation evidence
 - GitHub bug report, feature request, and pull request templates that keep
@@ -87,6 +87,7 @@ deployment, ML trading prediction, or investment advice.
 - `README.md`
 - `docs/RECRUITER_BRIEF.md`
 - `docs/REVIEWER_GUIDE.md`
+- `docs/assets/README.md`
 - `docs/DESIGN_DECISIONS.md`
 - `docs/FAQ.md`
 - `docs/features/README.md`
