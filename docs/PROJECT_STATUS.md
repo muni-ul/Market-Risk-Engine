@@ -24,6 +24,7 @@ For AMD-like software internship applications, the best framing is:
 - Modular config, market, pricing, Greeks, strategy, execution, portfolio, risk,
   benchmark, reporting, and pipeline code
 - Deterministic YAML configs for the main demo and risk-stress demo
+  (`results/demo_run/` and `results/risk_stress_run/` when run locally)
 - Synthetic market simulation, Black-Scholes pricing, Greeks, fake execution,
   portfolio tracking, risk validation, and benchmark reporting
 - CSV, PNG, JSON, copied-config, and Markdown report artifact contracts
@@ -69,9 +70,10 @@ To run the helper:
 python scripts/local_verify.py
 ```
 
-After running the demos, keep generated result folders local. They are ignored
-by Git so the repository stays lightweight while reviewers can reproduce the
-same artifact set from the committed configs.
+After running the demos, keep `results/demo_run/` and
+`results/risk_stress_run/` local. They are ignored by Git so the repository
+stays lightweight while reviewers can reproduce the same artifact set from the
+committed configs.
 
 ## Not Included
 

@@ -17,7 +17,7 @@ notebook.
 | SciPy Black-Scholes pricing | `src/pyrisklab/pricing.py`, `tests/test_pricing.py`, and `docs/API_REFERENCE.md`. |
 | Greeks calculation | `src/pyrisklab/greeks.py`, `tests/test_greeks.py`, and generated `greeks_history.csv` / `greeks.png` contracts. |
 | Fake execution and portfolio state | `src/pyrisklab/execution.py`, `src/pyrisklab/portfolio.py`, `tests/test_execution.py`, `tests/test_portfolio.py`, and generated order/trade/portfolio artifacts. |
-| Risk-rule validation | `src/pyrisklab/risk.py`, `tests/test_risk.py`, `configs/risk_stress.yaml`, and `docs/sample_outputs/risk_stress_demo.md`. |
+| Risk-rule validation | `src/pyrisklab/risk.py`, `tests/test_risk.py`, `configs/risk_stress.yaml`, the local `results/risk_stress_run/` artifact folder, and `docs/sample_outputs/risk_stress_demo.md`. |
 | pytest suite exists | Tests are organized under `tests/`; coverage areas are mapped in `docs/TESTING_STRATEGY.md`. |
 | CSV outputs | `docs/sample_outputs/csv_contracts.md` documents stable CSV artifact names and columns. |
 | PNG charts | `docs/sample_outputs/chart_artifacts.md` documents generated chart artifacts. |
@@ -50,5 +50,6 @@ Use `python scripts/local_verify.py --only ruff --only demo` when you want a
 targeted local check instead of the full validation sequence.
 
 The generated `results/` folders are intentionally not committed, so the final
-evidence comes from running the commands locally and inspecting the generated
-artifacts listed in `docs/FINAL_REVIEW_CHECKLIST.md`.
+evidence comes from running the commands locally and inspecting
+`results/demo_run/`, `results/risk_stress_run/`, and the artifact list in
+`docs/FINAL_REVIEW_CHECKLIST.md`.

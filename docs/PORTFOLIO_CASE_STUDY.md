@@ -49,8 +49,8 @@ benchmark, and exports CSV, PNG, JSON, and Markdown artifacts.
   execution, portfolio, and risk behavior, not to claim profitability.
 - Stored outputs as CSV, PNG, JSON, and Markdown because those formats are easy
   to inspect in GitHub, VS Code, Excel, and pandas.
-- Added `configs/risk_stress.yaml` as an optional reviewer demo for blocked
-  orders and readable risk events.
+- Added `configs/risk_stress.yaml` as an optional reviewer demo that writes
+  `results/risk_stress_run/` with blocked orders and readable risk events.
 
 ## System Flow
 
