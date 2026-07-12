@@ -26,4 +26,5 @@ def test_env_example_documents_no_required_secrets():
         env_example = env_example_file.read()
 
     assert "does not require secrets" in env_example
-    assert "future optional features" in env_example
+    assert "local configs" in env_example
+    assert "deterministic seeds" in env_example
