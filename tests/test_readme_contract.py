@@ -237,6 +237,7 @@ def test_docs_index_links_reviewer_and_engineering_docs():
         "../CHANGELOG.md",
         "../CONTRIBUTING.md",
         "../SECURITY.md",
+        "../.github/ISSUE_TEMPLATE/config.yml",
         "../.github/ISSUE_TEMPLATE/bug_report.md",
         "../.github/ISSUE_TEMPLATE/feature_request.md",
         "../.github/PULL_REQUEST_TEMPLATE.md",

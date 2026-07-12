@@ -88,6 +88,19 @@ def test_github_feature_template_keeps_scope_engineering_focused():
     assert "investment advice" in feature_template
 
 
+def test_github_issue_chooser_routes_to_scoped_support_docs():
+    with open(".github/ISSUE_TEMPLATE/config.yml", encoding="utf-8") as config_file:
+        issue_config = config_file.read()
+
+    assert "blank_issues_enabled: false" in issue_config
+    assert "PyRiskLab reviewer guide" in issue_config
+    assert "Support guide" in issue_config
+    assert "Security policy" in issue_config
+    assert "docs/REVIEWER_GUIDE.md" in issue_config
+    assert "SUPPORT.md" in issue_config
+    assert "SECURITY.md" in issue_config
+
+
 def test_github_pull_request_template_keeps_review_reproducible():
     with open(".github/PULL_REQUEST_TEMPLATE.md", encoding="utf-8") as template_file:
         pr_template = template_file.read()

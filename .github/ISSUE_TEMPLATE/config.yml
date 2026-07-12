@@ -1,4 +1,4 @@
-blank_issues_enabled: true
+blank_issues_enabled: false
 contact_links:
   - name: PyRiskLab reviewer guide
     url: https://github.com/muni-ul/Market-Risk-Engine/blob/main/docs/REVIEWER_GUIDE.md
