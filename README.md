@@ -381,8 +381,9 @@ output contracts, see `docs/sample_outputs/`, including
 `docs/sample_outputs/risk_stress_demo.md` for the risk-audit preset.
 
 For the project story and resume/interview framing, see
-`docs/REVIEWER_GUIDE.md`, `docs/PORTFOLIO_CASE_STUDY.md`, and
-`docs/INTERVIEW_NOTES.md`.
+`docs/RECRUITER_BRIEF.md`, `docs/REVIEWER_GUIDE.md`,
+`docs/PORTFOLIO_CASE_STUDY.md`, `docs/INTERVIEW_NOTES.md`, and
+`docs/RESUME_SNIPPETS.md`.
 
 For the final local verification pass and resume-ready gate, use
 `docs/FINAL_REVIEW_CHECKLIST.md`.

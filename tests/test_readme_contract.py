@@ -63,6 +63,8 @@ def test_readme_contains_required_demo_and_scope_language():
     assert 'pip install -e ".[dev]"' in readme
     assert "ConfigError: market.volatility must be >= 0" in readme
     assert "## Resume And Interview Framing" in readme
+    assert "project story and resume/interview framing" in readme
+    assert "docs/RECRUITER_BRIEF.md" in readme
     assert "local Python engineering project" in readme
     assert "vectorized NumPy pricing" in readme
     assert "repository hygiene" in readme
