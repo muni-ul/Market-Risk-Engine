@@ -2,9 +2,21 @@
 
 ## Problem
 
-I wanted to build a local Python project that looked like an engineering tool instead of a notebook or one-off script. Options pricing gave the project a useful simulation domain, but the real goal was to demonstrate package structure, deterministic execution, numerical computation, tests, risk validation, benchmarking, and reproducible outputs.
+I wanted to build a local Python project that looked like an engineering tool
+instead of a notebook or one-off script. Options pricing gave the project a
+useful simulation domain, but the real goal was to demonstrate package
+structure, deterministic execution, numerical computation, tests, risk
+validation, benchmarking, and reproducible outputs.
 
-PyRiskLab is intentionally not a trading bot. It does not use live market data, connect to brokerages, place real trades, or provide investment advice.
+PyRiskLab is intentionally not a trading bot. It does not use live market data,
+connect to brokerages, place real trades, or provide investment advice.
+
+## Software-Intern Signal
+
+The project is strongest when described as a local Python simulation and
+verification tool. It demonstrates CLI automation, config-driven reproducibility,
+defensive validation, pandas output contracts, benchmark reporting, debugging
+docs, and final-review checklists.
 
 ## Approach
 
@@ -14,18 +26,31 @@ The project is built around one local command:
 python -m pyrisklab run --config configs/demo.yaml --overwrite
 ```
 
-That command loads a YAML config, generates a synthetic market path, prices a European option with Black-Scholes, calculates Greeks, creates simple fake strategy signals, validates proposed orders against risk rules, executes approved simulated trades, tracks portfolio value, runs a loop-vs-vectorized benchmark, and exports CSV, PNG, JSON, and Markdown artifacts.
+That command loads a YAML config, generates a synthetic market path, prices a
+European option with Black-Scholes, calculates Greeks, creates simple fake
+strategy signals, validates proposed orders against risk rules, executes
+approved simulated trades, tracks portfolio value, runs a loop-vs-vectorized
+benchmark, and exports CSV, PNG, JSON, and Markdown artifacts.
 
 ## Engineering Decisions
 
-- Kept the project local-first so reviewers can run it without accounts, API keys, Docker, databases, or cloud services.
+- Kept the project local-first so reviewers can run it without accounts, API
+  keys, Docker, databases, or cloud services.
 - Used `argparse` and a thin CLI so orchestration stays in `pipeline.py`.
-- Used dataclasses for typed config and domain objects instead of passing raw dictionaries through the whole system.
-- Used deterministic seeds and copied `config_used.yaml` into every run folder to make outputs reproducible.
-- Recorded the config SHA-256 digest, benchmark settings, row counts, order status counts, expected/generated artifact names, and artifact byte sizes in run metadata so reviewers can audit reproducibility, execution behavior, and output completeness.
-- Kept strategy logic intentionally simple because its purpose is to drive execution, portfolio, and risk behavior, not to claim profitability.
-- Stored outputs as CSV, PNG, JSON, and Markdown because those formats are easy to inspect in GitHub, VS Code, Excel, and pandas.
-- Added `configs/risk_stress.yaml` as an optional reviewer demo for blocked orders and readable risk events.
+- Used dataclasses for typed config and domain objects instead of passing raw
+  dictionaries through the whole system.
+- Used deterministic seeds and copied `config_used.yaml` into every run folder
+  to make outputs reproducible.
+- Recorded the config SHA-256 digest, benchmark settings, row counts, order
+  status counts, expected/generated artifact names, and artifact byte sizes in
+  run metadata so reviewers can audit reproducibility, execution behavior, and
+  output completeness.
+- Kept strategy logic intentionally simple because its purpose is to drive
+  execution, portfolio, and risk behavior, not to claim profitability.
+- Stored outputs as CSV, PNG, JSON, and Markdown because those formats are easy
+  to inspect in GitHub, VS Code, Excel, and pandas.
+- Added `configs/risk_stress.yaml` as an optional reviewer demo for blocked
+  orders and readable risk events.
 
 ## System Flow
 
@@ -46,21 +71,30 @@ configs/demo.yaml
 
 ## Testing And Correctness
 
-The test suite is designed around behavior that would matter in a real engineering tool:
+The test suite is designed around behavior that would matter in a real
+engineering tool:
 
 - Config validation catches bad inputs with field-specific messages.
-- Market simulation is deterministic for the same seed and rejects non-finite assumptions defensively.
-- Pricing tests cover known call/put values, parity, expiry, finite parameters, and vectorized inputs.
+- Market simulation is deterministic for the same seed and rejects non-finite
+  assumptions defensively.
+- Pricing tests cover known call/put values, parity, expiry, finite parameters,
+  and vectorized inputs.
 - Greeks tests cover finite outputs, finite parameters, and call/put delta behavior.
 - Strategy tests cover threshold decisions, non-finite Delta handling, and invalid pricing context.
 - Execution tests cover deterministic fills, notional calculation, and invalid order quantities.
 - Portfolio tests cover cash, positions, realized P&L, and drawdown.
-- Risk tests cover allowed trades, blocked trades, available cash, defensive order validation, and readable event reasons.
-- Reporting tests cover empty output states, metadata artifacts, and generated artifact completeness.
+- Risk tests cover allowed trades, blocked trades, available cash, defensive
+  order validation, and readable event reasons.
+- Reporting tests cover empty output states, metadata artifacts, and generated
+  artifact completeness.
 
 ## Performance Signal
 
-PyRiskLab includes a small benchmark that compares Python-loop Black-Scholes pricing with vectorized NumPy pricing on the same generated inputs. It reports pricing assumptions, runtime, speedup, and numerical-equivalence checks in `benchmark.csv`. The benchmark is intentionally honest: numbers vary by machine, and the README does not claim a fixed universal speedup.
+PyRiskLab includes a small benchmark that compares Python-loop Black-Scholes
+pricing with vectorized NumPy pricing on the same generated inputs. It reports
+pricing assumptions, runtime, speedup, and numerical-equivalence checks in
+`benchmark.csv`. The benchmark is intentionally honest: numbers vary by machine,
+and the README does not claim a fixed universal speedup.
 
 ## Result
 
@@ -89,11 +123,19 @@ results/demo_run/
 
 For a committed preview of the report and CSV shapes, see `docs/sample_outputs/`.
 
-The strongest interview story is that PyRiskLab uses finance as the domain, but the project is really about building a reliable Python simulation pipeline with clean modules, deterministic configs, testable state transitions, risk guardrails, benchmark evidence, auditable run metadata, and inspectable local reports.
+The strongest interview story is that PyRiskLab uses finance as the domain, but
+the project is really about building a reliable Python simulation pipeline with
+clean modules, deterministic configs, testable state transitions, risk
+guardrails, benchmark evidence, auditable run metadata, and inspectable local
+reports.
 
 ## What I Would Improve Next
 
 - Add a curated `docs/assets/` screenshot set after final demo outputs are generated.
-- Extend the pipeline from one configured option contract to a small portfolio of contracts while preserving deterministic configs and the same one-command demo path.
-- Add optional Numba or multiprocessing benchmark variants only after the baseline loop-vs-NumPy benchmark remains well documented and reproducible.
-- Add richer Markdown report styling and comparison tables while keeping the project local, dependency-light, and simulation-only.
+- Extend the pipeline from one configured option contract to a small portfolio
+  of contracts while preserving deterministic configs and the same one-command
+  demo path.
+- Add optional Numba or multiprocessing benchmark variants only after the
+  baseline loop-vs-NumPy benchmark remains well documented and reproducible.
+- Add richer Markdown report styling and comparison tables while keeping the
+  project local, dependency-light, and simulation-only.
