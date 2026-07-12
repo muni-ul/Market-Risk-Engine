@@ -355,7 +355,11 @@ def test_faq_points_reviewers_to_resume_and_interview_framing():
 
     assert "PyRiskLab FAQ" in faq
     assert "What makes this relevant for SWE internships?" in faq
+    assert "How should I validate it before sharing?" in faq
     assert "How should I describe it on a resume or in an interview?" in faq
+    assert "docs/FINAL_REVIEW_CHECKLIST.md" in faq
+    assert "python scripts/local_verify.py --list" in faq
+    assert "python scripts/local_verify.py --only ruff" in faq
     assert "docs/RESUME_SNIPPETS.md" in faq
     assert "docs/INTERVIEW_NOTES.md" in faq
     assert "local Python tooling" in faq

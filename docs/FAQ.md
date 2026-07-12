@@ -59,6 +59,14 @@ PyRiskLab demonstrates package structure, CLI automation, deterministic configs,
 defensive validation, pandas output contracts, pytest coverage, benchmark
 reporting, debugging docs, and clean scope control.
 
+## How should I validate it before sharing?
+
+Use `docs/FINAL_REVIEW_CHECKLIST.md` as the resume-ready gate. The direct local
+commands are `pytest`, `ruff check .`, the main demo command, and the
+risk-stress demo command. The helper `python scripts/local_verify.py --list`
+previews the same sequence, and `python scripts/local_verify.py --only ruff
+--only demo` runs a targeted subset.
+
 ## How should I describe it on a resume or in an interview?
 
 Use `docs/RESUME_SNIPPETS.md` for concise resume wording and
