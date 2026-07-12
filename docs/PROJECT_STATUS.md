@@ -48,6 +48,9 @@ python -m pyrisklab run --config configs/demo.yaml --overwrite
 python -m pyrisklab run --config configs/risk_stress.yaml --overwrite
 ```
 
+Use `docs/FINAL_REVIEW_CHECKLIST.md` for the complete artifact-inspection list
+and resume-ready gate after those commands finish.
+
 To preview the helper command list without running anything:
 
 ```bash
