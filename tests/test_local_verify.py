@@ -30,7 +30,7 @@ def test_planned_commands_include_full_reviewer_sequence_by_default():
     assert command_labels(commands) == [
         "pytest",
         "ruff",
-        "demo run",
+        "main demo",
         "risk-stress demo",
     ]
     assert commands[0][1] == [sys.executable, "-m", "pytest"]
@@ -46,7 +46,7 @@ def test_only_filters_commands_without_running_them():
 
     commands = local_verify.planned_commands(args)
 
-    assert command_labels(commands) == ["ruff", "demo run"]
+    assert command_labels(commands) == ["ruff", "main demo"]
 
 
 def test_skip_flags_still_apply_with_only_selection():

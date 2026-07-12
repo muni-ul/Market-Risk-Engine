@@ -65,7 +65,7 @@ def planned_commands(args: argparse.Namespace) -> list[Command]:
     if not args.skip_demo and (not selected or "demo" in selected):
         commands.append(
             (
-                "demo run",
+                "main demo",
                 [
                     sys.executable,
                     "-m",
