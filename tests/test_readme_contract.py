@@ -17,6 +17,7 @@ def test_readme_contains_required_demo_and_scope_language():
     assert "docs/sample_outputs/artifact_manifest.md" in readme
     assert "docs/sample_outputs/chart_artifacts.md" in readme
     assert "docs/sample_outputs/risk_stress_demo.md" in readme
+    assert "docs/README.md" in readme
     assert "docs/REVIEWER_GUIDE.md" in readme
     assert "docs/CONFIG_REFERENCE.md" in readme
     assert "docs/PORTFOLIO_CASE_STUDY.md" in readme
@@ -132,6 +133,7 @@ def test_sample_output_docs_are_linked_and_present():
         assert "pytest" in checklist
         assert "ruff check ." in checklist
         assert "python -m pyrisklab run --config configs/demo.yaml --overwrite" in checklist
+        assert "docs/README.md" in checklist
         assert "docs/CONFIG_REFERENCE.md" in checklist
         assert "docs/sample_outputs/artifact_manifest.md" in checklist
         assert "Simulation-only language" in checklist
@@ -181,3 +183,22 @@ def test_config_reference_documents_demo_settings():
         assert f"## `{section}`" in config_reference
     for field in ("run_name", "seed", "output_dir", "contract_multiplier", "max_trade_notional"):
         assert f"`{field}`" in config_reference
+
+
+def test_docs_index_links_reviewer_and_engineering_docs():
+    with open("docs/README.md", encoding="utf-8") as docs_index_file:
+        docs_index = docs_index_file.read()
+
+    assert "PyRiskLab Documentation Index" in docs_index
+    for doc_name in (
+        "REVIEWER_GUIDE.md",
+        "SAMPLE_OUTPUT.md",
+        "FINAL_REVIEW_CHECKLIST.md",
+        "ARCHITECTURE.md",
+        "CONFIG_REFERENCE.md",
+        "PORTFOLIO_CASE_STUDY.md",
+        "INTERVIEW_NOTES.md",
+        "sample_outputs/artifact_manifest.md",
+    ):
+        assert doc_name in docs_index
+    assert "results/.gitkeep" in docs_index

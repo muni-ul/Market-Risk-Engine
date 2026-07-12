@@ -70,6 +70,8 @@ configs/demo.yaml
 
 See `docs/ARCHITECTURE.md` for the longer design explanation.
 
+For a documentation map, see `docs/README.md`.
+
 For a quick evaluator walkthrough, see `docs/REVIEWER_GUIDE.md`.
 
 For field-by-field YAML settings, see `docs/CONFIG_REFERENCE.md`.
