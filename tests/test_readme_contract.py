@@ -43,6 +43,7 @@ def test_readme_contains_required_demo_and_scope_language():
     assert "```mermaid" in readme
     assert "Simulation pipeline" in readme
     assert "pyrisklab.run_simulation(...)" in readme
+    assert "typed `ProgressCallback`" in readme
     assert "Loop-vs-NumPy benchmark" in readme
     assert "py.typed" in readme
     assert "risk/execution audit counts" in readme
@@ -400,6 +401,7 @@ def test_changelog_summarizes_version_one_mvp():
     assert "Version 1 MVP" in changelog
     assert "python -m pyrisklab run --config configs/demo.yaml --overwrite" in changelog
     assert "pyrisklab.run_simulation(...)" in changelog
+    assert "typed progress callback support" in changelog
     assert "Loop-vs-vectorized NumPy" in changelog
     assert "Requirement traceability" in changelog
     assert "local verification helper" in changelog

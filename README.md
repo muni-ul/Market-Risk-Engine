@@ -14,7 +14,7 @@ PyRiskLab is a local Python simulation engine for options pricing and portfolio 
 
 - Clean Python modules for config, pricing, Greeks, strategy, execution, portfolio, risk, reporting, and benchmarking
 - Typed dataclasses and a packaged `py.typed` marker for type-aware tooling
-- Stable programmatic entry point through `pyrisklab.run_simulation(...)`
+- Stable programmatic entry point through `pyrisklab.run_simulation(...)` with a typed `ProgressCallback`
 - Vectorized NumPy computation over a simulated market path
 - pandas data pipelines and reproducible local artifacts
 - SciPy-based Black-Scholes pricing for European calls and puts

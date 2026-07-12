@@ -12,7 +12,7 @@ portfolio review.
 ### Added
 
 - `python -m pyrisklab run --config configs/demo.yaml --overwrite` one-command demo.
-- Real `src/pyrisklab/` package layout with CLI, root `pyrisklab.run_simulation(...)` entry point, config loading, orchestration, pricing, Greeks, strategy, fake execution, portfolio, risk, reporting, and benchmark modules.
+- Real `src/pyrisklab/` package layout with CLI, root `pyrisklab.run_simulation(...)` entry point, typed progress callback support, config loading, orchestration, pricing, Greeks, strategy, fake execution, portfolio, risk, reporting, and benchmark modules.
 - Deterministic YAML configs, including `configs/demo.yaml` and `configs/risk_stress.yaml`.
 - Synthetic geometric Brownian motion market simulation with seeded reproducibility.
 - SciPy-based Black-Scholes pricing for call and put contracts.
