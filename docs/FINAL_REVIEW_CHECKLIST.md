@@ -25,18 +25,23 @@ The main demo should print the seven progress steps and create `results/demo_run
 
 Open `results/demo_run/` and confirm these files exist:
 
-- `summary_report.md`
-- `run_metadata.json`
 - `benchmark.csv`
-- `orders.csv`
-- `trades.csv`
-- `portfolio_history.csv`
-- `risk_events.csv`
+- `config_used.yaml`
+- `drawdown.png`
+- `greeks.png`
+- `greeks_history.csv`
+- `market_path.csv`
 - `market_path.png`
 - `option_price.png`
-- `greeks.png`
+- `orders.csv`
+- `portfolio_history.csv`
 - `portfolio_value.png`
-- `drawdown.png`
+- `pricing_history.csv`
+- `risk_events.csv`
+- `run_metadata.json`
+- `signals.csv`
+- `summary_report.md`
+- `trades.csv`
 
 In `summary_report.md`, check that the report includes:
 

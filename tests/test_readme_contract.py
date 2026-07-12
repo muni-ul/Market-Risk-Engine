@@ -111,6 +111,9 @@ def test_sample_output_docs_are_linked_and_present():
         assert "ruff check ." in checklist
         assert "python -m pyrisklab run --config configs/demo.yaml --overwrite" in checklist
         assert "Simulation-only language" in checklist
+        assert "config_used.yaml" in checklist
+        assert "pricing_history.csv" in checklist
+        assert "signals.csv" in checklist
         assert "generated_artifact_sizes_bytes" in checklist
     with open("docs/sample_outputs/csv_contracts.md", encoding="utf-8") as contracts_file:
         csv_contracts = contracts_file.read()
