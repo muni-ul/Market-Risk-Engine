@@ -160,6 +160,15 @@ def test_sample_output_docs_are_linked_and_present():
         assert "docs/FINAL_REVIEW_CHECKLIST.md" in interview_notes
         assert "docs/DEMO_WALKTHROUGH.md" in interview_notes
         assert "docs/RESUME_SNIPPETS.md" in interview_notes
+        assert "Code Walkthrough Path" in interview_notes
+        assert "src/pyrisklab/cli.py" in interview_notes
+        assert "src/pyrisklab/config.py" in interview_notes
+        assert "src/pyrisklab/pipeline.py" in interview_notes
+        assert "src/pyrisklab/pricing.py" in interview_notes
+        assert "src/pyrisklab/greeks.py" in interview_notes
+        assert "src/pyrisklab/risk.py" in interview_notes
+        assert "src/pyrisklab/reporting.py" in interview_notes
+        assert "src/pyrisklab/benchmark.py" in interview_notes
         assert "ready to discuss" in interview_notes
     with open("docs/FINAL_REVIEW_CHECKLIST.md", encoding="utf-8") as checklist_file:
         checklist = checklist_file.read()

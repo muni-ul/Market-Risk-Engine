@@ -55,6 +55,26 @@ or performance work:
 - `docs/FAQ.md` gives concise answers to common reviewer and interview
   questions.
 
+## Code Walkthrough Path
+
+For a live technical walkthrough, open files in this order:
+
+1. `src/pyrisklab/cli.py` to show the one-command local interface and clean
+   error handling.
+2. `src/pyrisklab/config.py` and `configs/demo.yaml` to show deterministic,
+   validated inputs.
+3. `src/pyrisklab/pipeline.py` to show how the run is orchestrated without
+   putting all logic in the CLI.
+4. `src/pyrisklab/pricing.py` and `src/pyrisklab/greeks.py` to show focused
+   numerical code.
+5. `src/pyrisklab/risk.py`, `src/pyrisklab/execution.py`, and
+   `src/pyrisklab/portfolio.py` to show state transitions and defensive
+   boundaries.
+6. `src/pyrisklab/reporting.py` and `src/pyrisklab/benchmark.py` to show
+   reproducible artifacts and performance evidence.
+7. `tests/` to show how the project protects formulas, validation, state
+   transitions, artifact contracts, and repository hygiene.
+
 ## Resume Bullets
 
 General:
