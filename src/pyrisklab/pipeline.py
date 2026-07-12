@@ -1,7 +1,7 @@
 from __future__ import annotations
 
-from collections.abc import Callable
 import math
+from collections.abc import Callable
 from numbers import Real
 from pathlib import Path
 
@@ -48,7 +48,11 @@ def run_simulation(
 
     _emit(progress, "[3/7] Pricing option and calculating Greeks...")
     pricing_history = price_market_path(market_path, option, config.market.trading_days)
-    greeks_history = calculate_greeks_for_market_path(market_path, option, config.market.trading_days)
+    greeks_history = calculate_greeks_for_market_path(
+        market_path,
+        option,
+        config.market.trading_days,
+    )
 
     _emit(progress, "[4/7] Running strategy, risk checks, and fake execution...")
     signals = generate_signals(pricing_history, greeks_history, config.strategy)
@@ -108,7 +112,11 @@ def _apply_risk(orders: pd.DataFrame, config) -> tuple[pd.DataFrame, pd.DataFram
     audited = []
     approved = []
     for row in orders.itertuples(index=False):
-        snapshot = risk_portfolio.mark_to_market(int(row.step), str(row.symbol), float(row.requested_price))
+        snapshot = risk_portfolio.mark_to_market(
+            int(row.step),
+            str(row.symbol),
+            float(row.requested_price),
+        )
         current_position = risk_portfolio.current_quantity(str(row.symbol))
         result = manager.validate_order(
             row,
@@ -133,7 +141,9 @@ def _apply_risk(orders: pd.DataFrame, config) -> tuple[pd.DataFrame, pd.DataFram
             risk_portfolio.apply_trade(trade)
         else:
             order_record[ORDER_STATUS_COLUMN] = ORDER_STATUS_BLOCKED
-            order_record[ORDER_RISK_REASON_COLUMN] = result.events[0].reason if result.events else "Blocked by risk manager."
+            order_record[ORDER_RISK_REASON_COLUMN] = (
+                result.events[0].reason if result.events else "Blocked by risk manager."
+            )
         audited.append(order_record)
     audited_columns = [*orders.columns, *ORDER_AUDIT_COLUMNS]
     return (
@@ -152,17 +162,28 @@ def _skip_execution(orders: pd.DataFrame) -> pd.DataFrame:
 
 def _as_order_quantity(value) -> int:
     if isinstance(value, bool):
-        raise RunError(f"order quantity must be an integer before risk orchestration. Received {value!r}.")
+        raise RunError(
+            f"order quantity must be an integer before risk orchestration. Received {value!r}."
+        )
     if isinstance(value, Real):
         numeric = float(value)
         if not math.isfinite(numeric):
-            raise RunError(f"order quantity must be a finite integer before risk orchestration. Received {value!r}.")
+            raise RunError(
+                "order quantity must be a finite integer before risk orchestration. "
+                f"Received {value!r}."
+            )
         if not numeric.is_integer():
-            raise RunError(f"order quantity must be an integer before risk orchestration. Received {value!r}.")
+            raise RunError(
+                f"order quantity must be an integer before risk orchestration. Received {value!r}."
+            )
     try:
         quantity = int(value)
     except (OverflowError, TypeError, ValueError) as exc:
-        raise RunError(f"order quantity must be an integer before risk orchestration. Received {value!r}.") from exc
+        raise RunError(
+            f"order quantity must be an integer before risk orchestration. Received {value!r}."
+        ) from exc
     if quantity <= 0:
-        raise RunError(f"order quantity must be > 0 before risk orchestration. Received {quantity}.")
+        raise RunError(
+            f"order quantity must be > 0 before risk orchestration. Received {quantity}."
+        )
     return quantity
