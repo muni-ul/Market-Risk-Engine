@@ -87,6 +87,8 @@ For a documentation map, see `docs/README.md`.
 
 For a quick evaluator walkthrough, see `docs/REVIEWER_GUIDE.md`.
 
+For a requirement-by-requirement evidence map, see `docs/REQUIREMENTS_TRACEABILITY.md`.
+
 For a short demo and screenshot-capture path, see `docs/DEMO_WALKTHROUGH.md`.
 
 For a module-level implementation reference, see `docs/API_REFERENCE.md`.
