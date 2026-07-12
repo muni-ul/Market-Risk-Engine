@@ -34,3 +34,14 @@ desktop plotting window is not required.
 
 These differences should not change the stable output contracts documented in
 `docs/sample_outputs/`.
+
+## Validation On Different Machines
+
+Use `python scripts/local_verify.py --list` to preview the local validation
+sequence on a new machine before running it. For a narrower first check, use a
+targeted helper command such as `python scripts/local_verify.py --only ruff
+--only demo`.
+
+If a platform-specific issue appears during setup, artifact generation, or
+benchmark review, use `docs/DEBUGGING_GUIDE.md` for triage and
+`docs/FINAL_REVIEW_CHECKLIST.md` for the full resume-ready validation gate.

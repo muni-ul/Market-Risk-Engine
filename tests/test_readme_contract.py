@@ -628,6 +628,19 @@ def test_testing_strategy_documents_validation_map():
     assert "No profitability" in testing_strategy
 
 
+def test_platform_notes_document_cross_machine_validation_flow():
+    with open("docs/PLATFORM_NOTES.md", encoding="utf-8") as platform_file:
+        platform_notes = platform_file.read()
+
+    assert "Platform Notes" in platform_notes
+    assert "Expected Differences By Machine" in platform_notes
+    assert "Validation On Different Machines" in platform_notes
+    assert "python scripts/local_verify.py --list" in platform_notes
+    assert "python scripts/local_verify.py --only ruff" in platform_notes
+    assert "docs/DEBUGGING_GUIDE.md" in platform_notes
+    assert "docs/FINAL_REVIEW_CHECKLIST.md" in platform_notes
+
+
 def test_debugging_guide_documents_error_triage():
     with open("docs/DEBUGGING_GUIDE.md", encoding="utf-8") as debugging_guide_file:
         debugging_guide = debugging_guide_file.read()
