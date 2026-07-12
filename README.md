@@ -93,6 +93,8 @@ For a module-level implementation reference, see `docs/API_REFERENCE.md`.
 
 For field-by-field YAML settings, see `docs/CONFIG_REFERENCE.md`.
 
+For defensive validation, error types, and edge-case handling, see `docs/VALIDATION_NOTES.md`.
+
 For benchmark assumptions, output columns, and speedup caveats, see `docs/PERFORMANCE_NOTES.md`.
 
 For local failure triage and `--debug` usage, see `docs/DEBUGGING_GUIDE.md`.

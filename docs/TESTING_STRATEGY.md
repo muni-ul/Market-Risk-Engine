@@ -29,6 +29,9 @@ pytest tests/test_risk.py
 Use the full suite for the final local verification pass. Use targeted files
 when discussing one subsystem in an interview.
 
+For a reviewer-facing map of defensive checks and failure paths, see
+`docs/VALIDATION_NOTES.md`.
+
 ## Design Choices
 
 - Tests use deterministic seeds and local files, not live market data or network

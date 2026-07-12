@@ -18,6 +18,7 @@ PyRiskLab is a local Python simulation engine that uses options pricing as the d
 - Deterministic seeds make simulations reproducible and debuggable.
 - Black-Scholes pricing and Greeks are separated into focused numerical modules.
 - The strategy is intentionally simple because it exists to drive system behavior, not profitability.
+- Defensive validation is layered: config catches user mistakes early, domain modules protect invariants, and the CLI keeps expected errors readable.
 - Risk validation is separate from portfolio accounting and fake execution.
 - `configs/risk_stress.yaml` intentionally tightens position and notional limits so reviewers can see blocked orders and readable risk events.
 - Reporting uses CSV, PNG, and Markdown so reviewers can inspect outputs without a dashboard.

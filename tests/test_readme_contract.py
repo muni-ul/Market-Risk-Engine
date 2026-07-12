@@ -23,6 +23,7 @@ def test_readme_contains_required_demo_and_scope_language():
     assert "docs/DEMO_WALKTHROUGH.md" in readme
     assert "docs/API_REFERENCE.md" in readme
     assert "docs/CONFIG_REFERENCE.md" in readme
+    assert "docs/VALIDATION_NOTES.md" in readme
     assert "docs/PERFORMANCE_NOTES.md" in readme
     assert "docs/DEBUGGING_GUIDE.md" in readme
     assert "docs/TESTING_STRATEGY.md" in readme
@@ -155,6 +156,7 @@ def test_sample_output_docs_are_linked_and_present():
         assert "docs/API_REFERENCE.md" in checklist
         assert "docs/DEMO_WALKTHROUGH.md" in checklist
         assert "docs/CONFIG_REFERENCE.md" in checklist
+        assert "docs/VALIDATION_NOTES.md" in checklist
         assert "docs/PERFORMANCE_NOTES.md" in checklist
         assert "docs/DEBUGGING_GUIDE.md" in checklist
         assert "docs/TESTING_STRATEGY.md" in checklist
@@ -185,6 +187,7 @@ def test_reviewer_guide_contains_demo_and_scope_contracts():
     assert "summary_report.md" in reviewer_guide
     assert "run_metadata.json" in reviewer_guide
     assert "docs/CONFIG_REFERENCE.md" in reviewer_guide
+    assert "docs/VALIDATION_NOTES.md" in reviewer_guide
     assert "docs/DEMO_WALKTHROUGH.md" in reviewer_guide
     assert "docs/FINAL_REVIEW_CHECKLIST.md" in reviewer_guide
     assert "docs/sample_outputs/artifact_manifest.md" in reviewer_guide
@@ -225,6 +228,7 @@ def test_docs_index_links_reviewer_and_engineering_docs():
         "ARCHITECTURE.md",
         "API_REFERENCE.md",
         "CONFIG_REFERENCE.md",
+        "VALIDATION_NOTES.md",
         "PERFORMANCE_NOTES.md",
         "DEBUGGING_GUIDE.md",
         "TESTING_STRATEGY.md",
@@ -235,6 +239,29 @@ def test_docs_index_links_reviewer_and_engineering_docs():
     ):
         assert doc_name in docs_index
     assert "results/.gitkeep" in docs_index
+
+
+def test_validation_notes_explain_defensive_error_contracts():
+    with open("docs/VALIDATION_NOTES.md", encoding="utf-8") as validation_file:
+        validation_notes = validation_file.read()
+
+    assert "PyRiskLab Validation Notes" in validation_notes
+    assert "PyRiskLabError" in validation_notes
+    assert "ConfigError" in validation_notes
+    assert "MarketSimulationError" in validation_notes
+    assert "PricingError" in validation_notes
+    assert "GreeksError" in validation_notes
+    assert "StrategyError" in validation_notes
+    assert "ExecutionError" in validation_notes
+    assert "PortfolioError" in validation_notes
+    assert "RiskError" in validation_notes
+    assert "ReportingError" in validation_notes
+    assert "BenchmarkError" in validation_notes
+    assert "RunError" in validation_notes
+    assert "non-finite" in validation_notes
+    assert "Selling more contracts" in validation_notes
+    assert "Blocked simulated orders" in validation_notes
+    assert "--debug" in validation_notes
 
 
 def test_architecture_doc_contains_reviewable_data_flow_diagram():
@@ -362,6 +389,7 @@ def test_testing_strategy_documents_validation_map():
 
     assert "PyRiskLab Testing Strategy" in testing_strategy
     assert "pytest" in testing_strategy
+    assert "docs/VALIDATION_NOTES.md" in testing_strategy
     for test_file in (
         "test_config.py",
         "test_pricing.py",
