@@ -4,6 +4,10 @@ PyRiskLab is a local simulation project. It does not require accounts, API keys,
 broker credentials, live market-data feeds, databases, hosted services, or cloud
 deployment to run the Version 1 MVP.
 
+The security posture is intentionally simple: PyRiskLab is not a connected
+trading system, not a live-data client, and not a secrets-bearing service. It is
+a local reproducible simulation tool for software-engineering review.
+
 ## Supported Version
 
 | Version | Supported |
@@ -19,6 +23,8 @@ deployment to run the Version 1 MVP.
   advice features.
 - Treat generated CSV, PNG, JSON, YAML, and Markdown artifacts as local outputs
   created by deterministic demo configs.
+- Do not treat generated outputs as production records or evidence of real
+  trading activity; they are reproducible simulation artifacts.
 
 ## Reporting Issues
 
