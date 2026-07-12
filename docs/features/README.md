@@ -8,6 +8,17 @@ The implementation now lives in `src/pyrisklab/`, `configs/`, `tests/`, and the
 reviewer docs. This index gives a quick map from the planning docs to the
 current evidence in the repository.
 
+## Historical Spec Notes
+
+The individual feature files are preserved as build-planning documents. Some of
+them intentionally keep early-stage language such as "Open Question",
+"placeholder", or "later features" because they record the sequence used to
+build Version 1.
+
+For current project status, use the implemented evidence below,
+`docs/REQUIREMENTS_TRACEABILITY.md`, and `docs/PROJECT_STATUS.md` rather than
+treating every planning note as an unresolved task.
+
 ## Build Order
 
 1. Config-driven CLI: implemented in `src/pyrisklab/cli.py`,
