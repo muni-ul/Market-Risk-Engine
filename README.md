@@ -221,7 +221,7 @@ If `benchmark.enabled` is false in a config, the report calls that out explicitl
 
 ## Screenshots Or Sample Output References
 
-For a committed example of the expected terminal and report shape, see `docs/SAMPLE_OUTPUT.md`. For more concrete output contracts, see `docs/sample_outputs/`, including `docs/sample_outputs/chart_artifacts.md` for the generated PNG chart set and `docs/sample_outputs/risk_stress_demo.md` for the risk-audit preset.
+For a committed example of the expected terminal and report shape, see `docs/SAMPLE_OUTPUT.md`. For more concrete output contracts, see `docs/sample_outputs/`, including `docs/sample_outputs/artifact_manifest.md` for the full generated file set, `docs/sample_outputs/chart_artifacts.md` for the generated PNG chart set, and `docs/sample_outputs/risk_stress_demo.md` for the risk-audit preset.
 
 For the project story and resume/interview framing, see `docs/REVIEWER_GUIDE.md`, `docs/PORTFOLIO_CASE_STUDY.md`, and `docs/INTERVIEW_NOTES.md`.
 

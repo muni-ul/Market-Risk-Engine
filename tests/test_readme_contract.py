@@ -14,6 +14,7 @@ def test_readme_contains_required_demo_and_scope_language():
     assert "results/demo_run/" in readme
     assert "docs/SAMPLE_OUTPUT.md" in readme
     assert "docs/sample_outputs/" in readme
+    assert "docs/sample_outputs/artifact_manifest.md" in readme
     assert "docs/sample_outputs/chart_artifacts.md" in readme
     assert "docs/sample_outputs/risk_stress_demo.md" in readme
     assert "docs/REVIEWER_GUIDE.md" in readme
@@ -58,6 +59,7 @@ def test_sample_output_docs_are_linked_and_present():
         "summary_report_excerpt.md",
         "csv_contracts.md",
         "chart_artifacts.md",
+        "artifact_manifest.md",
         "run_metadata_example.md",
         "risk_stress_demo.md",
     ):
@@ -113,6 +115,12 @@ def test_sample_output_docs_are_linked_and_present():
         assert "auditable run metadata" in case_study
         assert "small portfolio of contracts" in case_study
         assert "simulation-only" in case_study
+    with open("docs/sample_outputs/artifact_manifest.md", encoding="utf-8") as manifest_file:
+        artifact_manifest = manifest_file.read()
+        assert "Generated Artifact Manifest" in artifact_manifest
+        assert "Reviewer signal" in artifact_manifest
+        for artifact_name in EXPECTED_ARTIFACT_NAMES:
+            assert artifact_name in artifact_manifest
     with open("docs/INTERVIEW_NOTES.md", encoding="utf-8") as interview_file:
         interview_notes = interview_file.read()
         assert "config SHA-256" in interview_notes
@@ -123,6 +131,7 @@ def test_sample_output_docs_are_linked_and_present():
         assert "pytest" in checklist
         assert "ruff check ." in checklist
         assert "python -m pyrisklab run --config configs/demo.yaml --overwrite" in checklist
+        assert "docs/sample_outputs/artifact_manifest.md" in checklist
         assert "Simulation-only language" in checklist
         assert "config_used.yaml" in checklist
         assert "pricing_history.csv" in checklist
@@ -149,6 +158,7 @@ def test_reviewer_guide_contains_demo_and_scope_contracts():
     assert "summary_report.md" in reviewer_guide
     assert "run_metadata.json" in reviewer_guide
     assert "docs/FINAL_REVIEW_CHECKLIST.md" in reviewer_guide
+    assert "docs/sample_outputs/artifact_manifest.md" in reviewer_guide
     assert "benchmark settings" in reviewer_guide
     assert "generated artifact byte sizes" in reviewer_guide
     assert "benchmark.csv" in reviewer_guide
