@@ -22,7 +22,7 @@ That command loads a YAML config, generates a synthetic market path, prices a Eu
 - Used `argparse` and a thin CLI so orchestration stays in `pipeline.py`.
 - Used dataclasses for typed config and domain objects instead of passing raw dictionaries through the whole system.
 - Used deterministic seeds and copied `config_used.yaml` into every run folder to make outputs reproducible.
-- Recorded order status counts, expected and generated artifact names, and artifact byte sizes in run metadata so reviewers can audit execution behavior and output completeness.
+- Recorded the config SHA-256 digest, benchmark settings, row counts, order status counts, expected/generated artifact names, and artifact byte sizes in run metadata so reviewers can audit reproducibility, execution behavior, and output completeness.
 - Kept strategy logic intentionally simple because its purpose is to drive execution, portfolio, and risk behavior, not to claim profitability.
 - Stored outputs as CSV, PNG, JSON, and Markdown because those formats are easy to inspect in GitHub, VS Code, Excel, and pandas.
 - Added `configs/risk_stress.yaml` as an optional reviewer demo for blocked orders and readable risk events.
@@ -56,7 +56,7 @@ The test suite is designed around behavior that would matter in a real engineeri
 - Execution tests cover deterministic fills, notional calculation, and invalid order quantities.
 - Portfolio tests cover cash, positions, realized P&L, and drawdown.
 - Risk tests cover allowed trades, blocked trades, available cash, defensive order validation, and readable event reasons.
-- Reporting tests cover empty output states and metadata artifacts.
+- Reporting tests cover empty output states, metadata artifacts, and generated artifact completeness.
 
 ## Performance Signal
 
@@ -89,7 +89,7 @@ results/demo_run/
 
 For a committed preview of the report and CSV shapes, see `docs/sample_outputs/`.
 
-The strongest interview story is that PyRiskLab uses finance as the domain, but the project is really about building a reliable Python simulation pipeline with clean modules, deterministic configs, testable state transitions, risk guardrails, benchmark evidence, and inspectable local reports.
+The strongest interview story is that PyRiskLab uses finance as the domain, but the project is really about building a reliable Python simulation pipeline with clean modules, deterministic configs, testable state transitions, risk guardrails, benchmark evidence, auditable run metadata, and inspectable local reports.
 
 ## What I Would Improve Next
 
