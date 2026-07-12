@@ -32,6 +32,18 @@ def test_editorconfig_documents_basic_formatting_contract():
     assert "indent_style = space" in editorconfig
 
 
+def test_gitattributes_documents_line_endings_and_binary_artifacts():
+    with open(".gitattributes", encoding="utf-8") as gitattributes_file:
+        gitattributes = gitattributes_file.read()
+
+    assert "* text=auto eol=lf" in gitattributes
+    assert "*.py text eol=lf" in gitattributes
+    assert "*.md text eol=lf" in gitattributes
+    assert "*.yaml text eol=lf" in gitattributes
+    assert "*.csv text eol=lf" in gitattributes
+    assert "*.png binary" in gitattributes
+
+
 def test_env_example_documents_no_required_secrets():
     with open(".env.example", encoding="utf-8") as env_example_file:
         env_example = env_example_file.read()
