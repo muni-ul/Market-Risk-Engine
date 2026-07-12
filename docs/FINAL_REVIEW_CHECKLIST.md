@@ -134,6 +134,8 @@ to have a repo that is easy to run, easy to audit, and honest about its scope.
   market data, not brokerage integration, and not investment advice.
 - README links to the reviewer docs, sample-output docs, portfolio/resume docs,
   changelog, contributing guide, security notes, and this checklist.
+- GitHub About description, topics, and pinned-repo wording follow
+  `docs/GITHUB_PROFILE_SETUP.md`.
 - Resume bullets match what the project actually implements.
 
 ## Resume Readiness

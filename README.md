@@ -157,6 +157,9 @@ tradeoffs, and interview story, see `docs/PORTFOLIO_CASE_STUDY.md`.
 
 For resume-ready project wording and bullet options, see `docs/RESUME_SNIPPETS.md`.
 
+For suggested GitHub About text, topics, and pinned-repo wording, see
+`docs/GITHUB_PROFILE_SETUP.md`.
+
 For the Version 1 release summary, see `CHANGELOG.md`.
 
 For local development workflow and scope rules, see `CONTRIBUTING.md`.

@@ -53,6 +53,7 @@ performance tooling rather than a trading product.
 | `PORTFOLIO_CASE_STUDY.md` | Interview story, tradeoffs, and resume positioning. |
 | `INTERVIEW_NOTES.md` | One-minute pitch, talking points, and resume bullets. |
 | `RESUME_SNIPPETS.md` | Resume-ready project description, bullet options, and keywords. |
+| `GITHUB_PROFILE_SETUP.md` | Suggested GitHub About text, topics, and pinned-repo wording. |
 | `PROJECT_SELECTION_BRIEF.md` | Original project-selection rationale. |
 | `PROJECT_MASTER_BLUEPRINT.md` | Full source blueprint used to build the project. |
 | `TECH_STACK_AND_ARCHITECTURE.md` | Original stack and architecture planning notes. |
