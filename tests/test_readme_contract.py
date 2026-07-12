@@ -18,6 +18,7 @@ def test_readme_contains_required_demo_and_scope_language():
     assert "docs/sample_outputs/chart_artifacts.md" in readme
     assert "docs/sample_outputs/risk_stress_demo.md" in readme
     assert "docs/REVIEWER_GUIDE.md" in readme
+    assert "docs/CONFIG_REFERENCE.md" in readme
     assert "docs/PORTFOLIO_CASE_STUDY.md" in readme
     assert "docs/FINAL_REVIEW_CHECKLIST.md" in readme
     assert "issue tracker" in readme
@@ -131,6 +132,7 @@ def test_sample_output_docs_are_linked_and_present():
         assert "pytest" in checklist
         assert "ruff check ." in checklist
         assert "python -m pyrisklab run --config configs/demo.yaml --overwrite" in checklist
+        assert "docs/CONFIG_REFERENCE.md" in checklist
         assert "docs/sample_outputs/artifact_manifest.md" in checklist
         assert "Simulation-only language" in checklist
         assert "config_used.yaml" in checklist
@@ -157,6 +159,7 @@ def test_reviewer_guide_contains_demo_and_scope_contracts():
     assert "python -m pyrisklab run --config configs/risk_stress.yaml --overwrite" in reviewer_guide
     assert "summary_report.md" in reviewer_guide
     assert "run_metadata.json" in reviewer_guide
+    assert "docs/CONFIG_REFERENCE.md" in reviewer_guide
     assert "docs/FINAL_REVIEW_CHECKLIST.md" in reviewer_guide
     assert "docs/sample_outputs/artifact_manifest.md" in reviewer_guide
     assert "benchmark settings" in reviewer_guide
@@ -165,3 +168,16 @@ def test_reviewer_guide_contains_demo_and_scope_contracts():
     assert "pytest" in reviewer_guide
     assert "ruff check ." in reviewer_guide
     assert "not a trading bot" in reviewer_guide
+
+
+def test_config_reference_documents_demo_settings():
+    with open("docs/CONFIG_REFERENCE.md", encoding="utf-8") as config_reference_file:
+        config_reference = config_reference_file.read()
+
+    assert "configs/demo.yaml" in config_reference
+    assert "configs/risk_stress.yaml" in config_reference
+    assert "simulation-only" in config_reference
+    for section in ("market", "option", "strategy", "execution", "risk", "benchmark"):
+        assert f"## `{section}`" in config_reference
+    for field in ("run_name", "seed", "output_dir", "contract_multiplier", "max_trade_notional"):
+        assert f"`{field}`" in config_reference
