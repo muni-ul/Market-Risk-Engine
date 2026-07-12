@@ -37,6 +37,8 @@ performance-aware engineering.
 
 - `README.md`: project overview, setup, demo command, outputs, and boundaries
 - `docs/REVIEWER_GUIDE.md`: five-minute technical review path
+- `docs/FAQ.md`: direct answers to common reviewer and interview questions
+- `docs/DESIGN_DECISIONS.md`: concise summary of major engineering tradeoffs
 - `docs/PROJECT_STATUS.md`: implemented scope and user-run validation commands
 - `docs/REQUIREMENTS_TRACEABILITY.md`: Version 1 requirements mapped to evidence
 - `docs/RESUME_SNIPPETS.md`: resume-ready bullets and keywords
