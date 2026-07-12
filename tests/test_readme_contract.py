@@ -21,6 +21,7 @@ def test_readme_contains_required_demo_and_scope_language():
     assert "docs/REVIEWER_GUIDE.md" in readme
     assert "docs/API_REFERENCE.md" in readme
     assert "docs/CONFIG_REFERENCE.md" in readme
+    assert "docs/TESTING_STRATEGY.md" in readme
     assert "docs/PORTFOLIO_CASE_STUDY.md" in readme
     assert "docs/FINAL_REVIEW_CHECKLIST.md" in readme
     assert "CHANGELOG.md" in readme
@@ -144,6 +145,7 @@ def test_sample_output_docs_are_linked_and_present():
         assert "SECURITY.md" in checklist
         assert "docs/API_REFERENCE.md" in checklist
         assert "docs/CONFIG_REFERENCE.md" in checklist
+        assert "docs/TESTING_STRATEGY.md" in checklist
         assert "docs/sample_outputs/artifact_manifest.md" in checklist
         assert "Simulation-only language" in checklist
         assert "config_used.yaml" in checklist
@@ -209,6 +211,7 @@ def test_docs_index_links_reviewer_and_engineering_docs():
         "ARCHITECTURE.md",
         "API_REFERENCE.md",
         "CONFIG_REFERENCE.md",
+        "TESTING_STRATEGY.md",
         "PORTFOLIO_CASE_STUDY.md",
         "INTERVIEW_NOTES.md",
         "sample_outputs/artifact_manifest.md",
@@ -281,3 +284,24 @@ def test_api_reference_documents_module_surface():
         "run_pricing_benchmark",
     ):
         assert public_name in api_reference
+
+
+def test_testing_strategy_documents_validation_map():
+    with open("docs/TESTING_STRATEGY.md", encoding="utf-8") as testing_strategy_file:
+        testing_strategy = testing_strategy_file.read()
+
+    assert "PyRiskLab Testing Strategy" in testing_strategy
+    assert "pytest" in testing_strategy
+    for test_file in (
+        "test_config.py",
+        "test_pricing.py",
+        "test_greeks.py",
+        "test_execution.py",
+        "test_portfolio.py",
+        "test_risk.py",
+        "test_reporting.py",
+        "test_pipeline_smoke.py",
+    ):
+        assert test_file in testing_strategy
+    assert "No live-market" in testing_strategy
+    assert "No profitability" in testing_strategy

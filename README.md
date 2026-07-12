@@ -178,6 +178,8 @@ For the expected blocked-order output shape, see `docs/sample_outputs/risk_stres
 pytest
 ```
 
+For the test-suite rationale and coverage map, see `docs/TESTING_STRATEGY.md`.
+
 Code quality check:
 
 ```bash
