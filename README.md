@@ -113,7 +113,7 @@ For local development workflow and scope rules, see `CONTRIBUTING.md`.
 
 For no-secrets and local-only security boundaries, see `SECURITY.md`.
 
-Package metadata also points to the repository, docs folder, and issue tracker for standard GitHub navigation.
+Package metadata points to the repository, docs folder, and issue tracker for standard GitHub navigation, and classifies the project as a console-based testing, automation, quality, and performance-tooling portfolio project.
 
 ## Local Setup
 

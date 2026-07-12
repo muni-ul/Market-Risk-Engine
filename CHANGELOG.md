@@ -24,7 +24,7 @@ portfolio review.
 - CSV, PNG, copied-config, JSON metadata, and Markdown summary-report outputs under `results/<run_name>/`.
 - Reviewer-focused documentation, sample-output contracts, config reference, architecture diagrams, final checklist, and interview framing.
 - Requirement traceability, validation notes, performance notes, debugging guide, demo walkthrough, project status summary, resume snippets, and a local verification helper with preview, skip, and targeted `--only` modes.
-- Packaging metadata, MIT license, typed package marker, repo hygiene rules, scoped GitHub issue/PR templates, and pytest coverage for core behavior, helper command planning, and documentation contracts.
+- Console-focused package metadata with testing, automation, quality-assurance, and performance-tooling classifiers, plus MIT license, typed package marker, repo hygiene rules, scoped GitHub issue/PR templates, and pytest coverage for core behavior, helper command planning, and documentation contracts.
 
 ### Scope Boundaries
 

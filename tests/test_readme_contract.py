@@ -38,6 +38,7 @@ def test_readme_contains_required_demo_and_scope_language():
     assert "CONTRIBUTING.md" in readme
     assert "SECURITY.md" in readme
     assert "issue tracker" in readme
+    assert "console-based testing, automation, quality, and performance-tooling" in readme
     assert "## Reviewer Checklist" in readme
     assert "```mermaid" in readme
     assert "Simulation pipeline" in readme
@@ -402,6 +403,8 @@ def test_changelog_summarizes_version_one_mvp():
     assert "local verification helper" in changelog
     assert "targeted `--only` modes" in changelog
     assert "helper command planning" in changelog
+    assert "quality-assurance" in changelog
+    assert "performance-tooling classifiers" in changelog
     assert "project status summary" in changelog
     assert "resume snippets" in changelog
     assert "scoped GitHub issue/PR templates" in changelog
