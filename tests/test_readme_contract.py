@@ -447,6 +447,9 @@ def test_performance_notes_explain_benchmark_contract():
     assert "passed_equivalence_check" in performance_notes
     assert "max_abs_error_vs_loop" in performance_notes
     assert "machine-dependent" in performance_notes
+    assert "docs/sample_outputs/run_metadata_example.md" in performance_notes
+    assert "benchmark_settings" in performance_notes
+    assert "generated artifact byte" in performance_notes
     assert "Numba" in performance_notes
 
 

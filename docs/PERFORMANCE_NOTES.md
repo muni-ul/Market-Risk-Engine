@@ -62,6 +62,11 @@ Python version, NumPy/SciPy versions, background load, and
 The repository therefore documents the benchmark shape and assumptions instead
 of claiming a fixed speedup.
 
+For run-level reproducibility context, inspect `run_metadata.json` after a demo
+run or see `docs/sample_outputs/run_metadata_example.md`; it records
+`benchmark_settings`, generated artifact names, and generated artifact byte
+sizes alongside the benchmark CSV.
+
 ## Scope Boundaries
 
 This is a local Python benchmark for software-engineering evidence. It is not:
