@@ -25,7 +25,7 @@ notebook.
 | Markdown summary report | `docs/SAMPLE_OUTPUT.md` and `docs/sample_outputs/summary_report_excerpt.md`. |
 | Benchmark compares loop vs vectorized NumPy | `src/pyrisklab/benchmark.py`, `tests/test_benchmark.py`, `docs/PERFORMANCE_NOTES.md`, and `benchmark.csv` contract docs. |
 | Simulation-only scope | `README.md`, `SECURITY.md`, `docs/REVIEWER_GUIDE.md`, and `docs/VALIDATION_NOTES.md` all reinforce no live data, no brokerage integration, no real trades, and no investment advice. |
-| Polished reviewer presentation | `README.md`, `docs/DEMO_WALKTHROUGH.md`, `docs/REVIEWER_GUIDE.md`, `docs/PORTFOLIO_CASE_STUDY.md`, and `docs/INTERVIEW_NOTES.md`. |
+| Polished reviewer presentation | `README.md`, `docs/RECRUITER_BRIEF.md`, `docs/FAQ.md`, `docs/DESIGN_DECISIONS.md`, `docs/DEMO_WALKTHROUGH.md`, `docs/REVIEWER_GUIDE.md`, `docs/PORTFOLIO_CASE_STUDY.md`, and `docs/INTERVIEW_NOTES.md`. |
 
 ## Final Verification Commands
 
