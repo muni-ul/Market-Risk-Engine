@@ -16,7 +16,8 @@ Describe the issue briefly.
 python -m pyrisklab run --config configs/demo.yaml --overwrite
 ```
 
-If you used a different config, name it here.
+If you used a different config, name it here. Generated result folders should
+stay local; share only the relevant filenames, row counts, or short excerpts.
 
 ## Expected Behavior
 
@@ -37,6 +38,9 @@ What happened instead?
 If the run completed, mention any relevant files under `results/<run_name>/`,
 especially `summary_report.md`, `run_metadata.json`, `orders.csv`,
 `risk_events.csv`, or `benchmark.csv`.
+
+If the issue affects output contracts, mention the expected column, chart,
+metadata, or summary-report section.
 
 ## Scope Check
 

@@ -44,6 +44,9 @@ python -m pyrisklab run --config configs/risk_stress.yaml --overwrite
 Will this change any generated artifact names, columns, charts, metadata fields,
 or summary-report sections?
 
+Should this update `docs/REVIEWER_GUIDE.md`, `docs/FINAL_REVIEW_CHECKLIST.md`,
+or `docs/sample_outputs/`?
+
 ## Scope Check
 
 PyRiskLab Version 1 is local and simulation-only. Feature requests should not
