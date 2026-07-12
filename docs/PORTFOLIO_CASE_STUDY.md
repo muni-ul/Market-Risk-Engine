@@ -94,6 +94,6 @@ The strongest interview story is that PyRiskLab uses finance as the domain, but 
 ## What I Would Improve Next
 
 - Add a curated `docs/assets/` screenshot set after final demo outputs are generated.
-- Add multiple option contracts while preserving the single-contract MVP path.
-- Add optional Numba benchmarking only after the baseline NumPy benchmark remains well documented.
-- Add richer report styling while keeping the project local and dependency-light.
+- Extend the pipeline from one configured option contract to a small portfolio of contracts while preserving deterministic configs and the same one-command demo path.
+- Add optional Numba or multiprocessing benchmark variants only after the baseline loop-vs-NumPy benchmark remains well documented and reproducible.
+- Add richer Markdown report styling and comparison tables while keeping the project local, dependency-light, and simulation-only.

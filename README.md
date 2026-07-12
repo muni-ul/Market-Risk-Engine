@@ -281,9 +281,10 @@ PyRiskLab uses one configured option contract and a simplified deterministic fil
 
 ## Future Improvements
 
-- Add a curated `docs/assets/` screenshot set
-- Add multiple option contracts after the single-contract MVP is stable
-- Add optional Numba benchmarking after baseline NumPy behavior is documented
+- Add a curated `docs/assets/` screenshot set generated from a final local demo run.
+- Extend the pipeline from one configured option contract to a small portfolio of contracts while preserving the same deterministic CLI workflow.
+- Add optional Numba or multiprocessing benchmark variants only after the baseline loop-vs-NumPy comparison remains documented and reproducible.
+- Add richer Markdown report styling and comparison tables while keeping the project local, dependency-light, and simulation-only.
 
 ## Resume Bullet
 

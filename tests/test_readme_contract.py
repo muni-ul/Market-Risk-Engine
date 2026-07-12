@@ -41,6 +41,9 @@ def test_readme_contains_required_demo_and_scope_language():
     assert "local Python engineering project" in readme
     assert "vectorized NumPy pricing" in readme
     assert "repository hygiene" in readme
+    assert "## Future Improvements" in readme
+    assert "small portfolio of contracts" in readme
+    assert "simulation-only" in readme
 
 
 def test_sample_output_docs_are_linked_and_present():
@@ -106,6 +109,8 @@ def test_sample_output_docs_are_linked_and_present():
         assert "benchmark settings" in case_study
         assert "artifact byte sizes" in case_study
         assert "auditable run metadata" in case_study
+        assert "small portfolio of contracts" in case_study
+        assert "simulation-only" in case_study
     with open("docs/INTERVIEW_NOTES.md", encoding="utf-8") as interview_file:
         interview_notes = interview_file.read()
         assert "config SHA-256" in interview_notes
