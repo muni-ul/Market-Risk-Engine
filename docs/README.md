@@ -19,7 +19,7 @@ performance tooling rather than a trading product.
 | `DEMO_WALKTHROUGH.md` | Short demo path, screenshot targets, and interview talk track. |
 | `SAMPLE_OUTPUT.md` | Expected terminal output and summary-report shape. |
 | `sample_outputs/artifact_manifest.md` | Generated files and their reviewer signal. |
-| `FINAL_REVIEW_CHECKLIST.md` | Final local validation checklist before resume use. |
+| `FINAL_REVIEW_CHECKLIST.md` | Final local validation checklist and resume-ready gate. |
 
 ## Engineering References
 
