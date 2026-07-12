@@ -4,10 +4,11 @@ Use this page as the map for the project docs. PyRiskLab is a local Python
 simulation and reporting engine; the docs are organized around reviewer
 navigation, implementation architecture, reproducibility, and interview framing.
 
-For SWE-intern review, start with `PROJECT_STATUS.md`, `REVIEWER_GUIDE.md`,
-`FINAL_REVIEW_CHECKLIST.md`, and `RESUME_SNIPPETS.md`. Those pages frame the
-project as local Python simulation, automation, testing, debugging, and
-performance tooling rather than a trading product.
+For SWE-intern review, start with `PROJECT_STATUS.md`, `RECRUITER_BRIEF.md`,
+`FAQ.md`, `REVIEWER_GUIDE.md`, `FINAL_REVIEW_CHECKLIST.md`, and
+`RESUME_SNIPPETS.md`. Those pages frame the project as local Python simulation,
+automation, testing, debugging, and performance tooling rather than a trading
+product.
 
 ## Fast Reviewer Path
 
