@@ -30,6 +30,7 @@ navigation, implementation architecture, reproducibility, and interview framing.
 | --- | --- |
 | `../CHANGELOG.md` | Version 1 MVP release summary and scope boundaries. |
 | `../CONTRIBUTING.md` | Local setup, development checks, scope rules, and documentation update expectations. |
+| `../SECURITY.md` | No-secrets policy, supported version, and local-only security boundaries. |
 | `PORTFOLIO_CASE_STUDY.md` | Interview story, tradeoffs, and resume positioning. |
 | `INTERVIEW_NOTES.md` | One-minute pitch, talking points, and resume bullets. |
 | `PROJECT_SELECTION_BRIEF.md` | Original project-selection rationale. |

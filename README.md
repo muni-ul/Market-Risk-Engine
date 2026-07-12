@@ -82,6 +82,8 @@ For the Version 1 release summary, see `CHANGELOG.md`.
 
 For local development workflow and scope rules, see `CONTRIBUTING.md`.
 
+For no-secrets and local-only security boundaries, see `SECURITY.md`.
+
 Package metadata also points to the repository, docs folder, and issue tracker for standard GitHub navigation.
 
 ## Local Setup

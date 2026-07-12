@@ -66,7 +66,7 @@ In `run_metadata.json`, check that it includes:
 - README explains the project in the first 30 seconds.
 - README frames the project as Python simulation, automation, testing, and performance tooling.
 - README clearly says this is simulation only, not a trading bot, not live market data, not brokerage integration, and not investment advice.
-- README links to `docs/README.md`, `docs/REVIEWER_GUIDE.md`, `docs/CONFIG_REFERENCE.md`, `docs/SAMPLE_OUTPUT.md`, `docs/sample_outputs/`, `docs/sample_outputs/artifact_manifest.md`, `docs/PORTFOLIO_CASE_STUDY.md`, `CHANGELOG.md`, `CONTRIBUTING.md`, and this checklist.
+- README links to `docs/README.md`, `docs/REVIEWER_GUIDE.md`, `docs/CONFIG_REFERENCE.md`, `docs/SAMPLE_OUTPUT.md`, `docs/sample_outputs/`, `docs/sample_outputs/artifact_manifest.md`, `docs/PORTFOLIO_CASE_STUDY.md`, `CHANGELOG.md`, `CONTRIBUTING.md`, `SECURITY.md`, and this checklist.
 - Resume bullets match what the project actually implements.
 
 ## Resume Readiness
