@@ -45,7 +45,10 @@ def validate_config(raw: dict[str, Any]) -> RunConfig:
     if not run_name:
         raise ConfigError("run_name must not be empty.")
     if not RUN_NAME_RE.match(run_name):
-        raise ConfigError(f"run_name must use only letters, numbers, underscores, or hyphens. Received {run_name!r}.")
+        raise ConfigError(
+            "run_name must use only letters, numbers, underscores, or hyphens. "
+            f"Received {run_name!r}."
+        )
 
     seed = _as_int(_require(raw, "seed"), "seed")
     output_dir = str(raw.get("output_dir", "results")).strip()
@@ -76,44 +79,80 @@ def validate_config(raw: dict[str, Any]) -> RunConfig:
         symbol=_nonempty_str(option_raw, "option.symbol"),
         option_type=option_type,
         strike=_positive(option_raw, "option.strike"),
-        risk_free_rate=_as_float(_require(option_raw, "risk_free_rate", "option.risk_free_rate"), "option.risk_free_rate"),
+        risk_free_rate=_as_float(
+            _require(option_raw, "risk_free_rate", "option.risk_free_rate"),
+            "option.risk_free_rate",
+        ),
         volatility=_nonnegative(option_raw, "option.volatility"),
         days_to_expiry=_min_int(option_raw, "option.days_to_expiry", 0),
     )
 
     strategy = StrategyConfig(
         name=_nonempty_str(strategy_raw, "strategy.name"),
-        buy_delta_below=_as_float(_require(strategy_raw, "buy_delta_below", "strategy.buy_delta_below"), "strategy.buy_delta_below"),
-        sell_delta_above=_as_float(_require(strategy_raw, "sell_delta_above", "strategy.sell_delta_above"), "strategy.sell_delta_above"),
+        buy_delta_below=_as_float(
+            _require(strategy_raw, "buy_delta_below", "strategy.buy_delta_below"),
+            "strategy.buy_delta_below",
+        ),
+        sell_delta_above=_as_float(
+            _require(strategy_raw, "sell_delta_above", "strategy.sell_delta_above"),
+            "strategy.sell_delta_above",
+        ),
         trade_quantity=_positive_int(strategy_raw, "strategy.trade_quantity"),
-        min_steps_between_trades=_as_int(strategy_raw.get("min_steps_between_trades", 0), "strategy.min_steps_between_trades"),
+        min_steps_between_trades=_as_int(
+            strategy_raw.get("min_steps_between_trades", 0),
+            "strategy.min_steps_between_trades",
+        ),
     )
     if strategy.name != "simple_delta_rule":
         raise ConfigError(f"strategy.name must be 'simple_delta_rule'. Received {strategy.name!r}.")
     if not -1 <= strategy.buy_delta_below <= 1:
-        raise ConfigError(f"strategy.buy_delta_below must be between -1 and 1. Received {strategy.buy_delta_below}.")
+        raise ConfigError(
+            "strategy.buy_delta_below must be between -1 and 1. "
+            f"Received {strategy.buy_delta_below}."
+        )
     if not -1 <= strategy.sell_delta_above <= 1:
-        raise ConfigError(f"strategy.sell_delta_above must be between -1 and 1. Received {strategy.sell_delta_above}.")
+        raise ConfigError(
+            "strategy.sell_delta_above must be between -1 and 1. "
+            f"Received {strategy.sell_delta_above}."
+        )
     if strategy.buy_delta_below >= strategy.sell_delta_above:
         raise ConfigError(
             "strategy.buy_delta_below must be less than strategy.sell_delta_above. "
             f"Received {strategy.buy_delta_below} and {strategy.sell_delta_above}."
         )
     if strategy.min_steps_between_trades < 0:
-        raise ConfigError(f"strategy.min_steps_between_trades must be >= 0. Received {strategy.min_steps_between_trades}.")
+        raise ConfigError(
+            "strategy.min_steps_between_trades must be >= 0. "
+            f"Received {strategy.min_steps_between_trades}."
+        )
 
     execution = ExecutionConfig(
         enabled=_as_bool(execution_raw.get("enabled", True), "execution.enabled"),
         fill_model=str(execution_raw.get("fill_model", "deterministic_mid")),
-        commission_per_contract=_as_float(execution_raw.get("commission_per_contract", 0.0), "execution.commission_per_contract"),
-        contract_multiplier=_as_int(execution_raw.get("contract_multiplier", 100), "execution.contract_multiplier"),
+        commission_per_contract=_as_float(
+            execution_raw.get("commission_per_contract", 0.0),
+            "execution.commission_per_contract",
+        ),
+        contract_multiplier=_as_int(
+            execution_raw.get("contract_multiplier", 100),
+            "execution.contract_multiplier",
+        ),
     )
     if execution.fill_model != "deterministic_mid":
-        raise ConfigError(f"execution.fill_model must be 'deterministic_mid'. Received {execution.fill_model!r}.")
+        raise ConfigError(
+            f"execution.fill_model must be 'deterministic_mid'. "
+            f"Received {execution.fill_model!r}."
+        )
     if execution.commission_per_contract < 0:
-        raise ConfigError(f"execution.commission_per_contract must be >= 0. Received {execution.commission_per_contract}.")
+        raise ConfigError(
+            "execution.commission_per_contract must be >= 0. "
+            f"Received {execution.commission_per_contract}."
+        )
     if execution.contract_multiplier <= 0:
-        raise ConfigError(f"execution.contract_multiplier must be > 0. Received {execution.contract_multiplier}.")
+        raise ConfigError(
+            "execution.contract_multiplier must be > 0. "
+            f"Received {execution.contract_multiplier}."
+        )
 
     risk = RiskConfig(
         starting_cash=_positive(risk_raw, "risk.starting_cash"),
@@ -121,7 +160,10 @@ def validate_config(raw: dict[str, Any]) -> RunConfig:
         max_trade_notional=_nonnegative(risk_raw, "risk.max_trade_notional"),
         max_drawdown_pct=_nonnegative(risk_raw, "risk.max_drawdown_pct"),
         max_loss_pct=_nonnegative(risk_raw, "risk.max_loss_pct"),
-        stop_trading_on_breach=_as_bool(risk_raw.get("stop_trading_on_breach", True), "risk.stop_trading_on_breach"),
+        stop_trading_on_breach=_as_bool(
+            risk_raw.get("stop_trading_on_breach", True),
+            "risk.stop_trading_on_breach",
+        ),
     )
     if risk.max_drawdown_pct > 1:
         raise ConfigError(f"risk.max_drawdown_pct must be <= 1. Received {risk.max_drawdown_pct}.")
@@ -131,14 +173,28 @@ def validate_config(raw: dict[str, Any]) -> RunConfig:
     enabled = _as_bool(_require(benchmark_raw, "enabled", "benchmark.enabled"), "benchmark.enabled")
     benchmark = BenchmarkConfig(
         enabled=enabled,
-        num_prices=_positive_int(benchmark_raw, "benchmark.num_prices") if enabled else _as_int(benchmark_raw.get("num_prices", 1), "benchmark.num_prices"),
+        num_prices=(
+            _positive_int(benchmark_raw, "benchmark.num_prices")
+            if enabled
+            else _as_int(benchmark_raw.get("num_prices", 1), "benchmark.num_prices")
+        ),
         seed=_as_int(benchmark_raw.get("seed", seed), "benchmark.seed"),
         tolerance=_as_float(benchmark_raw.get("tolerance", 1e-8), "benchmark.tolerance"),
     )
     if benchmark.tolerance <= 0:
         raise ConfigError(f"benchmark.tolerance must be > 0. Received {benchmark.tolerance}.")
 
-    return RunConfig(run_name, seed, output_dir, market, option, strategy, execution, risk, benchmark)
+    return RunConfig(
+        run_name,
+        seed,
+        output_dir,
+        market,
+        option,
+        strategy,
+        execution,
+        risk,
+        benchmark,
+    )
 
 
 def _section(raw: dict[str, Any], name: str) -> dict[str, Any]:
