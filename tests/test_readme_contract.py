@@ -542,6 +542,9 @@ def test_testing_strategy_documents_validation_map():
     assert "package-root API delegation" in testing_strategy
     assert "pyrisklab.run_simulation(...)" in testing_strategy
     assert "monkeypatched delegation test" in testing_strategy
+    assert "python scripts/local_verify.py --list" in testing_strategy
+    assert "python scripts/local_verify.py --only pytest" in testing_strategy
+    assert "python scripts/local_verify.py --only risk-demo" in testing_strategy
     assert "No live-market" in testing_strategy
     assert "No profitability" in testing_strategy
 

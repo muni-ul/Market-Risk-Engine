@@ -35,6 +35,10 @@ use `docs/FINAL_REVIEW_CHECKLIST.md`.
 The optional `scripts/local_verify.py` helper is covered at the command-planning
 level by `tests/test_local_verify.py`; those tests validate selected command
 construction without invoking pytest, ruff, or demo subprocesses.
+Use `python scripts/local_verify.py --list` to preview the selected checks, and
+use targeted modes such as `python scripts/local_verify.py --only pytest` or
+`python scripts/local_verify.py --only risk-demo` when you want to focus on one
+validation path.
 
 The package-root `pyrisklab.run_simulation(...)` wrapper is covered with a
 monkeypatched delegation test so the public import surface is validated without
