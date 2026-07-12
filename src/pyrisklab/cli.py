@@ -9,14 +9,29 @@ from pyrisklab.pipeline import run_simulation
 
 
 def build_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(prog="pyrisklab", description="Local options-pricing and risk-simulation engine.")
+    parser = argparse.ArgumentParser(
+        prog="pyrisklab",
+        description="Local options-pricing and risk-simulation engine.",
+    )
     parser.add_argument("--version", action="version", version=f"pyrisklab {__version__}")
     subparsers = parser.add_subparsers(dest="command")
     run_parser = subparsers.add_parser("run", help="Run a complete local simulation.")
     run_parser.add_argument("--config", required=True, help="Path to a YAML run config.")
-    run_parser.add_argument("--overwrite", action="store_true", help="Replace an existing run output folder.")
-    run_parser.add_argument("--quiet", action="store_true", help="Only print final success or error messages.")
-    run_parser.add_argument("--debug", action="store_true", help="Show traceback for expected project errors.")
+    run_parser.add_argument(
+        "--overwrite",
+        action="store_true",
+        help="Replace an existing run output folder.",
+    )
+    run_parser.add_argument(
+        "--quiet",
+        action="store_true",
+        help="Only print final success or error messages.",
+    )
+    run_parser.add_argument(
+        "--debug",
+        action="store_true",
+        help="Show traceback for expected project errors.",
+    )
     return parser
 
 
