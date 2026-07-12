@@ -124,3 +124,26 @@ def test_local_verification_helper_documents_reviewer_commands():
     assert "python scripts/local_verify.py" in contributing
     assert "python scripts/local_verify.py --list" in contributing
     assert "python scripts/local_verify.py --only ruff --only demo" in contributing
+
+
+def test_github_profile_setup_keeps_topics_software_focused():
+    with open("docs/GITHUB_PROFILE_SETUP.md", encoding="utf-8") as profile_file:
+        profile_setup = profile_file.read()
+
+    for topic in (
+        "python",
+        "simulation",
+        "cli",
+        "pytest",
+        "benchmarking",
+        "risk-validation",
+        "automation",
+        "testing",
+        "performance",
+        "reproducibility",
+        "portfolio-project",
+    ):
+        assert topic in profile_setup
+
+    assert "live trading" in profile_setup
+    assert "investment advice" in profile_setup

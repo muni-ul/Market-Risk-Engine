@@ -28,6 +28,9 @@ pytest
 benchmarking
 risk-validation
 automation
+testing
+performance
+reproducibility
 portfolio-project
 ```
 
