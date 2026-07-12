@@ -101,6 +101,15 @@ In `run_metadata.json`, check that it includes:
 - `generated_artifacts`
 - `generated_artifact_sizes_bytes`
 
+Open `results/risk_stress_run/` after the risk-stress demo and confirm:
+
+- `orders.csv` includes blocked simulated orders.
+- `risk_events.csv` includes `ORDER_BLOCKED` events.
+- `trades.csv` may contain headers and zero rows because blocked orders are not
+  filled.
+- `summary_report.md` reports blocked simulated-order counts without making
+  trading or profitability claims.
+
 ## Resume-Ready Gate
 
 Treat the project as ready to put on a resume when all of these are true:
