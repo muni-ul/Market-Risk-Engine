@@ -30,6 +30,7 @@ performance tooling rather than a trading product.
 | `ARCHITECTURE.md` | Module responsibilities, data flow, and scope boundaries. |
 | `API_REFERENCE.md` | Main modules, public functions/classes, and intended import surface. |
 | `CONFIG_REFERENCE.md` | Field-by-field explanation of both committed YAML configs. |
+| `ASSUMPTIONS.md` | Model assumptions, simplifications, and Version 1 limitations. |
 | `VALIDATION_NOTES.md` | Defensive validation layers, error types, and edge-case map. |
 | `IMPLEMENTATION_AUDIT.md` | Static source/test audit notes and placeholder-scan guidance. |
 | `DEPENDENCY_POLICY.md` | Small-stack dependency boundaries for the local MVP. |

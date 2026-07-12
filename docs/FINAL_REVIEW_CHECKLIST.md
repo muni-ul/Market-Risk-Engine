@@ -51,6 +51,8 @@ Use `docs/REQUIREMENTS_TRACEABILITY.md` to compare the original Version 1
 requirements against current repo evidence.
 Use `docs/DEBUGGING_GUIDE.md` if config, artifact, benchmark, or risk-audit
 behavior needs triage.
+Use `docs/ASSUMPTIONS.md` to review model assumptions and Version 1
+limitations before discussing results.
 Use `docs/VALIDATION_NOTES.md` to review defensive checks, domain-specific
 errors, and edge-case coverage.
 Use `docs/IMPLEMENTATION_AUDIT.md` for static placeholder-scan guidance before
