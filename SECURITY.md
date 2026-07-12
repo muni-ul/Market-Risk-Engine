@@ -28,8 +28,8 @@ a local reproducible simulation tool for software-engineering review.
 
 ## Reporting Issues
 
-For normal project issues, use the repository issue tracker linked from
-`pyproject.toml`.
+For normal project issues, use the scoped bug or feature templates linked from
+the repository issue chooser. For support routing, see `SUPPORT.md`.
 
 If you notice accidentally committed secrets or credentials, remove them from
 the working tree immediately and rotate the affected credential outside this

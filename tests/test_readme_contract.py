@@ -484,6 +484,8 @@ def test_security_policy_documents_no_secrets_boundary():
     assert "0.1.x" in security
     assert "Keep real `.env` files" in security
     assert "Do not add live brokerage integrations" in security
+    assert "scoped bug or feature templates" in security
+    assert "SUPPORT.md" in security
 
 
 def test_api_reference_documents_module_surface():
