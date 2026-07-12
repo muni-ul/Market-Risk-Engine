@@ -12,7 +12,9 @@ def test_pyproject_declares_console_script_and_dependencies():
 
     project = pyproject["project"]
     assert project["scripts"]["pyrisklab"] == "pyrisklab.cli:main"
+    assert project["license"] == "MIT"
     assert {"simulation", "benchmark", "cli"}.issubset(project["keywords"])
+    assert "License :: OSI Approved :: MIT License" in project["classifiers"]
     assert "Topic :: Software Development :: Testing" in project["classifiers"]
     assert "Topic :: Scientific/Engineering" in project["classifiers"]
     assert {"numpy", "pandas", "scipy", "matplotlib", "PyYAML"}.issubset(project["dependencies"])

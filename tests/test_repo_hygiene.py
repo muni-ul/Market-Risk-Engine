@@ -28,3 +28,11 @@ def test_env_example_documents_no_required_secrets():
     assert "does not require secrets" in env_example
     assert "local configs" in env_example
     assert "deterministic seeds" in env_example
+
+
+def test_repo_declares_license():
+    with open("LICENSE", encoding="utf-8") as license_file:
+        license_text = license_file.read()
+
+    assert "MIT License" in license_text
+    assert "Muni Ul" in license_text

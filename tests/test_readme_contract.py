@@ -41,6 +41,8 @@ def test_readme_contains_required_demo_and_scope_language():
     assert "local Python engineering project" in readme
     assert "vectorized NumPy pricing" in readme
     assert "repository hygiene" in readme
+    assert "## License" in readme
+    assert "MIT License" in readme
     assert "## Future Improvements" in readme
     assert "small portfolio of contracts" in readme
     assert "simulation-only" in readme

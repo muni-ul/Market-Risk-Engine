@@ -275,6 +275,10 @@ results/
 
 The core implementation lives in `src/pyrisklab/`, while `tests/` contains focused pytest coverage for the main modules.
 
+## License
+
+MIT License. See `LICENSE`.
+
 ## Limitations
 
 PyRiskLab uses one configured option contract and a simplified deterministic fill model. It does not model order books, spreads, slippage, margin, assignment, taxes, liquidity, real market microstructure, or real financial risk.
