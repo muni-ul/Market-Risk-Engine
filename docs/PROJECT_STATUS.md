@@ -4,6 +4,19 @@ PyRiskLab Version 1 is implemented as a local Python simulation and reporting
 project. This page is a quick status summary for recruiters, reviewers, and
 future maintainers.
 
+## Resume Signal
+
+The strongest software-engineering signal is not the finance domain itself. It
+is that PyRiskLab behaves like a small production-style local tool: one command
+loads a deterministic config, runs a modular simulation pipeline, validates
+inputs and risk rules, records state transitions, benchmarks vectorized
+computation, and writes reproducible artifacts for review.
+
+For AMD-like software internship applications, the best framing is:
+
+> Local Python simulation, automation, testing, debugging, and
+> performance-tooling project using options pricing as the problem domain.
+
 ## Implemented
 
 - One-command CLI entry point: `python -m pyrisklab run --config configs/demo.yaml --overwrite`
@@ -50,6 +63,10 @@ To run the helper:
 ```bash
 python scripts/local_verify.py
 ```
+
+After running the demos, keep generated result folders local. They are ignored
+by Git so the repository stays lightweight while reviewers can reproduce the
+same artifact set from the committed configs.
 
 ## Not Included
 
