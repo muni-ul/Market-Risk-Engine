@@ -46,3 +46,16 @@ ruff check .
 python -m pyrisklab run --config configs/demo.yaml --overwrite
 python -m pyrisklab run --config configs/risk_stress.yaml --overwrite
 ```
+
+You can preview the same helper-managed sequence with:
+
+```bash
+python scripts/local_verify.py --list
+```
+
+For a narrower local check before a full validation pass, use targeted helper
+modes such as:
+
+```bash
+python scripts/local_verify.py --only ruff --only demo
+```

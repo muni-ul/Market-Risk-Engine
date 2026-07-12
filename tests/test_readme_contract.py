@@ -319,6 +319,18 @@ def test_project_status_summarizes_implemented_scope_without_overclaiming():
     assert "brokerage" in project_status
 
 
+def test_implementation_audit_points_to_static_and_runtime_gates():
+    with open("docs/IMPLEMENTATION_AUDIT.md", encoding="utf-8") as audit_file:
+        implementation_audit = audit_file.read()
+
+    assert "Implementation Audit Notes" in implementation_audit
+    assert "Placeholder Scan" in implementation_audit
+    assert "rg -n" in implementation_audit
+    assert "What This Audit Does Not Prove" in implementation_audit
+    assert "python scripts/local_verify.py --list" in implementation_audit
+    assert "python scripts/local_verify.py --only ruff --only demo" in implementation_audit
+
+
 def test_requirements_traceability_maps_original_requirements_to_evidence():
     with open("docs/REQUIREMENTS_TRACEABILITY.md", encoding="utf-8") as traceability_file:
         traceability = traceability_file.read()
