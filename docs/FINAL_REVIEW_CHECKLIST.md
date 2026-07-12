@@ -57,7 +57,8 @@ Use `docs/PERFORMANCE_NOTES.md` to interpret benchmark columns, equivalence
 checks, and machine-dependent speedup.
 Use `docs/DEMO_WALKTHROUGH.md` to choose screenshot targets and keep the
 presentation focused on software engineering.
-Use `docs/RESUME_SNIPPETS.md` to keep resume wording aligned with the implemented project.
+Use `docs/RESUME_SNIPPETS.md` to keep resume wording aligned with the
+implemented project.
 
 ## Demo Output Inspection
 
@@ -99,6 +100,21 @@ In `run_metadata.json`, check that it includes:
 - `expected_artifacts`
 - `generated_artifacts`
 - `generated_artifact_sizes_bytes`
+
+## Resume-Ready Gate
+
+Treat the project as ready to put on a resume when all of these are true:
+
+- The working tree is clean after local validation.
+- `pytest` and `ruff check .` complete successfully on your machine.
+- Both demo commands generate their expected local result folders.
+- `results/demo_run/summary_report.md` and `run_metadata.json` match the
+  artifact expectations above.
+- The README and resume snippets still describe only implemented,
+  simulation-only behavior.
+
+If any item fails, fix that item before using the project publicly. The goal is
+to have a repo that is easy to run, easy to audit, and honest about its scope.
 
 ## GitHub Presentation
 
