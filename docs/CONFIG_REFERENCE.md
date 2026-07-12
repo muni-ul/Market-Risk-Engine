@@ -81,5 +81,9 @@ Both configs are local, deterministic, and simulation-only.
   notional limits so blocked simulated orders and risk events are easy to
   inspect in `results/risk_stress_run/`.
 
+For the blocked-order audit walkthrough, see
+`docs/sample_outputs/risk_stress_demo.md`. For final validation across both
+configs, use `docs/FINAL_REVIEW_CHECKLIST.md`.
+
 Config mistakes are reported as clean `ConfigError` messages instead of normal
 stack traces. Use `--debug` only when you want traceback details while developing.

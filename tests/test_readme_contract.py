@@ -233,6 +233,8 @@ def test_config_reference_documents_demo_settings():
 
     assert "configs/demo.yaml" in config_reference
     assert "configs/risk_stress.yaml" in config_reference
+    assert "docs/sample_outputs/risk_stress_demo.md" in config_reference
+    assert "docs/FINAL_REVIEW_CHECKLIST.md" in config_reference
     assert "simulation-only" in config_reference
     for section in ("market", "option", "strategy", "execution", "risk", "benchmark"):
         assert f"## `{section}`" in config_reference
