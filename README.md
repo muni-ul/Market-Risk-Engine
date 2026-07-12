@@ -144,6 +144,8 @@ For a module-level implementation reference, see `docs/API_REFERENCE.md`.
 
 For field-by-field YAML settings, see `docs/CONFIG_REFERENCE.md`.
 
+For the small local dependency policy, see `docs/DEPENDENCY_POLICY.md`.
+
 For defensive validation, error types, and edge-case handling, see
 `docs/VALIDATION_NOTES.md`.
 

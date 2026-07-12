@@ -69,6 +69,9 @@ screenshots, and interview prep, but they should not be committed.
   errors, and inspectable CSV/PNG/JSON/Markdown outputs.
 - Keep formatting consistent with `.editorconfig`, `.gitattributes`, and the
   Ruff settings in `pyproject.toml`.
+- Keep dependencies aligned with `docs/DEPENDENCY_POLICY.md`; do not add heavy
+  or connected tooling unless it clearly strengthens the local engineering
+  signal.
 - Keep generated run outputs out of git; `results/.gitkeep` is the only tracked
   file expected under `results/`.
 

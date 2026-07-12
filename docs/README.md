@@ -32,6 +32,7 @@ performance tooling rather than a trading product.
 | `CONFIG_REFERENCE.md` | Field-by-field explanation of both committed YAML configs. |
 | `VALIDATION_NOTES.md` | Defensive validation layers, error types, and edge-case map. |
 | `IMPLEMENTATION_AUDIT.md` | Static source/test audit notes and placeholder-scan guidance. |
+| `DEPENDENCY_POLICY.md` | Small-stack dependency boundaries for the local MVP. |
 | `PERFORMANCE_NOTES.md` | Benchmark assumptions, output columns, and speedup caveats. |
 | `DEBUGGING_GUIDE.md` | Clean errors, `--debug`, metadata triage, and local checks. |
 | `TESTING_STRATEGY.md` | Test organization, reviewer commands, and validation philosophy. |
