@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from pyrisklab.reporting import EXPECTED_ARTIFACT_NAMES
+
 
 def test_readme_contains_required_demo_and_scope_language():
     with open("README.md", encoding="utf-8") as readme_file:
@@ -115,6 +117,8 @@ def test_sample_output_docs_are_linked_and_present():
         assert "pricing_history.csv" in checklist
         assert "signals.csv" in checklist
         assert "generated_artifact_sizes_bytes" in checklist
+        for artifact_name in EXPECTED_ARTIFACT_NAMES:
+            assert artifact_name in checklist
     with open("docs/sample_outputs/csv_contracts.md", encoding="utf-8") as contracts_file:
         csv_contracts = contracts_file.read()
         assert "`benchmark.enabled` is false" in csv_contracts
