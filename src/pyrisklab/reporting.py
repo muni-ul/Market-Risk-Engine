@@ -49,12 +49,27 @@ EXPECTED_ARTIFACT_NAMES = frozenset(
     }
 )
 
+SIMULATION_ONLY_TEXT = (
+    "This is a local simulation only. It does not use live market data, place real "
+    "trades, connect to a brokerage, provide investment advice, or make profitability "
+    "claims."
+)
+
+LIMITATIONS_TEXT = (
+    "PyRiskLab uses synthetic paths and a simplified fake execution model. It does "
+    "not model liquidity, spreads, order books, slippage, taxes, margin, assignment, "
+    "or real market behavior."
+)
+
 
 def prepare_output_dir(output_dir: Path, run_name: str, overwrite: bool = False) -> Path:
     run_dir = output_dir / run_name
     if run_dir.exists():
         if not overwrite:
-            raise RunError(f"{run_dir} already exists. Use --overwrite or choose a different run_name.")
+            raise RunError(
+                f"{run_dir} already exists. "
+                "Use --overwrite or choose a different run_name."
+            )
         try:
             shutil.rmtree(run_dir)
         except OSError as exc:
@@ -124,7 +139,9 @@ def write_run_metadata(
         },
         "simulation_only": True,
         "csv_row_counts": _csv_row_counts(outputs),
-        "order_status_counts": _order_status_counts(_optional_output(outputs, "orders.csv")),
+        "order_status_counts": _order_status_counts(
+            _optional_output(outputs, "orders.csv")
+        ),
         "expected_artifacts": sorted(EXPECTED_ARTIFACT_NAMES),
         "generated_artifacts": _artifact_names(run_dir, pending={"run_metadata.json"}),
         "generated_artifact_sizes_bytes": {},
@@ -160,16 +177,34 @@ def generate_charts(run_dir: Path, outputs: dict[str, pd.DataFrame]) -> list[Pat
 
 def plot_market_path(market_path: pd.DataFrame, run_dir: Path) -> Path:
     _require(market_path, {"step", "underlying_price"}, "market_path")
-    return _line(run_dir / "market_path.png", market_path["step"], market_path["underlying_price"], "Synthetic Market Path", "Simulation Step", "Underlying Price")
+    return _line(
+        run_dir / "market_path.png",
+        market_path["step"],
+        market_path["underlying_price"],
+        "Synthetic Market Path",
+        "Simulation Step",
+        "Underlying Price",
+    )
 
 
 def plot_option_price(pricing_history: pd.DataFrame, run_dir: Path) -> Path:
     _require(pricing_history, {"step", "option_price"}, "pricing_history")
-    return _line(run_dir / "option_price.png", pricing_history["step"], pricing_history["option_price"], "Black-Scholes Option Price", "Simulation Step", "Option Price")
+    return _line(
+        run_dir / "option_price.png",
+        pricing_history["step"],
+        pricing_history["option_price"],
+        "Black-Scholes Option Price",
+        "Simulation Step",
+        "Option Price",
+    )
 
 
 def plot_greeks(greeks_history: pd.DataFrame, run_dir: Path) -> Path:
-    _require(greeks_history, {"step", "delta", "gamma", "vega", "theta", "rho"}, "greeks_history")
+    _require(
+        greeks_history,
+        {"step", "delta", "gamma", "vega", "theta", "rho"},
+        "greeks_history",
+    )
     fig, ax = plt.subplots(figsize=(10, 6))
     for column in ["delta", "gamma", "vega", "theta", "rho"]:
         ax.plot(greeks_history["step"], greeks_history[column], label=column)
@@ -184,15 +219,33 @@ def plot_greeks(greeks_history: pd.DataFrame, run_dir: Path) -> Path:
 
 def plot_portfolio_value(portfolio_history: pd.DataFrame, run_dir: Path) -> Path:
     _require(portfolio_history, {"step", "total_value"}, "portfolio_history")
-    return _line(run_dir / "portfolio_value.png", portfolio_history["step"], portfolio_history["total_value"], "Simulated Portfolio Value", "Simulation Step", "Portfolio Value ($)")
+    return _line(
+        run_dir / "portfolio_value.png",
+        portfolio_history["step"],
+        portfolio_history["total_value"],
+        "Simulated Portfolio Value",
+        "Simulation Step",
+        "Portfolio Value ($)",
+    )
 
 
 def plot_drawdown(portfolio_history: pd.DataFrame, run_dir: Path) -> Path:
     _require(portfolio_history, {"step", "drawdown_pct"}, "portfolio_history")
-    return _line(run_dir / "drawdown.png", portfolio_history["step"], portfolio_history["drawdown_pct"] * 100, "Portfolio Drawdown", "Simulation Step", "Drawdown (%)")
+    return _line(
+        run_dir / "drawdown.png",
+        portfolio_history["step"],
+        portfolio_history["drawdown_pct"] * 100,
+        "Portfolio Drawdown",
+        "Simulation Step",
+        "Drawdown (%)",
+    )
 
 
-def write_summary_report(run_dir: Path, config: RunConfig, outputs: dict[str, pd.DataFrame]) -> Path:
+def write_summary_report(
+    run_dir: Path,
+    config: RunConfig,
+    outputs: dict[str, pd.DataFrame],
+) -> Path:
     market = _required_output(outputs, "market_path.csv")
     pricing = _required_output(outputs, "pricing_history.csv")
     trades = _required_output(outputs, "trades.csv")
@@ -210,8 +263,14 @@ def write_summary_report(run_dir: Path, config: RunConfig, outputs: dict[str, pd
         market["underlying_price"].iloc[-1],
         "market_path.underlying_price",
     )
-    final_value = _summary_float(portfolio["total_value"].iloc[-1], "portfolio_history.total_value")
-    max_drawdown = _summary_float(portfolio["drawdown_pct"].max(), "portfolio_history.drawdown_pct")
+    final_value = _summary_float(
+        portfolio["total_value"].iloc[-1],
+        "portfolio_history.total_value",
+    )
+    max_drawdown = _summary_float(
+        portfolio["drawdown_pct"].max(),
+        "portfolio_history.drawdown_pct",
+    )
     initial_option_price = _summary_float(
         pricing["option_price"].iloc[0],
         "pricing_history.option_price",
@@ -252,7 +311,7 @@ Output directory: `{run_dir.as_posix()}`
 
 ## Simulation Only
 
-This is a local simulation only. It does not use live market data, place real trades, connect to a brokerage, provide investment advice, or make profitability claims.
+{SIMULATION_ONLY_TEXT}
 
 ## Market Simulation
 
@@ -307,7 +366,7 @@ This is a local simulation only. It does not use live market data, place real tr
 
 ## Limitations
 
-PyRiskLab uses synthetic paths and a simplified fake execution model. It does not model liquidity, spreads, order books, slippage, taxes, margin, assignment, or real market behavior.
+{LIMITATIONS_TEXT}
 """
     path = run_dir / "summary_report.md"
     try:
@@ -319,7 +378,12 @@ PyRiskLab uses synthetic paths and a simplified fake execution model. It does no
     return path
 
 
-def generate_reports(run_dir: Path, config: RunConfig, config_path: Path, outputs: dict[str, pd.DataFrame]) -> list[Path]:
+def generate_reports(
+    run_dir: Path,
+    config: RunConfig,
+    config_path: Path,
+    outputs: dict[str, pd.DataFrame],
+) -> list[Path]:
     paths = [save_config_copy(config_path, run_dir)]
     paths.extend(save_csv_outputs(run_dir, outputs))
     paths.extend(generate_charts(run_dir, outputs))
@@ -355,13 +419,17 @@ def _save_figure(fig, path: Path) -> Path:
 def _require(df: pd.DataFrame, columns: set[str], name: str) -> None:
     missing = columns - set(df.columns)
     if missing:
-        raise ReportingError(f"{name} DataFrame must include: {', '.join(sorted(missing))}.")
+        raise ReportingError(
+            f"{name} DataFrame must include: {', '.join(sorted(missing))}."
+        )
 
 
 def _require_summary_frame(df: pd.DataFrame, columns: set[str], name: str) -> None:
     _require(df, columns, name)
     if df.empty:
-        raise ReportingError(f"{name} DataFrame must include at least one row for summary_report.md.")
+        raise ReportingError(
+            f"{name} DataFrame must include at least one row for summary_report.md."
+        )
 
 
 def _required_output(outputs: dict[str, pd.DataFrame], filename: str) -> pd.DataFrame:
@@ -446,9 +514,15 @@ def _benchmark_summary_text(benchmark: pd.DataFrame, enabled: bool) -> str:
     loop_rows = benchmark.loc[benchmark["method"] == "python_loop"]
     vector_rows = benchmark.loc[benchmark["method"] == "numpy_vectorized"]
     if loop_rows.empty:
-        raise ReportingError("benchmark DataFrame must include a python_loop row when benchmark output is not empty.")
+        raise ReportingError(
+            "benchmark DataFrame must include a python_loop row "
+            "when benchmark output is not empty."
+        )
     if vector_rows.empty:
-        raise ReportingError("benchmark DataFrame must include a numpy_vectorized row when benchmark output is not empty.")
+        raise ReportingError(
+            "benchmark DataFrame must include a numpy_vectorized row "
+            "when benchmark output is not empty."
+        )
     loop = loop_rows.iloc[0]
     vector = vector_rows.iloc[0]
     num_prices = _summary_int(vector["num_prices"], "benchmark.num_prices")
@@ -466,11 +540,17 @@ def _benchmark_summary_text(benchmark: pd.DataFrame, enabled: bool) -> str:
         vector["passed_equivalence_check"],
         "benchmark.passed_equivalence_check",
     ):
-        raise ReportingError("benchmark equivalence check must pass before summary_report.md can report speedup.")
+        raise ReportingError(
+            "benchmark equivalence check must pass before summary_report.md "
+            "can report speedup."
+        )
     assumption_lines = _benchmark_assumption_lines(vector)
     return "\n".join(
         [
-            f"Vectorized NumPy pricing ran {speedup:.2f}x faster than the Python loop on this machine.",
+            (
+                f"Vectorized NumPy pricing ran {speedup:.2f}x faster than "
+                "the Python loop on this machine."
+            ),
             "",
             *assumption_lines,
             f"- Prices compared: {num_prices:,}",
@@ -513,14 +593,20 @@ def _metadata_summary_text(config: RunConfig) -> str:
             f"- Benchmark prices: {config.benchmark.num_prices:,}",
             f"- Benchmark seed: {config.benchmark.seed}",
             f"- Benchmark tolerance: {config.benchmark.tolerance:.1e}",
-            "- Artifact audit: expected artifacts, generated artifacts, and byte sizes are recorded in metadata",
+            (
+                "- Artifact audit: expected artifacts, generated artifacts, "
+                "and byte sizes are recorded in metadata"
+            ),
         ]
     )
 
 
 def _execution_summary_text(config: RunConfig, trades: pd.DataFrame) -> str:
     if not config.execution.enabled:
-        trade_note = "Fake execution was disabled in the config, so proposed orders were not filled."
+        trade_note = (
+            "Fake execution was disabled in the config, so proposed orders were "
+            "not filled."
+        )
     elif trades.empty:
         trade_note = "No simulated trades were executed in this run."
     else:
