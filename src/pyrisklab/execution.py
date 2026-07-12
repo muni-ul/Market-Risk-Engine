@@ -8,11 +8,36 @@ import pandas as pd
 
 from pyrisklab.exceptions import ExecutionError
 
-ORDER_COLUMNS = ["order_id", "step", "symbol", "side", "quantity", "order_type", "requested_price", "source_signal_reason"]
-TRADE_COLUMNS = ["trade_id", "order_id", "step", "symbol", "side", "quantity", "fill_price", "commission", "contract_multiplier", "notional", "fill_model"]
+ORDER_COLUMNS = [
+    "order_id",
+    "step",
+    "symbol",
+    "side",
+    "quantity",
+    "order_type",
+    "requested_price",
+    "source_signal_reason",
+]
+TRADE_COLUMNS = [
+    "trade_id",
+    "order_id",
+    "step",
+    "symbol",
+    "side",
+    "quantity",
+    "fill_price",
+    "commission",
+    "contract_multiplier",
+    "notional",
+    "fill_model",
+]
 
 
-def create_orders_from_signals(signals: pd.DataFrame, pricing_history: pd.DataFrame, default_order_type: str = "market") -> pd.DataFrame:
+def create_orders_from_signals(
+    signals: pd.DataFrame,
+    pricing_history: pd.DataFrame,
+    default_order_type: str = "market",
+) -> pd.DataFrame:
     signals = _require_dataframe(signals, "signals")
     pricing_history = _require_dataframe(pricing_history, "pricing_history")
     _validate_signal_inputs(signals, pricing_history)
@@ -23,13 +48,21 @@ def create_orders_from_signals(signals: pd.DataFrame, pricing_history: pd.DataFr
         if action == "HOLD":
             continue
         if action not in {"BUY", "SELL"}:
-            raise ExecutionError(f"signal at step {row.step} has action {row.action!r}. Expected one of: BUY, SELL, HOLD.")
+            raise ExecutionError(
+                f"signal at step {row.step} has action {row.action!r}. "
+                "Expected one of: BUY, SELL, HOLD."
+            )
         quantity = _as_contract_quantity(row.quantity, "actionable signal quantity")
         if quantity <= 0:
-            raise ExecutionError(f"actionable signal quantity must be greater than 0. Received {quantity}.")
+            raise ExecutionError(
+                f"actionable signal quantity must be greater than 0. Received {quantity}."
+            )
         key = (int(row.step), str(row.symbol))
         if key not in price_lookup:
-            raise ExecutionError(f"cannot fill order at step {row.step} for {row.symbol} because pricing_history has no option_price.")
+            raise ExecutionError(
+                f"cannot fill order at step {row.step} for {row.symbol} "
+                "because pricing_history has no option_price."
+            )
         price = price_lookup[key]
         orders.append(
             {
@@ -46,7 +79,12 @@ def create_orders_from_signals(signals: pd.DataFrame, pricing_history: pd.DataFr
     return pd.DataFrame(orders, columns=ORDER_COLUMNS)
 
 
-def execute_orders(orders: pd.DataFrame, commission_per_contract: float = 0.0, contract_multiplier: int = 100, fill_model: str = "deterministic_mid") -> pd.DataFrame:
+def execute_orders(
+    orders: pd.DataFrame,
+    commission_per_contract: float = 0.0,
+    contract_multiplier: int = 100,
+    fill_model: str = "deterministic_mid",
+) -> pd.DataFrame:
     orders = _require_dataframe(orders, "orders")
     if fill_model != "deterministic_mid":
         raise ExecutionError(f"fill_model must be 'deterministic_mid'. Received {fill_model!r}.")
@@ -99,9 +137,14 @@ def _validate_signal_inputs(signals: pd.DataFrame, pricing_history: pd.DataFrame
     missing_signals = signal_required - set(signals.columns)
     missing_pricing = pricing_required - set(pricing_history.columns)
     if missing_signals:
-        raise ExecutionError(f"signals is missing required columns: {', '.join(sorted(missing_signals))}.")
+        raise ExecutionError(
+            f"signals is missing required columns: {', '.join(sorted(missing_signals))}."
+        )
     if missing_pricing:
-        raise ExecutionError(f"pricing_history is missing required columns: {', '.join(sorted(missing_pricing))}.")
+        raise ExecutionError(
+            "pricing_history is missing required columns: "
+            f"{', '.join(sorted(missing_pricing))}."
+        )
 
 
 def _build_price_lookup(pricing_history: pd.DataFrame) -> dict[tuple[int, str], float]:
