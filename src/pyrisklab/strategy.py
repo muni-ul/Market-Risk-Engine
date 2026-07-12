@@ -10,7 +10,11 @@ from pyrisklab.exceptions import StrategyError
 from pyrisklab.models import StrategyConfig
 
 
-def generate_signals(pricing_history: pd.DataFrame, greeks_history: pd.DataFrame, strategy_config: StrategyConfig) -> pd.DataFrame:
+def generate_signals(
+    pricing_history: pd.DataFrame,
+    greeks_history: pd.DataFrame,
+    strategy_config: StrategyConfig,
+) -> pd.DataFrame:
     _validate_strategy_config(strategy_config)
     pricing_history = _require_dataframe(pricing_history, "pricing_history")
     greeks_history = _require_dataframe(greeks_history, "greeks_history")
@@ -31,9 +35,19 @@ def generate_signals(pricing_history: pd.DataFrame, greeks_history: pd.DataFrame
         if not np.isfinite(delta):
             action, quantity, reason = "HOLD", 0, "Delta is missing or not finite; holding."
         elif delta < strategy_config.buy_delta_below:
-            action, quantity, reason = "BUY", strategy_config.trade_quantity, f"Delta {delta:.4f} is below buy threshold {strategy_config.buy_delta_below:.4f}."
+            action, quantity, reason = (
+                "BUY",
+                strategy_config.trade_quantity,
+                f"Delta {delta:.4f} is below buy threshold "
+                f"{strategy_config.buy_delta_below:.4f}.",
+            )
         elif delta > strategy_config.sell_delta_above:
-            action, quantity, reason = "SELL", strategy_config.trade_quantity, f"Delta {delta:.4f} is above sell threshold {strategy_config.sell_delta_above:.4f}."
+            action, quantity, reason = (
+                "SELL",
+                strategy_config.trade_quantity,
+                f"Delta {delta:.4f} is above sell threshold "
+                f"{strategy_config.sell_delta_above:.4f}.",
+            )
         else:
             action, quantity, reason = "HOLD", 0, (
                 f"Delta {delta:.4f} is between buy threshold {strategy_config.buy_delta_below:.4f} "
@@ -45,7 +59,8 @@ def generate_signals(pricing_history: pd.DataFrame, greeks_history: pd.DataFrame
             if elapsed < strategy_config.min_steps_between_trades:
                 action, quantity = "HOLD", 0
                 reason = (
-                    f"Signal suppressed by cooldown: only {elapsed} steps since last actionable signal; "
+                    f"Signal suppressed by cooldown: only {elapsed} steps since "
+                    "last actionable signal; "
                     f"minimum is {strategy_config.min_steps_between_trades}."
                 )
         if action in {"BUY", "SELL"}:
@@ -79,18 +94,34 @@ def _validate_inputs(pricing_history: pd.DataFrame, greeks_history: pd.DataFrame
     missing_pricing = pricing_required - set(pricing_history.columns)
     missing_greeks = greeks_required - set(greeks_history.columns)
     if missing_pricing:
-        raise StrategyError(f"pricing_history is missing required columns: {', '.join(sorted(missing_pricing))}.")
+        raise StrategyError(
+            f"pricing_history is missing required columns: {', '.join(sorted(missing_pricing))}."
+        )
     if missing_greeks:
-        raise StrategyError(f"greeks_history is missing required columns: {', '.join(sorted(missing_greeks))}.")
-    _require_finite(pricing_history, ["option_price", "underlying_price", "time_to_expiry"], "pricing_history")
+        raise StrategyError(
+            f"greeks_history is missing required columns: {', '.join(sorted(missing_greeks))}."
+        )
+    _require_finite(
+        pricing_history,
+        ["option_price", "underlying_price", "time_to_expiry"],
+        "pricing_history",
+    )
     _require_finite(greeks_history, ["gamma", "vega"], "greeks_history")
 
 
 def _validate_strategy_config(strategy_config: StrategyConfig) -> None:
     if strategy_config.name != "simple_delta_rule":
-        raise StrategyError(f"strategy.name must be 'simple_delta_rule'. Received {strategy_config.name!r}.")
-    buy_delta_below = _as_finite_float(strategy_config.buy_delta_below, "strategy.buy_delta_below")
-    sell_delta_above = _as_finite_float(strategy_config.sell_delta_above, "strategy.sell_delta_above")
+        raise StrategyError(
+            f"strategy.name must be 'simple_delta_rule'. Received {strategy_config.name!r}."
+        )
+    buy_delta_below = _as_finite_float(
+        strategy_config.buy_delta_below,
+        "strategy.buy_delta_below",
+    )
+    sell_delta_above = _as_finite_float(
+        strategy_config.sell_delta_above,
+        "strategy.sell_delta_above",
+    )
     if not -1 <= buy_delta_below <= 1:
         raise StrategyError(
             f"strategy.buy_delta_below must be between -1 and 1. Received {buy_delta_below}."
@@ -140,13 +171,17 @@ def _as_integer(value, field_name: str) -> int:
     if isinstance(value, Real):
         numeric = float(value)
         if not math.isfinite(numeric):
-            raise StrategyError(f"{field_name} must be a finite integer. Received {value!r}.")
+            raise StrategyError(
+                f"{field_name} must be a finite integer. Received {value!r}."
+            )
         if not numeric.is_integer():
             raise StrategyError(f"{field_name} must be an integer. Received {value!r}.")
     try:
         return int(value)
     except (OverflowError, TypeError, ValueError) as exc:
-        raise StrategyError(f"{field_name} must be an integer. Received {value!r}.") from exc
+        raise StrategyError(
+            f"{field_name} must be an integer. Received {value!r}."
+        ) from exc
 
 
 def _require_finite(df: pd.DataFrame, columns: list[str], name: str) -> None:
