@@ -15,6 +15,13 @@ automation, NumPy/SciPy numerical computation, pandas output pipelines, risk
 validation, pytest coverage, benchmark reporting, and reproducible CSV/PNG/
 Markdown artifacts.
 
+## AMD-Style One-Liner
+
+Built a local Python simulation and verification tool with CLI automation,
+deterministic configs, defensive validation, pytest coverage, vectorized
+NumPy/SciPy computation, benchmark reporting, and reproducible engineering
+artifacts.
+
 ## Bullet Options
 
 General SWE:
@@ -39,6 +46,18 @@ Performance/tooling:
   generated artifacts, validation layers, benchmark assumptions, and project
   requirements to concrete repository evidence.
 
+AMD-style SWE intern:
+
+- Built a local Python tooling project focused on deterministic CLI workflows,
+  validation, testability, debugging-friendly errors, performance measurement,
+  and reproducible artifact generation.
+- Implemented a simulation pipeline that separates config loading, numerical
+  computation, state transitions, risk validation, reporting, and benchmarking
+  into reviewable modules.
+- Added verification and reviewer documentation that connects implementation
+  behavior to concrete commands, output contracts, benchmark assumptions, and
+  final resume-readiness checks.
+
 Debugging/reliability:
 
 - Designed domain-specific project errors and layered validation so invalid
@@ -62,6 +81,10 @@ Debugging/reliability:
 - reproducible artifacts
 - benchmark reporting
 - generated CSV/PNG/Markdown outputs
+- local verification tooling
+- debugging-friendly errors
+- output contracts
+- run metadata
 
 ## What Not To Say
 
