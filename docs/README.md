@@ -20,6 +20,7 @@ navigation, implementation architecture, reproducibility, and interview framing.
 | `ARCHITECTURE.md` | Module responsibilities, data flow, and scope boundaries. |
 | `API_REFERENCE.md` | Main modules, public functions/classes, and intended import surface. |
 | `CONFIG_REFERENCE.md` | Field-by-field explanation of `configs/demo.yaml` and `configs/risk_stress.yaml`. |
+| `DEBUGGING_GUIDE.md` | Clean errors, `--debug`, metadata triage, and common local checks. |
 | `TESTING_STRATEGY.md` | Test-suite organization, reviewer commands, and validation philosophy. |
 | `sample_outputs/csv_contracts.md` | CSV output contracts and stable column expectations. |
 | `sample_outputs/chart_artifacts.md` | PNG chart artifacts and what each chart communicates. |

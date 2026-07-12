@@ -22,6 +22,7 @@ python -m pyrisklab run --config configs/risk_stress.yaml --overwrite
 The main demo should print the seven progress steps and create `results/demo_run/`. The risk-stress demo should create blocked simulated orders and readable risk events without making trading or profitability claims.
 
 Use `docs/TESTING_STRATEGY.md` to map pytest files to the behavior they protect.
+Use `docs/DEBUGGING_GUIDE.md` if config, artifact, benchmark, or risk-audit behavior needs triage.
 
 ## Demo Output Inspection
 
@@ -68,7 +69,7 @@ In `run_metadata.json`, check that it includes:
 - README explains the project in the first 30 seconds.
 - README frames the project as Python simulation, automation, testing, and performance tooling.
 - README clearly says this is simulation only, not a trading bot, not live market data, not brokerage integration, and not investment advice.
-- README links to `docs/README.md`, `docs/REVIEWER_GUIDE.md`, `docs/API_REFERENCE.md`, `docs/CONFIG_REFERENCE.md`, `docs/TESTING_STRATEGY.md`, `docs/SAMPLE_OUTPUT.md`, `docs/sample_outputs/`, `docs/sample_outputs/artifact_manifest.md`, `docs/PORTFOLIO_CASE_STUDY.md`, `CHANGELOG.md`, `CONTRIBUTING.md`, `SECURITY.md`, and this checklist.
+- README links to `docs/README.md`, `docs/REVIEWER_GUIDE.md`, `docs/API_REFERENCE.md`, `docs/CONFIG_REFERENCE.md`, `docs/DEBUGGING_GUIDE.md`, `docs/TESTING_STRATEGY.md`, `docs/SAMPLE_OUTPUT.md`, `docs/sample_outputs/`, `docs/sample_outputs/artifact_manifest.md`, `docs/PORTFOLIO_CASE_STUDY.md`, `CHANGELOG.md`, `CONTRIBUTING.md`, `SECURITY.md`, and this checklist.
 - Resume bullets match what the project actually implements.
 
 ## Resume Readiness
