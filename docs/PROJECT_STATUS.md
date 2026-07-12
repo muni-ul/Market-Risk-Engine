@@ -35,8 +35,9 @@ For AMD-like software internship applications, the best framing is:
   screenshot curation, traceability, resume wording, and final verification
 - Feature build index mapping the original ordered feature plan to current
   implementation evidence
-- GitHub bug report, feature request, and pull request templates that keep
-  issues and changes scoped to local simulation engineering
+- GitHub bug report, feature request, issue-routing, support, security, and
+  pull request metadata that keep issues and changes scoped to local simulation
+  engineering
 
 ## User-Run Verification
 

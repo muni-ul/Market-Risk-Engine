@@ -279,7 +279,8 @@ def test_project_status_summarizes_implemented_scope_without_overclaiming():
     assert "PyRiskLab Project Status" in project_status
     assert "Implemented" in project_status
     assert "User-Run Verification" in project_status
-    assert "bug report, feature request, and pull request templates" in project_status
+    assert "bug report, feature request, issue-routing, support, security" in project_status
+    assert "pull request metadata" in project_status
     assert "docs/assets/README.md" in project_status
     assert "screenshot curation" in project_status
     assert "python -m pyrisklab run --config configs/demo.yaml --overwrite" in project_status
