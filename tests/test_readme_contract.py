@@ -232,6 +232,9 @@ def test_docs_index_links_reviewer_and_engineering_docs():
         "../CHANGELOG.md",
         "../CONTRIBUTING.md",
         "../SECURITY.md",
+        "../.github/ISSUE_TEMPLATE/bug_report.md",
+        "../.github/ISSUE_TEMPLATE/feature_request.md",
+        "../.github/PULL_REQUEST_TEMPLATE.md",
         "PROJECT_STATUS.md",
         "REVIEWER_GUIDE.md",
         "REQUIREMENTS_TRACEABILITY.md",
@@ -392,6 +395,9 @@ def test_changelog_summarizes_version_one_mvp():
     assert "Loop-vs-vectorized NumPy" in changelog
     assert "Requirement traceability" in changelog
     assert "local verification helper" in changelog
+    assert "project status summary" in changelog
+    assert "resume snippets" in changelog
+    assert "scoped GitHub issue/PR templates" in changelog
     assert "typed package marker" in changelog
     assert "Simulation only" in changelog
     assert "no live market data" in changelog
