@@ -48,6 +48,18 @@ Suggested pinned-repo caption:
 > NumPy/SciPy numerical code, pytest coverage, risk validation, benchmark
 > evidence, and reproducible CSV/PNG/Markdown outputs.
 
+## About Panel Checklist
+
+- Description uses local Python simulation language, not trading-product
+  language.
+- Topics include Python, CLI automation, testing, benchmarking, performance,
+  and reproducibility signals.
+- Website field stays blank unless you have a separate portfolio page.
+- README is the first reviewer path; generated `results/` folders stay local
+  and reproducible from committed configs.
+- Pinned-repo wording matches `docs/RESUME_SNIPPETS.md` and avoids live trading,
+  investment advice, brokerage, or profitability claims.
+
 ## Presentation Checks
 
 - Keep the repository public only after your final local validation pass.

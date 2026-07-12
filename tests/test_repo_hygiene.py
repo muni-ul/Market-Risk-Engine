@@ -172,6 +172,10 @@ def test_github_profile_setup_keeps_topics_software_focused():
 
     assert "live trading" in profile_setup
     assert "investment advice" in profile_setup
+    assert "About Panel Checklist" in profile_setup
+    assert "Website field stays blank" in profile_setup
+    assert "README is the first reviewer path" in profile_setup
+    assert "generated `results/` folders stay local" in profile_setup
     assert "docs/FINAL_REVIEW_CHECKLIST.md" in profile_setup
     assert "docs/RECRUITER_BRIEF.md" in profile_setup
     assert "docs/RESUME_SNIPPETS.md" in profile_setup
