@@ -1,6 +1,8 @@
 # Run Metadata Example
 
-Each run writes `run_metadata.json` next to the CSV, PNG, config copy, and summary report artifacts. This JSON file is meant to make a run reproducible and easy to audit.
+Each run writes `run_metadata.json` next to the CSV, PNG, config copy, and
+summary report artifacts. This JSON file is meant to make a run reproducible and
+easy to audit.
 
 Representative shape:
 
@@ -101,6 +103,16 @@ Representative shape:
 }
 ```
 
-The exact row counts depend on the config. For the default demo, the configured `market.steps: 252` produces `253` path rows because the initial step is included.
+The exact row counts depend on the config. For the default demo, the configured
+`market.steps: 252` produces `253` path rows because the initial step is
+included.
 
-`schema_version` and `project_version` make the metadata format explicit as the project evolves. Schema version `3` includes generated artifact byte-size auditing and benchmark settings for reproducibility. `config_sha256` lets a reviewer confirm which config produced the run, while `expected_artifacts`, `generated_artifacts`, and `generated_artifact_sizes_bytes` make output completeness auditable without opening every file. Byte sizes vary by machine and matplotlib metadata, so the example values are representative rather than fixed.
+`schema_version` and `project_version` make the metadata format explicit as the
+project evolves. Schema version `3` includes generated artifact byte-size
+auditing and benchmark settings for reproducibility. `config_sha256` lets a
+reviewer confirm which config produced the run.
+
+`expected_artifacts`, `generated_artifacts`, and
+`generated_artifact_sizes_bytes` make output completeness auditable without
+opening every file. Byte sizes vary by machine and matplotlib metadata, so the
+example values are representative rather than fixed.
