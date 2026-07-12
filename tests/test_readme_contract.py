@@ -403,6 +403,25 @@ def test_architecture_doc_contains_reviewable_data_flow_diagram():
     assert "benchmark.py loop vs NumPy" in architecture
     assert "reporting.py CSV, PNG, Markdown, JSON" in architecture
     assert "results/<run_name>/" in architecture
+    assert "Reviewer Traceability" in architecture
+    assert "docs/REQUIREMENTS_TRACEABILITY.md" in architecture
+    assert "docs/FINAL_REVIEW_CHECKLIST.md" in architecture
+    assert "docs/sample_outputs/artifact_manifest.md" in architecture
+    assert "docs/sample_outputs/csv_contracts.md" in architecture
+
+
+def test_design_decisions_link_to_reviewer_evidence_trail():
+    with open("docs/DESIGN_DECISIONS.md", encoding="utf-8") as design_file:
+        design_decisions = design_file.read()
+
+    assert "Design Decisions" in design_decisions
+    assert "Local CLI First" in design_decisions
+    assert "Honest Benchmarking" in design_decisions
+    assert "Simulation-Only Boundary" in design_decisions
+    assert "Reviewer Evidence Trail" in design_decisions
+    assert "docs/ARCHITECTURE.md" in design_decisions
+    assert "docs/REQUIREMENTS_TRACEABILITY.md" in design_decisions
+    assert "docs/FINAL_REVIEW_CHECKLIST.md" in design_decisions
 
 
 def test_demo_walkthrough_documents_screenshot_and_scope_path():

@@ -129,6 +129,14 @@ so `benchmark.csv` is auditable without reading source code. The goal is honest
 measurement: prove that implementation choices matter, verify numerical
 equivalence, and report machine-dependent speedup without exaggeration.
 
+## Reviewer Traceability
+
+This page explains the runtime shape of the project. For requirement evidence,
+use `docs/REQUIREMENTS_TRACEABILITY.md`; for the final local validation path,
+use `docs/FINAL_REVIEW_CHECKLIST.md`; for expected output contracts, use
+`docs/sample_outputs/artifact_manifest.md` and
+`docs/sample_outputs/csv_contracts.md`.
+
 ## Out Of Scope
 
 PyRiskLab intentionally avoids live market APIs, brokerage connections, real

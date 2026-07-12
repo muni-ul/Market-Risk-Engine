@@ -55,3 +55,10 @@ The project intentionally avoids live market data, brokerage APIs, real trades,
 dashboards, SaaS features, cloud deployment, databases, ML trading prediction,
 and investment advice. Finance is the simulation domain; software engineering is
 the project signal.
+
+## Reviewer Evidence Trail
+
+The concise decision story here pairs with `docs/ARCHITECTURE.md` for module
+flow, `docs/REQUIREMENTS_TRACEABILITY.md` for requirement evidence, and
+`docs/FINAL_REVIEW_CHECKLIST.md` for the final local verification path before
+using the project in a resume or interview.
