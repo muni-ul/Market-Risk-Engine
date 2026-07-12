@@ -335,6 +335,19 @@ def test_faq_points_reviewers_to_resume_and_interview_framing():
     assert "performance-aware engineering" in faq
 
 
+def test_recruiter_brief_links_final_review_and_interview_materials():
+    with open("docs/RECRUITER_BRIEF.md", encoding="utf-8") as recruiter_file:
+        recruiter_brief = recruiter_file.read()
+
+    assert "PyRiskLab Recruiter Brief" in recruiter_brief
+    assert "Best Files To Skim" in recruiter_brief
+    assert "docs/FINAL_REVIEW_CHECKLIST.md" in recruiter_brief
+    assert "docs/INTERVIEW_NOTES.md" in recruiter_brief
+    assert "docs/RESUME_SNIPPETS.md" in recruiter_brief
+    assert "Software Engineering Intern" in recruiter_brief
+    assert "not a trading bot" in recruiter_brief
+
+
 def test_validation_notes_explain_defensive_error_contracts():
     with open("docs/VALIDATION_NOTES.md", encoding="utf-8") as validation_file:
         validation_notes = validation_file.read()

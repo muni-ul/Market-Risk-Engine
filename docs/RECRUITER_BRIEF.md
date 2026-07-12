@@ -41,6 +41,8 @@ performance-aware engineering.
 - `docs/DESIGN_DECISIONS.md`: concise summary of major engineering tradeoffs
 - `docs/PROJECT_STATUS.md`: implemented scope and user-run validation commands
 - `docs/REQUIREMENTS_TRACEABILITY.md`: Version 1 requirements mapped to evidence
+- `docs/FINAL_REVIEW_CHECKLIST.md`: final local validation and resume-ready gate
+- `docs/INTERVIEW_NOTES.md`: one-minute pitch and technical talking points
 - `docs/RESUME_SNIPPETS.md`: resume-ready bullets and keywords
 
 ## What This Project Is Not
