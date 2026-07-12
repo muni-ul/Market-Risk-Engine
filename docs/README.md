@@ -41,6 +41,7 @@ navigation, implementation architecture, reproducibility, and interview framing.
 | `../SECURITY.md` | No-secrets policy, supported version, and local-only security boundaries. |
 | `PORTFOLIO_CASE_STUDY.md` | Interview story, tradeoffs, and resume positioning. |
 | `INTERVIEW_NOTES.md` | One-minute pitch, talking points, and resume bullets. |
+| `RESUME_SNIPPETS.md` | Resume-ready project description, bullet options, and keywords. |
 | `PROJECT_SELECTION_BRIEF.md` | Original project-selection rationale. |
 | `PROJECT_MASTER_BLUEPRINT.md` | Full source blueprint used to build the project. |
 | `TECH_STACK_AND_ARCHITECTURE.md` | Original stack and architecture planning notes. |

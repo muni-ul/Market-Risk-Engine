@@ -30,6 +30,7 @@ def test_readme_contains_required_demo_and_scope_language():
     assert "docs/DEBUGGING_GUIDE.md" in readme
     assert "docs/TESTING_STRATEGY.md" in readme
     assert "docs/PORTFOLIO_CASE_STUDY.md" in readme
+    assert "docs/RESUME_SNIPPETS.md" in readme
     assert "docs/FINAL_REVIEW_CHECKLIST.md" in readme
     assert "CHANGELOG.md" in readme
     assert "CONTRIBUTING.md" in readme
@@ -144,6 +145,7 @@ def test_sample_output_docs_are_linked_and_present():
         assert "config SHA-256" in interview_notes
         assert "docs/FINAL_REVIEW_CHECKLIST.md" in interview_notes
         assert "docs/DEMO_WALKTHROUGH.md" in interview_notes
+        assert "docs/RESUME_SNIPPETS.md" in interview_notes
         assert "ready to discuss" in interview_notes
     with open("docs/FINAL_REVIEW_CHECKLIST.md", encoding="utf-8") as checklist_file:
         checklist = checklist_file.read()
@@ -164,6 +166,7 @@ def test_sample_output_docs_are_linked_and_present():
         assert "docs/PERFORMANCE_NOTES.md" in checklist
         assert "docs/DEBUGGING_GUIDE.md" in checklist
         assert "docs/TESTING_STRATEGY.md" in checklist
+        assert "docs/RESUME_SNIPPETS.md" in checklist
         assert "docs/sample_outputs/artifact_manifest.md" in checklist
         assert "Simulation-only language" in checklist
         assert "config_used.yaml" in checklist
@@ -241,6 +244,7 @@ def test_docs_index_links_reviewer_and_engineering_docs():
         "../scripts/local_verify.py",
         "PORTFOLIO_CASE_STUDY.md",
         "INTERVIEW_NOTES.md",
+        "RESUME_SNIPPETS.md",
         "sample_outputs/artifact_manifest.md",
     ):
         assert doc_name in docs_index
@@ -263,6 +267,22 @@ def test_requirements_traceability_maps_original_requirements_to_evidence():
     assert "benchmark.csv" in traceability
     assert "no live data" in traceability
     assert "no brokerage integration" in traceability
+
+
+def test_resume_snippets_keep_project_positioning_software_focused():
+    with open("docs/RESUME_SNIPPETS.md", encoding="utf-8") as snippets_file:
+        resume_snippets = snippets_file.read()
+
+    assert "PyRiskLab Resume Snippets" in resume_snippets
+    assert "Software engineering" in resume_snippets or "software engineering" in resume_snippets
+    assert "CLI automation" in resume_snippets
+    assert "deterministic YAML configs" in resume_snippets
+    assert "NumPy/SciPy numerical computation" in resume_snippets
+    assert "pytest coverage" in resume_snippets
+    assert "benchmark reporting" in resume_snippets
+    assert "reproducible CSV/PNG/Markdown artifacts" in resume_snippets
+    assert "What Not To Say" in resume_snippets
+    assert "trading bot" in resume_snippets
 
 
 def test_validation_notes_explain_defensive_error_contracts():
