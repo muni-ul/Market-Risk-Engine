@@ -23,6 +23,7 @@ def test_readme_contains_required_demo_and_scope_language():
     assert "docs/PORTFOLIO_CASE_STUDY.md" in readme
     assert "docs/FINAL_REVIEW_CHECKLIST.md" in readme
     assert "CHANGELOG.md" in readme
+    assert "CONTRIBUTING.md" in readme
     assert "issue tracker" in readme
     assert "## Reviewer Checklist" in readme
     assert "risk/execution audit counts" in readme
@@ -136,6 +137,7 @@ def test_sample_output_docs_are_linked_and_present():
         assert "python -m pyrisklab run --config configs/demo.yaml --overwrite" in checklist
         assert "docs/README.md" in checklist
         assert "CHANGELOG.md" in checklist
+        assert "CONTRIBUTING.md" in checklist
         assert "docs/CONFIG_REFERENCE.md" in checklist
         assert "docs/sample_outputs/artifact_manifest.md" in checklist
         assert "Simulation-only language" in checklist
@@ -194,6 +196,7 @@ def test_docs_index_links_reviewer_and_engineering_docs():
     assert "PyRiskLab Documentation Index" in docs_index
     for doc_name in (
         "../CHANGELOG.md",
+        "../CONTRIBUTING.md",
         "REVIEWER_GUIDE.md",
         "SAMPLE_OUTPUT.md",
         "FINAL_REVIEW_CHECKLIST.md",
@@ -217,3 +220,15 @@ def test_changelog_summarizes_version_one_mvp():
     assert "Loop-vs-vectorized NumPy" in changelog
     assert "Simulation only" in changelog
     assert "no live market data" in changelog
+
+
+def test_contributing_documents_local_workflow_and_scope():
+    with open("CONTRIBUTING.md", encoding="utf-8") as contributing_file:
+        contributing = contributing_file.read()
+
+    assert "pip install -e" in contributing
+    assert "pytest" in contributing
+    assert "ruff check ." in contributing
+    assert "configs/risk_stress.yaml" in contributing
+    assert "Do not add live market data" in contributing
+    assert "results/.gitkeep" in contributing
