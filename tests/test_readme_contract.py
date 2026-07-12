@@ -488,8 +488,12 @@ def test_testing_strategy_documents_validation_map():
         "test_risk.py",
         "test_reporting.py",
         "test_pipeline_smoke.py",
+        "test_packaging_metadata.py",
     ):
         assert test_file in testing_strategy
+    assert "package-root API delegation" in testing_strategy
+    assert "pyrisklab.run_simulation(...)" in testing_strategy
+    assert "monkeypatched delegation test" in testing_strategy
     assert "No live-market" in testing_strategy
     assert "No profitability" in testing_strategy
 
