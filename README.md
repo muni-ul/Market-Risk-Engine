@@ -164,6 +164,8 @@ For suggested GitHub About text, topics, and pinned-repo wording, see
 
 For the Version 1 release summary, see `CHANGELOG.md`.
 
+For version-source alignment and release boundaries, see `docs/VERSIONING.md`.
+
 For local development workflow and scope rules, see `CONTRIBUTING.md`.
 
 For bug/feature/security support routing, see `SUPPORT.md`.

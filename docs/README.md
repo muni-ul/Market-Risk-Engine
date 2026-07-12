@@ -34,6 +34,7 @@ performance tooling rather than a trading product.
 | `IMPLEMENTATION_AUDIT.md` | Static source/test audit notes and placeholder-scan guidance. |
 | `DEPENDENCY_POLICY.md` | Small-stack dependency boundaries for the local MVP. |
 | `PERFORMANCE_NOTES.md` | Benchmark assumptions, output columns, and speedup caveats. |
+| `VERSIONING.md` | Version sources, changelog alignment, and release boundary. |
 | `DEBUGGING_GUIDE.md` | Clean errors, `--debug`, metadata triage, and local checks. |
 | `TESTING_STRATEGY.md` | Test organization, reviewer commands, and validation philosophy. |
 | `../scripts/local_verify.py` | Optional helper for pytest, ruff, demo, and risk-stress. |

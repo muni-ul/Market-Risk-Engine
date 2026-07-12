@@ -4,6 +4,8 @@ All notable PyRiskLab project changes are summarized here. The project follows
 plain semantic version labels for portfolio clarity rather than package
 distribution automation.
 
+For version-source alignment rules, see `docs/VERSIONING.md`.
+
 ## 0.1.0 - Version 1 MVP
 
 Initial local Python simulation engine for options-pricing and risk-analysis
