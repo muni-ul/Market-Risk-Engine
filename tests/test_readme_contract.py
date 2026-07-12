@@ -34,6 +34,7 @@ def test_readme_contains_required_demo_and_scope_language():
     assert "Generated outputs are not required before setup" in readme
     assert "## Troubleshooting" in readme
     assert "pip install -e ." in readme
+    assert 'pip install -e ".[dev]"' in readme
     assert "ConfigError: market.volatility must be >= 0" in readme
     assert "## Resume And Interview Framing" in readme
     assert "local Python engineering project" in readme
