@@ -516,6 +516,9 @@ def test_changelog_summarizes_version_one_mvp():
     assert "performance-tooling classifiers" in changelog
     assert "project status summary" in changelog
     assert "resume snippets" in changelog
+    assert "Interview code walkthrough path" in changelog
+    assert "validation-before-sharing FAQ guidance" in changelog
+    assert "GitHub About-panel checklist" in changelog
     assert "scoped GitHub issue/PR templates" in changelog
     assert "disabled blank issues" in changelog
     assert "GitHub presentation metadata" in changelog

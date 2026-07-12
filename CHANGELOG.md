@@ -44,6 +44,9 @@ portfolio review.
   implementation audit notes, dependency policy, platform notes, versioning
   guidance, GitHub profile setup, support routing, and reviewer hand-off docs
   for final portfolio presentation.
+- Interview code walkthrough path, validation-before-sharing FAQ guidance, and
+  GitHub About-panel checklist to help the project move cleanly from local
+  validation to resume and profile use.
 - Feature build index mapping the original ordered feature specs to current
   implementation evidence.
 - Final review checklist with a resume-ready gate for user-run validation before
