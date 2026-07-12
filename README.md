@@ -1,6 +1,19 @@
 # PyRiskLab
 
-PyRiskLab is a local Python simulation engine for options pricing and portfolio risk analysis. It uses simulated market paths, Black-Scholes pricing, Greeks, fake execution, risk controls, and reproducible reporting to demonstrate Python software engineering, numerical computing, testing, and performance-aware design. It is not a trading bot and does not connect to real brokerage accounts.
+PyRiskLab is a local Python simulation engine for options pricing and portfolio
+risk analysis. It uses simulated market paths, Black-Scholes pricing, Greeks,
+fake execution, risk controls, and reproducible reporting to demonstrate Python
+software engineering, numerical computing, testing, and performance-aware
+design.
+
+It is not a trading bot and does not connect to real brokerage accounts.
+
+## Best Reviewer Signal
+
+PyRiskLab is strongest as a software-engineering portfolio project: one command
+runs a deterministic local pipeline, validates inputs and risk rules, tracks
+state transitions, benchmarks vectorized computation, and writes reproducible
+CSV/PNG/Markdown/JSON artifacts.
 
 ## Quick Facts
 
@@ -8,13 +21,16 @@ PyRiskLab is a local Python simulation engine for options pricing and portfolio 
 - Deterministic YAML configs and seeded synthetic market data
 - NumPy, pandas, SciPy, matplotlib, pytest, and ruff
 - CSV, PNG, Markdown, and benchmark outputs under `results/demo_run/`
-- Simulation only: no live market data, brokerage integration, real trades, or investment advice
+- Simulation only: no live market data, brokerage integration, real trades, or
+  investment advice
 
 ## What This Project Demonstrates
 
-- Clean Python modules for config, pricing, Greeks, strategy, execution, portfolio, risk, reporting, and benchmarking
+- Clean Python modules for config, pricing, Greeks, strategy, execution,
+  portfolio, risk, reporting, and benchmarking
 - Typed dataclasses and a packaged `py.typed` marker for type-aware tooling
-- Stable programmatic entry point through `pyrisklab.run_simulation(...)` with a typed `ProgressCallback`
+- Stable programmatic entry point through `pyrisklab.run_simulation(...)` with
+  a typed `ProgressCallback`
 - Vectorized NumPy computation over a simulated market path
 - pandas data pipelines and reproducible local artifacts
 - SciPy-based Black-Scholes pricing for European calls and puts
@@ -26,28 +42,46 @@ PyRiskLab is a local Python simulation engine for options pricing and portfolio 
 ## Reviewer Checklist
 
 - Run one command: `python -m pyrisklab run --config configs/demo.yaml --overwrite`
-- Inspect `results/demo_run/summary_report.md` for the simulation-only summary, risk/execution audit counts, benchmark evidence, metadata section, artifact list, and limitations
-- Inspect `results/demo_run/run_metadata.json` for config SHA-256, benchmark settings, row counts, order status counts, expected/generated artifacts, and artifact byte sizes
-- Inspect `orders.csv`, `risk_events.csv`, and `portfolio_history.csv` for stateful execution, risk validation, and portfolio accounting
+- Inspect `results/demo_run/summary_report.md` for the simulation-only summary,
+  risk/execution audit counts, benchmark evidence, metadata section, artifact
+  list, and limitations
+- Inspect `results/demo_run/run_metadata.json` for config SHA-256, benchmark
+  settings, row counts, order status counts, expected/generated artifacts, and
+  artifact byte sizes
+- Inspect `orders.csv`, `risk_events.csv`, and `portfolio_history.csv` for
+  stateful execution, risk validation, and portfolio accounting
 - Run `pytest` and `ruff check .` when you want to validate the code locally
 
 ## Software Engineering Positioning
 
-PyRiskLab uses options pricing as the domain, but the project is really about building a reliable local Python engineering tool. For software internships at AMD-like companies, the strongest signals are CLI automation, deterministic configs, numerical simulation, vectorized computation, tests, debugging-friendly errors, benchmark reporting, and technical documentation.
+PyRiskLab uses options pricing as the domain, but the project is really about
+building a reliable local Python engineering tool. For software internships at
+AMD-like companies, the strongest signals are CLI automation, deterministic
+configs, numerical simulation, vectorized computation, tests, debugging-friendly
+errors, benchmark reporting, and technical documentation.
 
 ## Simulation Only
 
-PyRiskLab does not place real trades, connect to brokerages, use live market data, scrape options chains, provide investment advice, make profitability claims, or require API keys, accounts, Docker, databases, or cloud services.
+PyRiskLab does not place real trades, connect to brokerages, use live market
+data, scrape options chains, provide investment advice, make profitability
+claims, or require API keys, accounts, Docker, databases, or cloud services.
 
-The finance domain is used to create interesting simulation, state-management, validation, and performance problems.
+The finance domain is used to create interesting simulation, state-management,
+validation, and performance problems.
 
 ## What It Does
 
-The demo run loads `configs/demo.yaml`, simulates a synthetic stock path, prices a configured option, calculates Greeks, generates simple fake delta-threshold signals, validates proposed orders against risk rules, executes allowed simulated trades, tracks portfolio value, runs a loop-vs-vectorized benchmark, and writes local reports.
+The demo run loads `configs/demo.yaml`, simulates a synthetic stock path, prices
+a configured option, calculates Greeks, generates simple fake delta-threshold
+signals, validates proposed orders against risk rules, executes allowed
+simulated trades, tracks portfolio value, runs a loop-vs-vectorized benchmark,
+and writes local reports.
 
 ## What It Does Not Do
 
-PyRiskLab does not do live trading, brokerage integration, market prediction, SaaS user accounts, dashboards, payments, databases, cloud deployment, or investment recommendations.
+PyRiskLab does not do live trading, brokerage integration, market prediction,
+SaaS user accounts, dashboards, payments, databases, cloud deployment, or
+investment recommendations.
 
 ## Tech Stack
 
