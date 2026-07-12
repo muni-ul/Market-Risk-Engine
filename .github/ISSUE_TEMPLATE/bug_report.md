@@ -42,6 +42,9 @@ especially `summary_report.md`, `run_metadata.json`, `orders.csv`,
 If the issue affects output contracts, mention the expected column, chart,
 metadata, or summary-report section.
 
+For triage guidance, see `docs/DEBUGGING_GUIDE.md`; for the full local
+validation path, see `docs/FINAL_REVIEW_CHECKLIST.md`.
+
 ## Scope Check
 
 PyRiskLab is simulation-only. Issues should not request live market data,

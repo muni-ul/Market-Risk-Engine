@@ -39,6 +39,13 @@ python -m pyrisklab run --config configs/demo.yaml --overwrite
 python -m pyrisklab run --config configs/risk_stress.yaml --overwrite
 ```
 
+You can also preview or target the same local checks with:
+
+```bash
+python scripts/local_verify.py --list
+python scripts/local_verify.py --only ruff --only demo
+```
+
 ## Output Contract Impact
 
 Will this change any generated artifact names, columns, charts, metadata fields,
@@ -46,6 +53,9 @@ or summary-report sections?
 
 Should this update `docs/REVIEWER_GUIDE.md`, `docs/FINAL_REVIEW_CHECKLIST.md`,
 or `docs/sample_outputs/`?
+Should this update `docs/INTERVIEW_NOTES.md`, `docs/RESUME_SNIPPETS.md`, or
+`docs/GITHUB_PROFILE_SETUP.md` for resume, interview, or public GitHub
+presentation wording?
 
 ## Scope Check
 

@@ -67,6 +67,8 @@ def test_github_issue_template_keeps_scope_local():
 
     assert "python -m pyrisklab run --config configs/demo.yaml --overwrite" in bug_template
     assert "run_metadata.json" in bug_template
+    assert "docs/DEBUGGING_GUIDE.md" in bug_template
+    assert "docs/FINAL_REVIEW_CHECKLIST.md" in bug_template
     assert "simulation-only" in bug_template
     assert "brokerage integration" in bug_template
 
@@ -82,7 +84,12 @@ def test_github_feature_template_keeps_scope_engineering_focused():
     assert "Benchmark or performance reporting" in feature_template
     assert "python -m pyrisklab run --config configs/demo.yaml --overwrite" in feature_template
     assert "python -m pyrisklab run --config configs/risk_stress.yaml --overwrite" in feature_template
+    assert "python scripts/local_verify.py --list" in feature_template
+    assert "python scripts/local_verify.py --only ruff --only demo" in feature_template
     assert "generated artifact names" in feature_template
+    assert "docs/INTERVIEW_NOTES.md" in feature_template
+    assert "docs/RESUME_SNIPPETS.md" in feature_template
+    assert "docs/GITHUB_PROFILE_SETUP.md" in feature_template
     assert "simulation-only" in feature_template
     assert "brokerage integration" in feature_template
     assert "investment advice" in feature_template
