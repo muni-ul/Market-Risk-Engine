@@ -21,6 +21,7 @@ def test_readme_contains_required_demo_and_scope_language():
     assert "docs/REVIEWER_GUIDE.md" in readme
     assert "docs/API_REFERENCE.md" in readme
     assert "docs/CONFIG_REFERENCE.md" in readme
+    assert "docs/PERFORMANCE_NOTES.md" in readme
     assert "docs/DEBUGGING_GUIDE.md" in readme
     assert "docs/TESTING_STRATEGY.md" in readme
     assert "docs/PORTFOLIO_CASE_STUDY.md" in readme
@@ -146,6 +147,7 @@ def test_sample_output_docs_are_linked_and_present():
         assert "SECURITY.md" in checklist
         assert "docs/API_REFERENCE.md" in checklist
         assert "docs/CONFIG_REFERENCE.md" in checklist
+        assert "docs/PERFORMANCE_NOTES.md" in checklist
         assert "docs/DEBUGGING_GUIDE.md" in checklist
         assert "docs/TESTING_STRATEGY.md" in checklist
         assert "docs/sample_outputs/artifact_manifest.md" in checklist
@@ -213,6 +215,7 @@ def test_docs_index_links_reviewer_and_engineering_docs():
         "ARCHITECTURE.md",
         "API_REFERENCE.md",
         "CONFIG_REFERENCE.md",
+        "PERFORMANCE_NOTES.md",
         "DEBUGGING_GUIDE.md",
         "TESTING_STRATEGY.md",
         "PORTFOLIO_CASE_STUDY.md",
@@ -221,6 +224,22 @@ def test_docs_index_links_reviewer_and_engineering_docs():
     ):
         assert doc_name in docs_index
     assert "results/.gitkeep" in docs_index
+
+
+def test_performance_notes_explain_benchmark_contract():
+    with open("docs/PERFORMANCE_NOTES.md", encoding="utf-8") as performance_file:
+        performance_notes = performance_file.read()
+
+    assert "PyRiskLab Performance Notes" in performance_notes
+    assert "python_loop" in performance_notes
+    assert "numpy_vectorized" in performance_notes
+    assert "benchmark.csv" in performance_notes
+    assert "benchmark.enabled" in performance_notes
+    assert "benchmark.num_prices" in performance_notes
+    assert "passed_equivalence_check" in performance_notes
+    assert "max_abs_error_vs_loop" in performance_notes
+    assert "machine-dependent" in performance_notes
+    assert "Numba" in performance_notes
 
 
 def test_changelog_summarizes_version_one_mvp():

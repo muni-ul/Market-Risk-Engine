@@ -79,6 +79,8 @@ For a module-level implementation reference, see `docs/API_REFERENCE.md`.
 
 For field-by-field YAML settings, see `docs/CONFIG_REFERENCE.md`.
 
+For benchmark assumptions, output columns, and speedup caveats, see `docs/PERFORMANCE_NOTES.md`.
+
 For local failure triage and `--debug` usage, see `docs/DEBUGGING_GUIDE.md`.
 
 For a portfolio-style narrative of the problem, engineering decisions, tradeoffs, and interview story, see `docs/PORTFOLIO_CASE_STUDY.md`.
@@ -235,6 +237,8 @@ PyRiskLab benchmarks two Black-Scholes pricing approaches on the same determinis
 The benchmark writes pricing assumptions, runtime, speedup, and numerical-equivalence checks to `benchmark.csv`. Results vary by machine and input size, so the benchmark demonstrates performance-aware engineering rather than guaranteeing a fixed speedup.
 
 If `benchmark.enabled` is false in a config, the report calls that out explicitly and writes an empty `benchmark.csv` with the same stable file contract.
+
+For the full benchmark interpretation guide, see `docs/PERFORMANCE_NOTES.md`.
 
 ## Screenshots Or Sample Output References
 
