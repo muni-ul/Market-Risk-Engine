@@ -36,3 +36,6 @@ real `results/` folder generated locally.
 For the final local verification path, use `docs/FINAL_REVIEW_CHECKLIST.md`
 after running the demo. It lists the full expected artifact set and the metadata
 fields to inspect before presenting the project.
+
+For curated screenshots after that validation pass, use `docs/assets/README.md`
+instead of committing the generated `results/` folders.
