@@ -139,6 +139,10 @@ def test_sample_output_docs_are_linked_and_present():
         assert "benchmark settings" in case_study
         assert "artifact byte sizes" in case_study
         assert "auditable run metadata" in case_study
+        assert "## Review Hand-Off" in case_study
+        assert "docs/FINAL_REVIEW_CHECKLIST.md" in case_study
+        assert "docs/DEMO_WALKTHROUGH.md" in case_study
+        assert "docs/RESUME_SNIPPETS.md" in case_study
         assert "small portfolio of contracts" in case_study
         assert "simulation-only" in case_study
     with open("docs/sample_outputs/artifact_manifest.md", encoding="utf-8") as manifest_file:

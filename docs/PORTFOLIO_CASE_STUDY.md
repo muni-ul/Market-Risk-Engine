@@ -129,6 +129,13 @@ clean modules, deterministic configs, testable state transitions, risk
 guardrails, benchmark evidence, auditable run metadata, and inspectable local
 reports.
 
+## Review Hand-Off
+
+Use `docs/FINAL_REVIEW_CHECKLIST.md` for the last local validation pass,
+`docs/DEMO_WALKTHROUGH.md` for screenshot targets and talk track, and
+`docs/RESUME_SNIPPETS.md` for resume wording that stays aligned with the
+implemented, simulation-only project.
+
 ## What I Would Improve Next
 
 - Add a curated `docs/assets/` screenshot set after final demo outputs are generated.
