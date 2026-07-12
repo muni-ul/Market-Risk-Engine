@@ -467,6 +467,8 @@ def test_contributing_documents_local_workflow_and_scope():
     assert "configs/risk_stress.yaml" in contributing
     assert "Do not add live market data" in contributing
     assert "results/.gitkeep" in contributing
+    assert "SUPPORT.md" in contributing
+    assert ".github/ISSUE_TEMPLATE/config.yml" in contributing
     assert ".github/ISSUE_TEMPLATE/bug_report.md" in contributing
     assert ".github/ISSUE_TEMPLATE/feature_request.md" in contributing
     assert ".github/PULL_REQUEST_TEMPLATE.md" in contributing

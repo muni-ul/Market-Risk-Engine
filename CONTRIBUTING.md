@@ -85,6 +85,8 @@ When behavior changes, update the relevant docs:
 - `docs/REVIEWER_GUIDE.md` and `docs/FINAL_REVIEW_CHECKLIST.md` for reviewer
   workflow changes.
 - `CHANGELOG.md` for version-level project changes.
+- `SUPPORT.md` and `.github/ISSUE_TEMPLATE/config.yml` if issue routing,
+  support links, or blank-issue policy changes.
 - `.github/ISSUE_TEMPLATE/bug_report.md` if bug-report expectations change.
 - `.github/ISSUE_TEMPLATE/feature_request.md` if enhancement proposal
   expectations change.
