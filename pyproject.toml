@@ -48,6 +48,9 @@ dependencies = [
 [project.urls]
 Repository = "https://github.com/muni-ul/Market-Risk-Engine"
 Documentation = "https://github.com/muni-ul/Market-Risk-Engine/tree/main/docs"
+Reviewer-Guide = "https://github.com/muni-ul/Market-Risk-Engine/blob/main/docs/REVIEWER_GUIDE.md"
+Changelog = "https://github.com/muni-ul/Market-Risk-Engine/blob/main/CHANGELOG.md"
+Support = "https://github.com/muni-ul/Market-Risk-Engine/blob/main/SUPPORT.md"
 Issues = "https://github.com/muni-ul/Market-Risk-Engine/issues"
 
 [project.optional-dependencies]
