@@ -25,20 +25,22 @@ benchmark evidence, and reviewer documentation.
    implementation evidence.
 4. Skim `docs/REQUIREMENTS_TRACEABILITY.md` for the original requirements
    mapped to current repo evidence.
-5. Skim `docs/ARCHITECTURE.md` for the module responsibilities and data flow.
-6. Skim `docs/CONFIG_REFERENCE.md` for the YAML inputs that drive the run.
-7. Skim `docs/VALIDATION_NOTES.md` for defensive checks and edge-case coverage.
-8. Open `docs/SAMPLE_OUTPUT.md` for the expected terminal output and report
+5. Skim `docs/FAQ.md` for direct answers to common reviewer questions.
+6. Skim `docs/DESIGN_DECISIONS.md` for the major engineering tradeoffs.
+7. Skim `docs/ARCHITECTURE.md` for the module responsibilities and data flow.
+8. Skim `docs/CONFIG_REFERENCE.md` for the YAML inputs that drive the run.
+9. Skim `docs/VALIDATION_NOTES.md` for defensive checks and edge-case coverage.
+10. Open `docs/SAMPLE_OUTPUT.md` for the expected terminal output and report
    shape.
-9. Open `docs/DEMO_WALKTHROUGH.md` for the screenshot targets and short talk
+11. Open `docs/DEMO_WALKTHROUGH.md` for the screenshot targets and short talk
    track.
-10. Inspect `docs/sample_outputs/artifact_manifest.md`,
+12. Inspect `docs/sample_outputs/artifact_manifest.md`,
    `docs/sample_outputs/csv_contracts.md`, and
    `docs/sample_outputs/chart_artifacts.md` for the generated artifact
    contracts.
-11. Read `docs/PORTFOLIO_CASE_STUDY.md` for the engineering decisions and
+13. Read `docs/PORTFOLIO_CASE_STUDY.md` for the engineering decisions and
     interview story.
-12. Use `docs/FINAL_REVIEW_CHECKLIST.md` for the final local validation pass
+14. Use `docs/FINAL_REVIEW_CHECKLIST.md` for the final local validation pass
     before resume use.
 
 ## Main Demo Command
