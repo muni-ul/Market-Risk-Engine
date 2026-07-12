@@ -357,8 +357,8 @@ For the project story and resume/interview framing, see
 `docs/REVIEWER_GUIDE.md`, `docs/PORTFOLIO_CASE_STUDY.md`, and
 `docs/INTERVIEW_NOTES.md`.
 
-For the final local verification pass before putting the project on a resume,
-use `docs/FINAL_REVIEW_CHECKLIST.md`.
+For the final local verification pass and resume-ready gate, use
+`docs/FINAL_REVIEW_CHECKLIST.md`.
 
 After running the demo, open:
 
