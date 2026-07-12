@@ -6,6 +6,10 @@ def test_gitignore_protects_generated_and_local_artifacts():
         gitignore = gitignore_file.read()
 
     for pattern in (
+        ".venv/",
+        "__pycache__/",
+        ".pytest_cache/",
+        ".ruff_cache/",
         "results/*",
         "!results/.gitkeep",
         "build/",
