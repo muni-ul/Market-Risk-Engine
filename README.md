@@ -5,6 +5,18 @@
 ![Interface: CLI](https://img.shields.io/badge/interface-local%20CLI-informational)
 ![Scope: Simulation Only](https://img.shields.io/badge/scope-simulation%20only-orange)
 
+## Interactive Browser Demo
+
+PyRiskLab now includes a recruiter-ready **Portfolio Scenario Explorer** with validated scenario controls, Monte Carlo percentile views, annotated portfolio outcomes, risk-decision auditing, an interactive Greeks lab, scenario comparison, explainable calculations, and downloads.
+
+Run it locally with:
+
+```bash
+streamlit run app.py
+```
+
+The browser experience is educational and simulation-only: outcomes are generated from assumptions and seeded random scenarios, not forecasts or investment advice.
+
 PyRiskLab is a local Python simulation engine for options pricing and portfolio
 risk analysis. It uses simulated market paths, Black-Scholes pricing, Greeks,
 fake execution, risk controls, and reproducible reporting to demonstrate Python

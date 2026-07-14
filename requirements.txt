@@ -5,3 +5,5 @@ matplotlib
 pyyaml
 pytest
 ruff
+streamlit>=1.36,<2
+plotly>=5.22,<7

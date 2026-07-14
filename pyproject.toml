@@ -47,6 +47,8 @@ dependencies = [
     "scipy",
     "matplotlib",
     "PyYAML",
+    "streamlit>=1.36,<2",
+    "plotly>=5.22,<7",
 ]
 
 [project.urls]
